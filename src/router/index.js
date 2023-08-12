@@ -40,6 +40,11 @@ const router = createRouter({
           name: 'RegisterView',
           component: () => import('../views/RegisterView.vue'),
         },
+        {
+          path: 'cart',
+          name: 'cart',
+          component: () => import('../views/CartView.vue'),
+        },
       ],
     },
     // 最一開始的頁面

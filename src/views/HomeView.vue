@@ -4,7 +4,7 @@
 
 <template>
   <main>
-    <NavBar />
+    <NavBar :statusIdx="0" />
     <div>這裡是首頁</div>
   </main>
 </template>

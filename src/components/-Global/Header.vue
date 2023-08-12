@@ -12,39 +12,40 @@
 <style lang="scss">
 .header-container {
   position: relative;
-  top: -40px;
+  top: -35px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 
   img {
-    width: 100px;
+    width: 80px;
 
   }
 
   .logo {
     position: relative;
-    top: 50px;
+    top: 40px;
     z-index: 1;
   }
 
   header {
     width: 80%;
-    height: 80px;
+    height: 70px;
     background-color: #30B0C9;
     position: relative;
     z-index: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 15px;
+    border-radius: 10px;
 
     h1 {
-      margin-top: 40px;
-      font-size: 20px;
+      margin-top: 30px;
+      font-size: 18px;
       font-weight: bold;
       color: white;
+
     }
   }
 }

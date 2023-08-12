@@ -1,17 +1,22 @@
 <template>
+    <NavBar :statusIdx="1" class="navbar" />
     <main>
+        <!-- 左半邊 -->
         <section>
             <div class="cart">
                 <div class="timeInfoBar">
-                    <div>
+                    <div class="timepicker">
                         <h2>日期：</h2>
+                        <Button btnFontSize="0.5" btnColor="#cccccc">選擇日期</Button>
                     </div>
 
-                    <div>暸解票券資訊</div>
+                    <Button btnFontSize="0.5">暸解票券資訊</Button>
+
                 </div>
                 <div>內容</div>
             </div>
         </section>
+        <!-- 右半邊 -->
         <section>
             <div class="payment">
                 <h3>信用卡支付</h3>
@@ -20,9 +25,7 @@
         </section>
     </main>
 </template>
-<script setup>
-
-</script>
+<script setup></script>
 <style lang="scss">
 main {
     width: 75%;
@@ -30,6 +33,7 @@ main {
     display: flex;
     justify-content: center;
     gap: 10px;
+    margin-top: 30px;
 }
 
 section {
@@ -37,21 +41,31 @@ section {
     height: 500px;
     /* border: 1px solid black; */
 
-    .cart {
-        .timeInfoBar {
-            /* border: 1px solid black; */
-            height: 50px;
-            display: flex;
-            gap: 20px;
-        }
 
+}
+
+
+
+.cart {
+    .timeInfoBar {
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .timepicker {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
     }
 
-    .payment {
-        h3 {
-            border: 1px solid black;
-            height: 50px;
-        }
+}
+
+.payment {
+    h3 {
+        border: 1px solid black;
+        height: 50px;
     }
 }
 </style>

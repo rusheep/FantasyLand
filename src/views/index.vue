@@ -1,6 +1,6 @@
 <template >
     <Header />
-    <Button btnFontSize="1">aasdasaa</Button>
+    <NavBar />
     <main>
         <h2>頁面</h2>
         <section>
@@ -9,7 +9,6 @@
             </div>
             <div class="box">
                 <h3>手機驗票頁面</h3>
-
             </div>
         </section>
         <h2>權限介紹</h2>
@@ -31,7 +30,7 @@
         </section>
     </main>
 </template>
-<style lang="scss" scoped>
+<style lang="scss" >
 main {
     width: 75%;
     margin: 0 auto;

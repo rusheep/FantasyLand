@@ -19,6 +19,7 @@ declare module '@vue/runtime-core' {
     IconSupport: typeof import('./components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./components/icons/IconTooling.vue')['default']
     Navbar: typeof import('./components/Navbar.vue')['default']
+    NavBar: typeof import('./components/NavBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheWelcome: typeof import('./components/TheWelcome.vue')['default']

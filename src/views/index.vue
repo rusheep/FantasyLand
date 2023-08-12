@@ -1,5 +1,6 @@
 <template >
-    <Header></Header>
+    <Header />
+    <Button btnFontSize="1">aasdasaa</Button>
     <main>
         <h2>頁面</h2>
         <section>

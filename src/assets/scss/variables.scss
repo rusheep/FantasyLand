@@ -1,1 +1,12 @@
 $testSize : 100px;
+
+$main-color:#30B0C9;
+$second-color:#0694A7;
+
+
+h2 {
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.5;
+  color:$main-color ;
+}

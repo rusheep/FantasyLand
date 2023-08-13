@@ -48,6 +48,12 @@ const router = createRouter({
       name: 'index',
       component: () => import('../views/index.vue'),
     },
+    //遊客後台票夾
+    {
+      path:'/touristicket',
+      name:'touristicket',
+      component:() => import('../views/touristBackStage/touristTicket.vue')
+    }
   ],
 });
 

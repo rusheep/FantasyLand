@@ -1,6 +1,6 @@
 <template>
   <div class="header-container">
-    <img src="@/../public/logo.png" class="logo">
+    <img src="logo.png" class="logo">
     <header>
       <h1>夢幻尼樂園</h1>
     </header>
@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" s>
 .header-container {
   position: relative;
   top: -35px;

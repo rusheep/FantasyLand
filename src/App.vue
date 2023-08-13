@@ -5,3 +5,6 @@ const aa = ref('夢幻尼樂園');
 <template>
   <RouterView />
 </template>
+<style lang="scss">
+//
+</style>

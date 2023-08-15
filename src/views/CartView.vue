@@ -53,6 +53,7 @@ const ticketInfo = ref({
 
 </script>
 <template>
+    <TicketInfoModal />
     <NavBar :statusIdx="1" class="navbar" />
     <main>
         <!-- 左半邊 -->

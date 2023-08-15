@@ -45,6 +45,11 @@ const router = createRouter({
           name: 'cart',
           component: () => import('../views/CartView.vue'),
         },
+        {
+          path: 'order',
+          name: 'order',
+          component: () => import('../views/OrderView.vue'),
+        },
       ],
     },
     // 最一開始的頁面
@@ -55,10 +60,10 @@ const router = createRouter({
     },
     //遊客後台票夾
     {
-      path:'/touristicket',
-      name:'touristicket',
-      component:() => import('../views/touristBackStage/touristTicket.vue')
-    }
+      path: '/touristicket',
+      name: 'touristicket',
+      component: () => import('../views/touristBackStage/touristTicket.vue'),
+    },
   ],
 });
 

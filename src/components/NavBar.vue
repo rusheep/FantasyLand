@@ -1,9 +1,9 @@
 <template>
-    <main>
+    <div class="content">
         <div v-for="(nav, index) in navbarInfo" :key="nav.name" @click="changeStatus(index)">
             <h3 :class="{ selected: index === props.statusIdx }">{{ nav.name }}</h3>
         </div>
-    </main>
+    </div>
 </template>
 
 <script setup>
@@ -27,7 +27,7 @@ const changeStatus = (index) => {
 </script>
 
 <style lang="scss" scoped>
-main {
+.content {
     width: 400px;
     margin: 0 auto;
     display: flex;

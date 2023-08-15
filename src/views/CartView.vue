@@ -1,4 +1,6 @@
 <script setup>
+import { nextTick } from 'vue';
+
 const ticketInfo = ref({
     "allTicketsInfo": [
         {
@@ -50,15 +52,47 @@ const ticketInfo = ref({
     "count": 3
 });
 
+let infoModal = ref(false);
+
+const switchStatus = function () {
+    infoModal.value = !infoModal.value
+};
+
 
 </script>
 <template>
     <!-- 彈窗 -->
-    <div v-if="true" class="modal-overlay">
+    <div v-if="infoModal" class="modal-overlay">
         <div class="modal">
-            <h2>这是一个弹窗</h2>
-            <p>弹窗的内容在这里。</p>
+            <div class="m-wrapper">
+                <h3>一組帳號只能在同日期買五張票</h3>
+                <div class="m-userTickets">
+                    <div>
+                        <p>目前在</p>
+                        <h4>2023-05-06 有3張票</h4>
+                    </div>
+                    <div>
+                        <p>可再購買</p>
+                        <h4>2張票</h4>
+                    </div>
+                </div>
+                <p class="m-title">購票須知</p>
+                <div class="m-ticketInfo">
+                    <div>
+                        <p>成人票 : 18歲以上</p>
+                        <p>兒童票 :08~ 18歲</p>
+                    </div>
+                    <div>
+                        <p>優待票 :需有殘障手冊證明</p>
+                        <p>免費:08歲以下免費</p>
+                    </div>
+                </div>
+                <div class="btn"> <Button btnFontSize="0.5" @click="switchStatus">返回</Button></div>
+
+            </div>
+
         </div>
+
     </div>
     <NavBar :statusIdx="1" class="navbar" />
     <main>
@@ -70,7 +104,7 @@ const ticketInfo = ref({
                         <h2>日期：</h2>
                         <Button btnFontSize="0.5" btnColor="#cccccc">選擇日期</Button>
                     </div>
-                    <Button btnFontSize="0.5">暸解票券資訊</Button>
+                    <Button btnFontSize="0.5" @click="switchStatus">暸解票券資訊</Button>
                 </div>
                 <div class="ticketsOrder" v-for="(item, index) in ticketInfo.allTicketsInfo" :key="item._id">
                     <div class="ticketInfo">
@@ -139,8 +173,6 @@ section {
     /* border: 1px solid black; */
 }
 
-
-
 .cart {
     .timeInfoBar {
         height: 50px;
@@ -197,7 +229,6 @@ section {
 
     }
 }
-
 
 .payment {
     display: flex;
@@ -298,11 +329,68 @@ button {
     align-items: center;
     z-index: 2;
 
-    div {
+    .modal {
         background-color: white;
-        padding: 20px;
+        padding: 20px 0px;
         border-radius: 5px;
         box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+
+
+
     }
+}
+
+.m-wrapper {
+    padding: 10px 30px;
+
+    h3 {
+        font-size: 30px;
+        color: $main-color;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .m-userTickets {
+        display: flex;
+        justify-content: space-between;
+
+        div {
+            p {
+                color: $main-color;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            h4 {
+                font-size: 25px;
+                margin-bottom: 10px;
+            }
+
+
+        }
+    }
+
+    .m-title {
+        color: $main-color;
+        font-weight: bold;
+        margin-bottom: 5px;
+
+    }
+
+    .m-ticketInfo {
+        display: flex;
+        justify-content: space-between;
+
+        div {
+            p {
+                margin-bottom: 3px;
+            }
+        }
+    }
+}
+
+.btn {
+    text-align: end;
+    margin-top: 20px;
 }
 </style>

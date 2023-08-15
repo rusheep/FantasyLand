@@ -115,7 +115,7 @@ const ticketInfo = ref({
     </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 main {
     width: 75%;
     margin: 0 auto;

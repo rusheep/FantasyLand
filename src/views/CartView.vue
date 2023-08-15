@@ -111,7 +111,7 @@ const ticketInfo = ref({
     <hr />
     <div class="pricePaybox">
         <h3>總價:2000元</h3>
-        <Button btnFontSize='1' btnColor="#0694A7">前往支付</Button>
+        <Button btnFontSize='1' btnColor="#0694A7">信用卡支付</Button>
     </div>
 </template>
 

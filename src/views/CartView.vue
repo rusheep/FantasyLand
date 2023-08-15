@@ -106,7 +106,13 @@ const ticketInfo = ref({
                 </div>
             </div>
         </section>
+
     </main>
+    <hr />
+    <div class="pricePaybox">
+        <h3>總價:2000元</h3>
+        <Button btnFontSize='1' btnColor="#0694A7">前往支付</Button>
+    </div>
 </template>
 
 <style lang="scss">
@@ -121,7 +127,7 @@ main {
 
 section {
     width: 100%;
-    height: 500px;
+    height: 440px;
     /* border: 1px solid black; */
 }
 
@@ -191,6 +197,7 @@ section {
     align-items: center;
 
     .payment-title {
+        font-size: 24px;
         line-height: 50px;
         height: 50px;
         text-align: center;
@@ -238,6 +245,27 @@ section {
         .small-input {
             width: 170px;
         }
+    }
+}
+
+hr {
+    width: 75%;
+    margin: 0 auto;
+}
+
+.pricePaybox {
+    width: 65%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    align-items: center;
+
+
+    h3 {
+        color: $main-color;
+        font-size: 30px;
+        font-weight: bold;
     }
 }
 </style>

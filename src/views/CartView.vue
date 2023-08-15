@@ -116,6 +116,7 @@ const ticketInfo = ref({
 </template>
 
 <style lang="scss" scoped>
+/* 補了sc */
 main {
     width: 75%;
     margin: 0 auto;

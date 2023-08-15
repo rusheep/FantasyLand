@@ -106,6 +106,7 @@ const ticketInfo = ref({
                 </div>
             </div>
         </section>
+<<<<<<< HEAD
 
     </main>
     <hr />
@@ -113,6 +114,9 @@ const ticketInfo = ref({
         <h3>總價:2000元</h3>
         <Button btnFontSize='1' btnColor="#0694A7">前往支付</Button>
     </div>
+=======
+    </main>
+>>>>>>> ff3f7af3551c21a0f714eb82f11ce443e5f0568d
 </template>
 
 <style lang="scss">
@@ -127,7 +131,11 @@ main {
 
 section {
     width: 100%;
+<<<<<<< HEAD
     height: 440px;
+=======
+    height: 500px;
+>>>>>>> ff3f7af3551c21a0f714eb82f11ce443e5f0568d
     /* border: 1px solid black; */
 }
 
@@ -197,7 +205,10 @@ section {
     align-items: center;
 
     .payment-title {
+<<<<<<< HEAD
         font-size: 24px;
+=======
+>>>>>>> ff3f7af3551c21a0f714eb82f11ce443e5f0568d
         line-height: 50px;
         height: 50px;
         text-align: center;
@@ -247,6 +258,7 @@ section {
         }
     }
 }
+<<<<<<< HEAD
 
 hr {
     width: 75%;
@@ -268,4 +280,6 @@ hr {
         font-weight: bold;
     }
 }
+=======
+>>>>>>> ff3f7af3551c21a0f714eb82f11ce443e5f0568d
 </style>

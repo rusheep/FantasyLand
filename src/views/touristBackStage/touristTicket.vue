@@ -1,5 +1,6 @@
 <template >
   <Header></Header>
+  <NavBar />
   <main>
     <div class="title">
       <h2 class="tickstatus">未使用</h2>

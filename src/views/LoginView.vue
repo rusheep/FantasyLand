@@ -1,12 +1,34 @@
 <script setup>
-// console.log(' import.meta.env.MODE: ', import.meta.env.MODE);
-// console.log(' import.meta.env.BASE_URL: ', import.meta.env.BASE_URL);
-// console.log(' import.meta.env.PROD: ', import.meta.env.PROD);
-// console.log(' import.meta.env.DEV: ', import.meta.env.DEV);
-// console.log(' import.meta.env.SSR: ', import.meta.env.SSR);
+import axios from 'axios';
+import { ref } from 'vue'; // Import ref from Vue
 
-console.log(' VITE_HI: ', `${import.meta.env.VITE_URL}/`);
+const up = ref({
+  username: 'asher@gmail.com',
+  password: 'password',
+});
+
+const cookie = document.cookie;
+console.log(cookie)
+async function sendRequest() {
+  try {
+    console.log(typeof up.value.password);
+    console.log('VITE_HI: ', `${import.meta.env.VITE_URL}`);
+
+    const response = await axios.post(`${import.meta.env.VITE_URL}/auth/login`, {
+      email: up.value.username,
+      password: up.value.password,
+    });
+
+    console.log(cookie)
+
+
+  } catch (error) {
+    console.error(error);
+  }
+}
 </script>
+
+
 
 <template>
   <main>
@@ -15,16 +37,16 @@ console.log(' VITE_HI: ', `${import.meta.env.VITE_URL}/`);
     <div class="userPassword">
       <div class="input-box">
         <p>電子信箱</p>
-        <input type="text">
+        <input v-model="up.username" type="text">
       </div>
       <div class="input-box">
         <p>密嗎</p>
-        <input type="text">
+        <input v-model="up.password" type="text">
       </div>
     </div>
 
     <div class="btn-box">
-      <Button btnFontSize="0.5">註冊</Button> <Button btnFontSize="0.5">登入</Button>
+      <Button btnFontSize="0.5">註冊</Button> <Button @click="sendRequest" btnFontSize="0.5">登入</Button>
     </div>
   </main>
 </template>

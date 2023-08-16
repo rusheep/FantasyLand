@@ -1,12 +1,33 @@
 <script setup>
-console.log(' VITE_HI: ', `${import.meta.env.VITE_URL}/`);
-let username = '';
-let password = '';
+import axios from 'axios';
+import { ref } from 'vue'; // Import ref from Vue
 
+const up = ref({
+  username: 'asher@gmail.com',
+  password: 'password',
+});
 
+async function sendRequest() {
+  try {
+    console.log(typeof up.value.password);
+    console.log('VITE_HI: ', `${import.meta.env.VITE_URL}`);
 
+    const response = await axios.post(`${import.meta.env.VITE_URL}/auth/login`, {
+      email: up.value.username,
+      password: up.value.password,
+    });
 
+    const response2 = await axios.get(`${import.meta.env.VITE_URL}`);
+
+    console.log(response);
+    console.log(response2);
+  } catch (error) {
+    console.error(error);
+  }
+}
 </script>
+
+
 
 <template>
   <main>
@@ -15,16 +36,16 @@ let password = '';
     <div class="userPassword">
       <div class="input-box">
         <p>電子信箱</p>
-        <input type="text">
+        <input v-model="up.username" type="text">
       </div>
       <div class="input-box">
         <p>密嗎</p>
-        <input type="text">
+        <input v-model="up.password" type="text">
       </div>
     </div>
 
     <div class="btn-box">
-      <Button btnFontSize="0.5">註冊</Button> <Button btnFontSize="0.5">登入</Button>
+      <Button btnFontSize="0.5">註冊</Button> <Button @click="sendRequest" btnFontSize="0.5">登入</Button>
     </div>
   </main>
 </template>

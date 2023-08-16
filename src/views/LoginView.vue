@@ -1,5 +1,11 @@
 <script setup>
+// console.log(' import.meta.env.MODE: ', import.meta.env.MODE);
+// console.log(' import.meta.env.BASE_URL: ', import.meta.env.BASE_URL);
+// console.log(' import.meta.env.PROD: ', import.meta.env.PROD);
+// console.log(' import.meta.env.DEV: ', import.meta.env.DEV);
+// console.log(' import.meta.env.SSR: ', import.meta.env.SSR);
 
+console.log(' VITE_HI: ', `${import.meta.env.VITE_URL}/`);
 </script>
 
 <template>

@@ -7,6 +7,8 @@ const up = ref({
   password: 'password',
 });
 
+const cookie = document.cookie;
+console.log(cookie)
 async function sendRequest() {
   try {
     console.log(typeof up.value.password);
@@ -17,10 +19,9 @@ async function sendRequest() {
       password: up.value.password,
     });
 
-    const response2 = await axios.get(`${import.meta.env.VITE_URL}`);
+    console.log(cookie)
 
-    console.log(response);
-    console.log(response2);
+
   } catch (error) {
     console.error(error);
   }

@@ -61,7 +61,7 @@ async function getAllUser() {
       <Button
         btnFontSize="0.5"
         @click="getAllUser"
-        >註冊</Button
+        >取得所有user（限admin）</Button
       >
       <Button
         @click="submit"

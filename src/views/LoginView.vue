@@ -8,27 +8,33 @@ const up = ref({
 });
 
 const cookie = document.cookie;
-console.log(cookie)
-async function sendRequest() {
+console.log(cookie);
+async function submit() {
   try {
     console.log(typeof up.value.password);
     console.log('VITE_HI: ', `${import.meta.env.VITE_URL}`);
 
-    const response = await axios.post(`${import.meta.env.VITE_URL}/auth/login`, {
+    const response = await axios.post('api/auth/login', {
       email: up.value.username,
       password: up.value.password,
     });
 
-    console.log(cookie)
+    console.log(cookie);
+  } catch (error) {
+    console.error(error);
+  }
+}
 
-
+async function getAllUser() {
+  try {
+    const response = await axios.get('api/users');
+    console.log(response);
+    console.log(cookie);
   } catch (error) {
     console.error(error);
   }
 }
 </script>
-
-
 
 <template>
   <main>
@@ -37,16 +43,31 @@ async function sendRequest() {
     <div class="userPassword">
       <div class="input-box">
         <p>電子信箱</p>
-        <input v-model="up.username" type="text">
+        <input
+          v-model="up.username"
+          type="text"
+        />
       </div>
       <div class="input-box">
         <p>密嗎</p>
-        <input v-model="up.password" type="text">
+        <input
+          v-model="up.password"
+          type="text"
+        />
       </div>
     </div>
 
     <div class="btn-box">
-      <Button btnFontSize="0.5">註冊</Button> <Button @click="sendRequest" btnFontSize="0.5">登入</Button>
+      <Button
+        btnFontSize="0.5"
+        @click="getAllUser"
+        >註冊</Button
+      >
+      <Button
+        @click="submit"
+        btnFontSize="0.5"
+        >登入</Button
+      >
     </div>
   </main>
 </template>
@@ -77,8 +98,6 @@ main {
     margin-bottom: 30px;
 
     .input-box {
-
-
       p {
         margin-bottom: 5px;
       }
@@ -89,7 +108,6 @@ main {
       }
     }
   }
-
 }
 
 .btn-box {

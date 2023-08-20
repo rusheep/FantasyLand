@@ -1,16 +1,77 @@
+<script setup>
+// import axios from 'axios';
+import { reactive } from 'vue';
+import TicketAdult from '../../components/Ticket/TicketAdult.vue';
+import TicketKid from '../../components/Ticket/TicketKid.vue';
+import TicketPrivileged from '../../components/Ticket/TicketPrivileged.vue';
+
+const ticketBooking = reactive({
+  username: 3,
+  ticketBooking: [
+    {
+      ticketNum:1,
+      ticketType: 1,
+      ticketDate: '2023-05-28',
+      status: 'unused',
+      fastpass: 'true',
+    },
+    {
+      ticketNum:2,
+      ticketType: 2,
+      ticketDate: '2023-05-28',
+      status: 'unused',
+      fastpass: 'true',
+    },
+    {
+      ticketNum:3,
+      ticketType: 3,
+      ticketDate: '2023-05-28',
+      status: 'unused',
+      fastpass: 'true',
+    },
+    {
+      ticketNum:4,
+      ticketType: 1,
+      ticketDate: '2023-05-28',
+      status: 'used',
+      fastpass: 'true',
+    },
+    {
+      ticketNum:5,
+      ticketType: 3,
+      ticketDate: '2023-05-28',
+      status: 'used',
+      fastpass: 'false',
+    },
+  ],
+});
+
+
+const getComponentName = (ticketType) => {
+  if (ticketType === 1) {
+    return 'TicketAdult';
+  } else if (ticketType === 2) {
+    return 'ticket-kid';
+  } else if (ticketType === 3) {
+    return 'ticket-privileged'; // 根据需要添加其他条件
+  }
+};
+
+</script>
+
 <template >
   <Header></Header>
+  <NavBar />
   <main>
     <div class="title">
       <h2 class="tickstatus">未使用</h2>
       <h2 class="date">2023/05/23</h2>
     </div>
-    <section class="top-box">
-      <ticket-adult />
-      <ticket-adult />
-      <ticket-adult />
-      <ticket-adult />
-      <ticket-adult />
+    <section class="top-box"> 
+      <template v-for="ticket in ticketBooking.ticketBooking" :key="ticket.ticketNum">
+        <component :is="getComponentName(ticket.ticketType)" />
+      </template>
+      <TicketAdult></TicketAdult>
     </section>
     <div class="title">
       <h2 class="tickstatus">票券紀錄</h2>
@@ -86,10 +147,6 @@ main {
       flex-wrap: wrap;
   }
 
-  .top-box{
-
-  }
-
   .btm-box {
     width: 100%;
     background-color:#F1F1F1;
@@ -116,9 +173,6 @@ main {
     }
     .form tr {
       border-bottom: 1px solid #E4D0D0 ;
-    }
-    .form td {
-
     }
   }
 }

@@ -4,7 +4,7 @@
       <div class="status">
         <p>已使用</p>
       </div>
-      <div class="ticketitle">成人票</div>
+      <div class="ticketitle">優待票</div>
       <h3>快速通關</h3>
     </div>
     <img src="@/../public/QRcode.png" class="QRcode">
@@ -16,7 +16,7 @@
     display: flex;
     justify-content: space-around;
     width: 26%;
-    background-color: #30B0C9;;
+    background-color:#04D200;
     border-radius: 10px;
     padding:1rem;
     box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2),

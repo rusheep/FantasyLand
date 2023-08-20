@@ -71,7 +71,6 @@ const getComponentName = (ticketType) => {
       <template v-for="ticket in ticketBooking.ticketBooking" :key="ticket.ticketNum">
         <component :is="getComponentName(ticket.ticketType)" />
       </template>
-      <TicketAdult></TicketAdult>
     </section>
     <div class="title">
       <h2 class="tickstatus">票券紀錄</h2>
@@ -89,19 +88,19 @@ const getComponentName = (ticketType) => {
         <tbody>
           <tr>
             <td>2023-08-11</td>
-            <td>以使用</td>
+            <td>已使用</td>
             <td>成人票（快速通關）</td>
             <td>200元</td>
           </tr>
           <tr>
             <td>2023-08-11</td>
-            <td>以使用</td>
+            <td>已使用</td>
             <td>成人票（快速通關）</td>
             <td>200元</td>
           </tr>
           <tr>
             <td>2023-08-11</td>
-            <td>以使用</td>
+            <td>已使用</td>
             <td>成人票（快速通關）</td>
             <td>200元</td>
           </tr>

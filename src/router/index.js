@@ -44,6 +44,11 @@ const router = createRouter({
           path: 'cart',
           name: 'cart',
           component: () => import('../views/CartView.vue'),
+        },
+        {
+          path: 'order',
+          name: 'order',
+          component: () => import('../views/OrderView.vue'),
           beforeEnter: async (to, from) => {
             const isLogin = false; // 檢查是否登入的function
             if (!isLogin) {
@@ -53,11 +58,6 @@ const router = createRouter({
               
             }
           }
-        },
-        {
-          path: 'order',
-          name: 'order',
-          component: () => import('../views/OrderView.vue'),
         },
       ],
     },

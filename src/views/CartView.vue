@@ -46,6 +46,7 @@ onMounted(async () => {
     ) {
       const date = userTickets.value.findUnuseTicket[0]?.ticketDate;
       formattedDate.value = new Date(date).toISOString().split('T')[0];
+      selectedDate.value = formattedDate.value;
     }
   } catch (error) {
     console.error(error);

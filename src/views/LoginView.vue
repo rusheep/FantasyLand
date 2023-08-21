@@ -24,7 +24,7 @@ async function submit() {
       router.push('/home');
     }
   } catch (error) {
-    if (error.response.status === 401) {
+    if (error.response && error.response.status === 401) {
       password.value = '';
       alert(`錯誤帳號/密碼`);
     }

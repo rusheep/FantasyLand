@@ -35,6 +35,7 @@ async function submit() {
       router.push('/login');
     }
   } catch (error) {
+    console.log(error.response);
     alert(error.response?.data.msg);
   }
 }

@@ -44,6 +44,7 @@ onMounted(async () => {
     ) {
       const date = userTickets.value.findTodayUnuseTicket[0]?.ticketDate;
       formattedDate.value = new Date(date).toISOString().split('T')[0];
+      selectedDate.value = formattedDate.value;
     }
   } catch (error) {
     console.error(error);
@@ -57,14 +58,29 @@ const switchStatus = function () {
 
 // 票數加減
 const adjustamount = (ticket, increment) => {
-  if (increment) {
-    ticket.amount = (ticket.amount || 0) + 1;
-  } else {
-    if (ticket.amount > 0) {
-      ticket.amount--;
+  const totalTicketCountForAccount =
+    totalTicketCount.value + (increment ? 1 : -1);
+
+  if (totalTicketCountForAccount < 5) {
+    if (increment) {
+      const remainingTickets =
+        5 - userTickets.value.count - totalTicketCount.value;
+
+      if (remainingTickets > 0) {
+        ticket.amount = (ticket.amount || 0) + 1;
+        updateTotalPrice();
+      } else {
+        alert('一組帳號只能在同日期買五張票');
+      }
+    } else {
+      if (ticket.amount > 0) {
+        ticket.amount--;
+        updateTotalPrice();
+      }
     }
+  } else {
+    alert('一組帳號只能買五張票');
   }
-  updateTotalPrice();
 };
 
 // 限制今天以前都不能購買
@@ -132,11 +148,14 @@ async function submit() {
         <div class="m-userTickets">
           <div>
             <p>目前在</p>
-            <h4>2023-05-06 有3張票</h4>
+            <h4>
+              {{ formattedDate }} 有
+              {{ userTickets.findTodayUnuseTicket[0]?.amount }}張票
+            </h4>
           </div>
           <div>
             <p>可再購買</p>
-            <h4>2張票</h4>
+            <h4>{{ 5 - totalTicketCount }}張票</h4>
           </div>
         </div>
         <p class="m-title">購票須知</p>

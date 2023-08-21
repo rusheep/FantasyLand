@@ -1,5 +1,7 @@
 <script setup>
 import axios from 'axios';
+
+import router from '../router';
 // 彈窗開關
 const infoModal = ref(false);
 
@@ -18,7 +20,7 @@ const ticketInfo = ref({
 //目前有買的票
 const userTickets = ref({
   count: 0,
-  findUnuseTicket: [],
+  findTodayUnuseTicket: [],
 });
 
 // 轉時間字串
@@ -37,15 +39,17 @@ onMounted(async () => {
 
     // 取得 unuse 票 / 或是今天的 usefd 票
     const userTicketsAPI = await axios.get('/api/userTickets/getTickets');
+    console.log(userTicketsAPI.data);
     userTickets.value = userTicketsAPI.data;
     // 如果 沒有unuse票
     if (
       userTickets.value &&
-      userTickets.value.findUnuseTicket &&
-      userTickets.value.findUnuseTicket.length !== 0
+      userTickets.value.findTodayUnuseTicket &&
+      userTickets.value.findTodayUnuseTicket.length !== 0
     ) {
-      const date = userTickets.value.findUnuseTicket[0]?.ticketDate;
+      const date = userTickets.value.findTodayUnuseTicket[0]?.ticketDate;
       formattedDate.value = new Date(date).toISOString().split('T')[0];
+      selectedDate.value = formattedDate.value;
     }
   } catch (error) {
     console.error(error);
@@ -128,8 +132,9 @@ async function submit() {
   if (selectedDate.value && totalTicketCount.value > 0) {
     axios
       .post('/api/order', formattedData)
-      .then((response) => {
-        console.log(response);
+      .then((res) => {
+        localStorage.setItem('order', JSON.stringify(res.data));
+        router.push('/order');
       })
       .catch((error) => {
         alert(error?.response?.data.msg);
@@ -150,13 +155,24 @@ async function submit() {
           <div>
             <p>目前在</p>
             <h4>
-              {{ formattedDate }} 有
-              {{ userTickets.findUnuseTicket[0]?.amount }}張票
+              {{ formattedDate ? formattedDate : '購買的票' }} 有
+              {{
+                userTickets.findTodayUnuseTicket
+                  ? userTickets.findTodayUnuseTicket.length
+                  : 0
+              }}張
             </h4>
           </div>
           <div>
             <p>可再購買</p>
-            <h4>{{ 5 - totalTicketCount }}張票</h4>
+            <h4>
+              {{
+                5 -
+                (userTickets.findTodayUnuseTicket
+                  ? userTickets.findTodayUnuseTicket.length
+                  : 0)
+              }}張票
+            </h4>
           </div>
         </div>
         <p class="m-title">購票須知</p>

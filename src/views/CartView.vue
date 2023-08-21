@@ -15,6 +15,14 @@ const ticketInfo = ref({
   count: 0,
 });
 
+//目前有買的票
+const userTickets = ref({
+  count: 0,
+  findTodayUnuseTicket: [],
+});
+
+const formattedDate = ref();
+
 // 取得所有票種
 onMounted(async () => {
   try {
@@ -28,7 +36,15 @@ onMounted(async () => {
 
     // 取得 unuse 票 / 或是今天的 usefd 票
     const userTicketsAPI = await axios.get('/api/userTickets/getTickets');
-    console.log(userTicketsAPI.data);
+    userTickets.value = userTicketsAPI.data;
+    if (
+      userTickets.value &&
+      userTickets.value.findTodayUnuseTicket &&
+      userTickets.value.findTodayUnuseTicket.length !== 0
+    ) {
+      const date = userTickets.value.findTodayUnuseTicket[0]?.ticketDate;
+      formattedDate.value = new Date(date).toISOString().split('T')[0];
+    }
   } catch (error) {
     console.error(error);
   }
@@ -156,12 +172,14 @@ async function submit() {
           <div class="timepicker">
             <h2>日期：</h2>
             <input
+              v-if="userTickets.count === 0"
               type="date"
               v-model="selectedDate"
               @change="handleDateChange"
               class="date-input"
               :min="getToday()"
             />
+            <h2 v-else>{{ formattedDate }}</h2>
           </div>
           <Button
             btnFontSize="0.5"

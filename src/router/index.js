@@ -50,14 +50,13 @@ const router = createRouter({
           name: 'order',
           component: () => import('../views/OrderView.vue'),
           beforeEnter: async (to, from) => {
-            const isLogin = false; // 檢查是否登入的function
-            if (!isLogin) {
-              alert('請先登入'); // 否則顯示提示訊息
-              return '/login'; // 如果無法訪問，導向登入頁面
-            } else {
-              
-            }
-          }
+            // const isLogin = false; // 檢查是否登入的function
+            // if (!isLogin) {
+            //   alert('請先登入'); // 否則顯示提示訊息
+            //   return '/login'; // 如果無法訪問，導向登入頁面
+            // } else {
+            // }
+          },
         },
       ],
     },

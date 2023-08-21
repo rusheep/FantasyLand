@@ -1,5 +1,7 @@
 <script setup>
 import axios from 'axios';
+
+import router from '../router';
 // 彈窗開關
 const infoModal = ref(false);
 
@@ -129,8 +131,10 @@ async function submit() {
   if (selectedDate.value && totalTicketCount.value > 0) {
     axios
       .post('/api/order', formattedData)
-      .then((response) => {
-        console.log(response);
+      .then((res) => {
+        console.log(res.data);
+        localStorage.setItem('order', JSON.stringify(res.data));
+        router.push('/order');
       })
       .catch((error) => {
         alert(error?.response?.data.msg);

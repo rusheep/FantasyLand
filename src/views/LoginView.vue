@@ -33,57 +33,61 @@ async function submit() {
 </script>
 
 <template>
-  <main>
-    <h1>歡迎回來～</h1>
-    <p class="sub-title">立即登入並預訂並進入冒險者的旅程吧！</p>
-    <div class="userPassword">
-      <div class="input-box">
-        <div class="emailpassword-box">
-          <p>電子信箱</p>
-          <p
-            v-show="emailError"
-            style="color: red; font-size: 10px"
-            font-size="2px"
-          >
-            請輸入電子信箱
-          </p>
+  <form>
+    <main>
+      <h1>歡迎回來～</h1>
+      <p class="sub-title">立即登入並預訂並進入冒險者的旅程吧！</p>
+      <div class="userPassword">
+        <div class="input-box">
+          <div class="emailpassword-box">
+            <p>電子信箱</p>
+            <p
+              v-show="emailError"
+              style="color: red; font-size: 10px"
+              font-size="2px"
+            >
+              請輸入電子信箱
+            </p>
+          </div>
+
+          <input
+            v-model="email"
+            autocomplete="username"
+            type="text"
+          />
         </div>
+        <div class="input-box">
+          <div class="emailpassword-box">
+            <p>密嗎</p>
+            <p
+              v-show="passwordError"
+              style="color: red; font-size: 10px"
+              font-size="2px"
+            >
+              請輸入密碼
+            </p>
+          </div>
 
-        <input
-          v-model="email"
-          type="text"
-        />
-      </div>
-      <div class="input-box">
-        <div class="emailpassword-box">
-          <p>密嗎</p>
-          <p
-            v-show="passwordError"
-            style="color: red; font-size: 10px"
-            font-size="2px"
-          >
-            請輸入密碼
-          </p>
+          <input
+            v-model="password"
+            type="password"
+            autocomplete="current-password"
+          />
         </div>
-
-        <input
-          v-model="password"
-          type="password"
-        />
       </div>
-    </div>
 
-    <div class="btn-box">
-      <router-link to="/register">
-        <Button btnFontSize="10px">註冊</Button>
-      </router-link>
-      <Button
-        @click="submit"
-        btnFontSize="10px"
-        >登入</Button
-      >
-    </div>
-  </main>
+      <div class="btn-box">
+        <router-link to="/register">
+          <Button btnFontSize="10px">註冊</Button>
+        </router-link>
+        <Button
+          @click="submit"
+          btnFontSize="10px"
+          >登入</Button
+        >
+      </div>
+    </main>
+  </form>
 </template>
 <style lang="scss" scoped>
 main {

@@ -41,13 +41,11 @@ onMounted(async () => {
     const userTicketsAPI = await axios.get('/api/userTickets/getTickets');
     console.log(userTicketsAPI.data);
     userTickets.value = userTicketsAPI.data;
+
+    console.log(userTickets.value.ticketDate);
     // 如果 沒有unuse票
-    if (
-      userTickets.value &&
-      userTickets.value.findTodayUnuseTicket &&
-      userTickets.value.findTodayUnuseTicket.length !== 0
-    ) {
-      const date = userTickets.value.findTodayUnuseTicket[0]?.ticketDate;
+    if (userTickets.value.count !== 0) {
+      const date = userTickets.value.ticketDate;
       formattedDate.value = new Date(date).toISOString().split('T')[0];
       selectedDate.value = formattedDate.value;
     }

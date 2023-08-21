@@ -75,11 +75,11 @@ async function submit() {
 
     <div class="btn-box">
       <router-link to="/register">
-        <Button btnFontSize="0.5">註冊</Button>
+        <Button btnFontSize="10px">註冊</Button>
       </router-link>
       <Button
         @click="submit"
-        btnFontSize="0.5"
+        btnFontSize="10px"
         >登入</Button
       >
     </div>

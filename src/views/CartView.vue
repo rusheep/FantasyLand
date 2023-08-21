@@ -20,7 +20,7 @@ const ticketInfo = ref({
 //目前有買的票
 const userTickets = ref({
   count: 0,
-  findUnuseTicket: [],
+  findTodayUnuseTicket: [],
 });
 
 // 轉時間字串
@@ -39,14 +39,15 @@ onMounted(async () => {
 
     // 取得 unuse 票 / 或是今天的 usefd 票
     const userTicketsAPI = await axios.get('/api/userTickets/getTickets');
+    console.log(userTicketsAPI.data);
     userTickets.value = userTicketsAPI.data;
     // 如果 沒有unuse票
     if (
       userTickets.value &&
-      userTickets.value.findUnuseTicket &&
-      userTickets.value.findUnuseTicket.length !== 0
+      userTickets.value.findTodayUnuseTicket &&
+      userTickets.value.findTodayUnuseTicket.length !== 0
     ) {
-      const date = userTickets.value.findUnuseTicket[0]?.ticketDate;
+      const date = userTickets.value.findTodayUnuseTicket[0]?.ticketDate;
       formattedDate.value = new Date(date).toISOString().split('T')[0];
       selectedDate.value = formattedDate.value;
     }
@@ -132,7 +133,6 @@ async function submit() {
     axios
       .post('/api/order', formattedData)
       .then((res) => {
-        console.log(res.data);
         localStorage.setItem('order', JSON.stringify(res.data));
         router.push('/order');
       })
@@ -156,7 +156,7 @@ async function submit() {
             <p>目前在</p>
             <h4>
               {{ formattedDate }} 有
-              {{ userTickets.findUnuseTicket[0]?.amount }}張票
+              {{ userTickets.findTodayUnuseTicket[0]?.amount }}張票
             </h4>
           </div>
           <div>

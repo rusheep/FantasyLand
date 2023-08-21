@@ -41,70 +41,74 @@ async function submit() {
 </script>
 
 <template>
-  <main>
-    <h1>註冊帳號</h1>
-    <div class="userPassword">
-      <div class="input-box">
-        <div class="titleBox">
-          <p>姓名</p>
-          <p
-            v-show="nameError"
-            style="color: red; font-size: 10px"
-            font-size="2px"
-          >
-            請輸入姓名
-          </p>
+  <form>
+    <main>
+      <h1>註冊帳號</h1>
+      <div class="userPassword">
+        <div class="input-box">
+          <div class="titleBox">
+            <p>姓名</p>
+            <p
+              v-show="nameError"
+              style="color: red; font-size: 10px"
+              font-size="2px"
+            >
+              請輸入姓名
+            </p>
+          </div>
+
+          <input
+            v-model="name"
+            type="text"
+          />
         </div>
+        <div class="input-box">
+          <div class="titleBox">
+            <p>電子信箱</p>
+            <p
+              v-show="emailError"
+              style="color: red; font-size: 10px"
+              font-size="2px"
+            >
+              請輸入電子信箱
+            </p>
+          </div>
 
-        <input
-          v-model="name"
-          type="text"
-        />
-      </div>
-      <div class="input-box">
-        <div class="titleBox">
-          <p>電子信箱</p>
-          <p
-            v-show="emailError"
-            style="color: red; font-size: 10px"
-            font-size="2px"
-          >
-            請輸入電子信箱
-          </p>
+          <input
+            v-model="email"
+            autocomplete="username"
+            type="text"
+          />
         </div>
+        <div class="input-box">
+          <div class="titleBox">
+            <p>密嗎</p>
+            <p
+              v-show="passwordError"
+              style="color: red; font-size: 10px"
+              font-size="2px"
+            >
+              請輸入密碼
+            </p>
+          </div>
 
-        <input
-          v-model="email"
-          type="text"
-        />
-      </div>
-      <div class="input-box">
-        <div class="titleBox">
-          <p>密嗎</p>
-          <p
-            v-show="passwordError"
-            style="color: red; font-size: 10px"
-            font-size="2px"
-          >
-            請輸入密碼
-          </p>
+          <input
+            v-model="password"
+            type="password"
+            autocomplete="current-password"
+          />
         </div>
-
-        <input
-          v-model="password"
-          type="password"
-        />
       </div>
-    </div>
 
-    <div class="btn-box">
-      <Button
-        @click="submit"
-        btnFontSize="10px"
-        >註冊</Button
-      >
-    </div>
-  </main>
+      <div class="btn-box">
+        <Button
+          @click="submit"
+          btnFontSize="10px"
+          >註冊</Button
+        >
+      </div>
+    </main>
+  </form>
 </template>
 <style lang="scss" scoped>
 main {

@@ -6,6 +6,9 @@ const infoModal = ref(false);
 // 票的日期
 const selectedDate = ref('');
 
+// 總價
+const totalPrice = ref(0);
+
 // 目前票種
 const ticketInfo = ref({
   allTicketsInfo: [],
@@ -15,12 +18,17 @@ const ticketInfo = ref({
 // 取得所有票種
 onMounted(async () => {
   try {
+    // 取得票種：
     const ticketCategoryAPI = await axios.get('/api/ticketCategory');
     ticketInfo.value.allTicketsInfo = ticketCategoryAPI.data.allTicketsInfo;
     ticketInfo.value.allTicketsInfo.forEach((ticket) => {
-      ticket.quantity = 0;
+      ticket.amount = 0;
     });
     ticketInfo.value.count = ticketCategoryAPI.data.count;
+
+    // 取得 unuse 票 / 或是今天的 usefd 票
+    const userTicketsAPI = await axios.get('/api/userTickets/getTickets');
+    console.log(userTicketsAPI.data);
   } catch (error) {
     console.error(error);
   }
@@ -32,14 +40,15 @@ const switchStatus = function () {
 };
 
 // 票數加減
-const adjustQuantity = (ticket, increment) => {
+const adjustamount = (ticket, increment) => {
   if (increment) {
-    ticket.quantity = (ticket.quantity || 0) + 1;
+    ticket.amount = (ticket.amount || 0) + 1;
   } else {
-    if (ticket.quantity > 0) {
-      ticket.quantity--;
+    if (ticket.amount > 0) {
+      ticket.amount--;
     }
   }
+  updateTotalPrice();
 };
 
 // 限制今天以前都不能購買
@@ -50,6 +59,50 @@ const getToday = () => {
   const day = String(today.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
+
+// 計算總價
+function updateTotalPrice() {
+  totalPrice.value = ticketInfo.value.allTicketsInfo.reduce((total, ticket) => {
+    return total + (ticket.amount || 0) * ticket.price;
+  }, 0);
+}
+
+// 計算總票數
+const totalTicketCount = computed(() => {
+  return ticketInfo.value.allTicketsInfo.reduce((total, ticket) => {
+    return total + (ticket.amount || 0);
+  }, 0);
+});
+
+async function submit() {
+  if (!selectedDate.value) {
+    return alert('請輸入日期');
+  }
+
+  if (totalTicketCount.value === 0) {
+    return alert('請加購票券');
+  }
+
+  // 先把 資料變成POST的API
+  const formattedData = ticketInfo.value.allTicketsInfo
+    .filter((item) => item.amount !== 0)
+    .map((item) => ({
+      ticketDate: selectedDate.value, // 日期信息，您可以替换成实际的日期
+      ticketId: item._id,
+      amount: item.amount,
+    }));
+
+  if (selectedDate.value && totalTicketCount.value > 0) {
+    axios
+      .post('/api/order', formattedData)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        alert(error?.response?.data.msg);
+      });
+  }
+}
 </script>
 <template>
   <!-- 彈窗 -->
@@ -130,14 +183,14 @@ const getToday = () => {
           <div class="counter">
             <div
               class="box"
-              @click="adjustQuantity(item, true)"
+              @click="adjustamount(item, true)"
             >
               +
             </div>
-            <p>{{ item.quantity || 0 }}</p>
+            <p>{{ item.amount || 0 }}</p>
             <div
               class="box"
-              @click="adjustQuantity(item, false)"
+              @click="adjustamount(item, false)"
             >
               -
             </div>
@@ -187,9 +240,10 @@ const getToday = () => {
   </main>
   <hr />
   <div class="pricePaybox">
-    <h3>總價:2000元</h3>
+    <h3>總價:{{ totalPrice }}元 ; 總票數:{{ totalTicketCount }}張</h3>
     <Button
-      btnFontSize="1"
+      btnFontSize="18px"
+      @click="submit"
       btnColor="#0694A7"
       >信用卡支付</Button
     >

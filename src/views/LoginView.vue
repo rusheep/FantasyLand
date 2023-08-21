@@ -1,37 +1,33 @@
 <script setup>
 import axios from 'axios';
-import { ref } from 'vue'; // Import ref from Vue
+import router from '../router';
 
-const up = ref({
-  username: 'asher@gmail.com',
-  password: 'password',
-});
+let email = ref('');
+let password = ref('');
 
-const cookie = document.cookie;
-console.log(cookie);
+const emailError = ref(false);
+const passwordError = ref(false);
+
 async function submit() {
   try {
-    console.log(typeof up.value.password);
-    console.log('VITE_HI: ', `${import.meta.env.VITE_URL}`);
+    // email 和 password 一定要填寫：
+    emailError.value = !email.value;
+    passwordError.value = !password.value;
 
-    const response = await axios.post('api/auth/login', {
-      email: up.value.username,
-      password: up.value.password,
-    });
+    if (email.value && password.value) {
+      await axios.post('api/auth/login', {
+        email: email.value,
+        password: password.value,
+      });
+      alert('登入成功');
 
-    console.log(cookie);
+      router.push('/home');
+    }
   } catch (error) {
-    console.error(error);
-  }
-}
-
-async function getAllUser() {
-  try {
-    const response = await axios.get('api/users');
-    console.log(response);
-    console.log(cookie);
-  } catch (error) {
-    console.error(error);
+    if (error.response.status === 401) {
+      password.value = '';
+      alert(`錯誤帳號/密碼`);
+    }
   }
 }
 </script>
@@ -42,27 +38,45 @@ async function getAllUser() {
     <p class="sub-title">立即登入並預訂並進入冒險者的旅程吧！</p>
     <div class="userPassword">
       <div class="input-box">
-        <p>電子信箱</p>
+        <div class="emailpassword-box">
+          <p>電子信箱</p>
+          <p
+            v-show="emailError"
+            style="color: red; font-size: 10px"
+            font-size="2px"
+          >
+            請輸入電子信箱
+          </p>
+        </div>
+
         <input
-          v-model="up.username"
+          v-model="email"
           type="text"
         />
       </div>
       <div class="input-box">
-        <p>密嗎</p>
+        <div class="emailpassword-box">
+          <p>密嗎</p>
+          <p
+            v-show="passwordError"
+            style="color: red; font-size: 10px"
+            font-size="2px"
+          >
+            請輸入密碼
+          </p>
+        </div>
+
         <input
-          v-model="up.password"
-          type="text"
+          v-model="password"
+          type="password"
         />
       </div>
     </div>
 
     <div class="btn-box">
-      <Button
-        btnFontSize="0.5"
-        @click="getAllUser"
-        >取得所有user（限admin）</Button
-      >
+      <router-link to="/register">
+        <Button btnFontSize="0.5">註冊</Button>
+      </router-link>
       <Button
         @click="submit"
         btnFontSize="0.5"
@@ -105,6 +119,11 @@ main {
       input {
         width: 300px;
         height: 20px;
+      }
+      .emailpassword-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
       }
     }
   }

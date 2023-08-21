@@ -155,13 +155,24 @@ async function submit() {
           <div>
             <p>目前在</p>
             <h4>
-              {{ formattedDate }} 有
-              {{ userTickets.findTodayUnuseTicket[0]?.amount }}張票
+              {{ formattedDate ? formattedDate : '購買的票' }} 有
+              {{
+                userTickets.findTodayUnuseTicket
+                  ? userTickets.findTodayUnuseTicket.length
+                  : 0
+              }}張
             </h4>
           </div>
           <div>
             <p>可再購買</p>
-            <h4>{{ 5 - totalTicketCount }}張票</h4>
+            <h4>
+              {{
+                5 -
+                (userTickets.findTodayUnuseTicket
+                  ? userTickets.findTodayUnuseTicket.length
+                  : 0)
+              }}張票
+            </h4>
           </div>
         </div>
         <p class="m-title">購票須知</p>

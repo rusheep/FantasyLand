@@ -215,7 +215,7 @@ async function submit() {
               class="date-input"
               :min="getToday()"
             />
-            <h2 v-else>{{ formattedDate }}</h2>
+            <h2 v-else>{{ selectedDate }}</h2>
           </div>
           <Button
             btnFontSize="0.5"

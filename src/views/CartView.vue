@@ -39,15 +39,19 @@ onMounted(async () => {
 
     // 取得 unuse 票 / 或是今天的 usefd 票
     const userTicketsAPI = await axios.get('/api/userTickets/getTickets');
-    console.log(userTicketsAPI.data);
-    userTickets.value = userTicketsAPI.data;
 
-    console.log(userTickets.value.ticketDate);
-    // 如果 沒有unuse票
-    if (userTickets.value.count !== 0) {
-      const date = userTickets.value.ticketDate;
-      formattedDate.value = new Date(date).toISOString().split('T')[0];
-      selectedDate.value = formattedDate.value;
+    const unseOrTodayUsedTicket = userTicketsAPI.data;
+
+    if (unseOrTodayUsedTicket.length > 0) {
+      // 換算票的時間
+      const ticketDate = unseOrTodayUsedTicket[0]?.ticketDate;
+      const formattedDate = new Date(ticketDate).toISOString().split('T')[0];
+      // userTickets 的票 為票數
+      userTickets.value.count = unseOrTodayUsedTicket.length;
+      // API的票 放進userTickets.findTodayUnuseTicket
+      userTickets.value.findTodayUnuseTicket = unseOrTodayUsedTicket;
+      // API票的時間變為現在的時間
+      selectedDate.value = formattedDate;
     }
   } catch (error) {
     console.error(error);
@@ -151,14 +155,14 @@ async function submit() {
         <h3>一組帳號只能在同日期買五張票</h3>
         <div class="m-userTickets">
           <div>
-            <p>目前在</p>
+            <p>目前</p>
             <h4>
-              {{ formattedDate ? formattedDate : '購買的票' }} 有
+              {{ selectedDate ? selectedDate : '無購買票' }}
               {{
-                userTickets.findTodayUnuseTicket
-                  ? userTickets.findTodayUnuseTicket.length
-                  : 0
-              }}張
+                userTickets.count !== 0
+                  ? `有${userTickets.findTodayUnuseTicket.length}張`
+                  : ''
+              }}
             </h4>
           </div>
           <div>

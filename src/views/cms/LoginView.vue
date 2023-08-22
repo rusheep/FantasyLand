@@ -21,11 +21,7 @@ async function submit() {
       });
       alert('登入成功');
 
-<<<<<<< HEAD
       router.push('/auth');
-=======
-      router.push('/home');
->>>>>>> 8684f2c70b87b054ad85d70fe05669fdbbc54249
     }
   } catch (error) {
     if (error.response && error.response.status === 401) {

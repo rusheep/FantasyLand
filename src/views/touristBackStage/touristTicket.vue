@@ -1,61 +1,41 @@
 <script setup>
-// import axios from 'axios';
+import axios from 'axios';
 import { reactive } from 'vue';
 import TicketAdult from '../../components/Ticket/TicketAdult.vue';
 import TicketKid from '../../components/Ticket/TicketKid.vue';
 import TicketPrivileged from '../../components/Ticket/TicketPrivileged.vue';
 
-const ticketBooking = reactive({
-  username: 3,
-  ticketBooking: [
-    {
-      ticketNum:1,
-      ticketType: 1,
-      ticketDate: '2023-05-28',
-      status: 'unused',
-      fastpass: 'true',
-    },
-    {
-      ticketNum:2,
-      ticketType: 2,
-      ticketDate: '2023-05-28',
-      status: 'unused',
-      fastpass: 'true',
-    },
-    {
-      ticketNum:3,
-      ticketType: 3,
-      ticketDate: '2023-05-28',
-      status: 'unused',
-      fastpass: 'true',
-    },
-    {
-      ticketNum:4,
-      ticketType: 1,
-      ticketDate: '2023-05-28',
-      status: 'used',
-      fastpass: 'true',
-    },
-    {
-      ticketNum:5,
-      ticketType: 3,
-      ticketDate: '2023-05-28',
-      status: 'used',
-      fastpass: 'false',
-    },
-  ],
+// 彈窗開關
+const infoModal = ref(false);
+
+// 票的日期
+const selectedDate = ref('');
+
+// 總價
+const totalPrice = ref(0);
+
+//目前有買的票
+const userTickets = ref([]); // 將 userTickets 初始值改為一個空陣列
+
+// 取得所有票
+onMounted(async () => {
+  try {
+    // 取得 unuse 票 / 或是今天的 usefd 票
+    const userTicketsAPI = await axios.get('/api/v1/userTickets//getTickets');
+
+    const unseOrTodayUsedTicket = userTicketsAPI.data;
+    userTickets.value = unseOrTodayUsedTicket;
+    console.log (userTickets.value);
+
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 
-const getComponentName = (ticketType) => {
-  if (ticketType === 1) {
-    return 'TicketAdult';
-  } else if (ticketType === 2) {
-    return 'ticket-kid';
-  } else if (ticketType === 3) {
-    return 'ticket-privileged'; // 根据需要添加其他条件
-  }
-};
+
+
+
 
 </script>
 
@@ -68,9 +48,14 @@ const getComponentName = (ticketType) => {
       <h2 class="date">2023/05/23</h2>
     </div>
     <section class="top-box"> 
-      <template v-for="ticket in ticketBooking.ticketBooking" :key="ticket.ticketNum">
-        <component :is="getComponentName(ticket.ticketType)" />
-      </template>
+      <div class="card" v-for="ticket in userTickets" :key="ticket._id">
+  <!-- 在這裡放置你想顯示的票券資訊 -->
+          {{ ticket._id }}
+          {{ ticket.purchaseDate }}
+          {{ ticket.status }}
+          {{ ticket.ticketCategoryId.ticketType }}
+          {{ ticket.ticketCategoryId.fastTrack }}
+      </div>
     </section>
     <div class="title">
       <h2 class="tickstatus">票券紀錄</h2>
@@ -144,6 +129,13 @@ main {
       gap: 60px;
       margin-bottom: 10rem;
       flex-wrap: wrap;
+  }
+
+  .top-box {
+    .card {
+      width: 250px;
+      border: 1px solid black;
+    }
   }
 
   .btm-box {

@@ -77,6 +77,18 @@ const router = createRouter({
       name: 'touristicket',
       component: () => import('../views/touristBackStage/touristTicket.vue'),
     },
+    {
+      path: '/cms',
+      name: 'cmsLogin',
+      component: () => import('../views/cms/LoginView.vue'),
+      children: [
+        {
+          path: 'ticketAuth',
+          name: 'ticketAuth',
+          component: () => import(''),
+        },
+      ],
+    },
   ],
 });
 

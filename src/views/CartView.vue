@@ -133,7 +133,7 @@ async function submit() {
 
   if (selectedDate.value && totalTicketCount.value > 0) {
     axios
-      .post('/api/order', formattedData)
+      .post('/api/v1/order', formattedData)
       .then((res) => {
         localStorage.setItem('order', JSON.stringify(res.data));
         router.push('/order');

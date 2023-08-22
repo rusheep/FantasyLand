@@ -39,15 +39,16 @@ onMounted(async () => {
 
     // 取得 unuse 票 / 或是今天的 usefd 票
     const userTicketsAPI = await axios.get('/api/userTickets/getTickets');
-    console.log(userTicketsAPI.data);
-    userTickets.value = userTicketsAPI.data;
 
-    console.log(userTickets.value.ticketDate);
-    // 如果 沒有unuse票
-    if (userTickets.value.count !== 0) {
-      const date = userTickets.value.ticketDate;
-      formattedDate.value = new Date(date).toISOString().split('T')[0];
-      selectedDate.value = formattedDate.value;
+    const unseOrTodayUsedTicket = userTicketsAPI.data;
+    const ticketDate = unseOrTodayUsedTicket[0]?.ticketDate;
+
+    // userTickets.value = userTicketsAPI.data;
+    console.log(unseOrTodayUsedTicket[0].ticketDate);
+
+    if (unseOrTodayUsedTicket.length > 0) {
+      userTickets.value.count = unseOrTodayUsedTicket.length;
+      userTickets.value.findTodayUnuseTicket = unseOrTodayUsedTicket;
     }
   } catch (error) {
     console.error(error);

@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-
+import { getFormatDateToISOString } from '../composable';
 import router from '../router';
 // 彈窗開關
 const infoModal = ref(false);
@@ -45,7 +45,7 @@ onMounted(async () => {
     if (unseOrTodayUsedTicket.length > 0) {
       // 換算票的時間
       const ticketDate = unseOrTodayUsedTicket[0]?.ticketDate;
-      const formattedDate = new Date(ticketDate).toISOString().split('T')[0];
+      const formattedDate = getFormatDateToISOString(ticketDate);
       // userTickets 的票 為票數
       userTickets.value.count = unseOrTodayUsedTicket.length;
       // API的票 放進userTickets.findTodayUnuseTicket

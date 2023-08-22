@@ -92,6 +92,11 @@ const router = createRouter({
           name: 'auth',
           component: () => import('../views/cms/AuthView.vue'),
         },
+        {
+          path: '/qr',
+          name: 'qr',
+          component: () => import('../views/cms/qrcodetest.vue'),
+        },
       ],
     },
   ],

@@ -24,7 +24,7 @@ onMounted(async () => {
       class="navbar"
     />
     <main>
-      <h1>會員資料</h1>
+      <!-- <h1>會員資料</h1> -->
       <div class="userPassword">
         <div class="input-box">
           <div class="titleBox">
@@ -71,7 +71,7 @@ onMounted(async () => {
         </div> -->
       </div>
 
-      <div class="btn-box">
+      <!-- <div class="btn-box">
         <Button
           btnFontSize="10px"
           v-if="inputStatus"
@@ -97,7 +97,7 @@ onMounted(async () => {
 
           <Button btnFontSize="10px">確認</Button>
         </div>
-      </div>
+      </div> -->
     </main>
   </form>
 </template>
@@ -114,6 +114,8 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 80px;
+  margin-bottom: 180px;
 
   h1 {
     font-size: 25px;

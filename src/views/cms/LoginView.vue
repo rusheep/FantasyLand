@@ -21,7 +21,7 @@ async function submit() {
       });
       alert('登入成功');
 
-      router.push('/home');
+      router.push('/auth');
     }
   } catch (error) {
     if (error.response && error.response.status === 401) {

@@ -87,6 +87,11 @@ const router = createRouter({
           name: 'cms_login',
           component: () => import('../views/cms/LoginView.vue'),
         },
+        {
+          path: '/auth',
+          name: 'auth',
+          component: () => import('../views/cms/AuthView.vue'),
+        },
       ],
     },
   ],

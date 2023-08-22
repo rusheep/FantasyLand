@@ -1,7 +1,5 @@
-<template lang="">
+<template>
   <div>auth</div>
 </template>
-<script>
-export default {};
-</script>
-<style lang=""></style>
+<script setup></script>
+<style lang="scss"></style>

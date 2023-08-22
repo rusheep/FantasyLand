@@ -15,7 +15,7 @@ async function submit() {
     passwordError.value = !password.value;
 
     if (email.value && password.value) {
-      await axios.post('api/auth/login', {
+      await axios.post('api/v1/auth/login', {
         email: email.value,
         password: password.value,
       });

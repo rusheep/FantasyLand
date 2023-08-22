@@ -26,7 +26,7 @@ async function submit() {
     }
 
     if (name.value && email.value && password.value) {
-      await axios.post('api/auth/register', {
+      await axios.post('api/v1/auth/register', {
         name: name.value,
         email: email.value,
         password: password.value,

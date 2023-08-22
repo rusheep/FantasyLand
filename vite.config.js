@@ -14,7 +14,7 @@ export default defineConfig({
       dts: 'src/auto-imports.js',
     }),
     Components({
-      // 從 `./src/components/` 路徑查找
+      // 從 `./src/components/` 路徑查找｀
       extensions: ['vue'],
       include: [/\.vue$/, /\.vue\?vue/],
       dts: 'src/auto-components.js',
@@ -30,7 +30,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5000/api/v1',
+        target: 'http://localhost:5000/api/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },

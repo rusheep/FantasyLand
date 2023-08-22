@@ -30,7 +30,7 @@ const formattedDate = ref();
 onMounted(async () => {
   try {
     // 取得票種：
-    const ticketCategoryAPI = await axios.get('/api/ticketCategory');
+    const ticketCategoryAPI = await axios.get('/api/v1/ticketCategory');
     ticketInfo.value.allTicketsInfo = ticketCategoryAPI.data.allTicketsInfo;
     ticketInfo.value.allTicketsInfo.forEach((ticket) => {
       ticket.amount = 0;
@@ -38,7 +38,7 @@ onMounted(async () => {
     ticketInfo.value.count = ticketCategoryAPI.data.count;
 
     // 取得 unuse 票 / 或是今天的 usefd 票
-    const userTicketsAPI = await axios.get('/api/userTickets/getTickets');
+    const userTicketsAPI = await axios.get('/api/v1/userTickets/getTickets');
 
     const unseOrTodayUsedTicket = userTicketsAPI.data;
 

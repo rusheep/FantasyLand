@@ -8,12 +8,12 @@ function switchInputState() {
 }
 
 async function getCurrentUser() {
-  const api = await axios.get('/api/users/showMe');
+  const api = await axios.get('/api/v1/users/showMe');
   console.log(api);
 }
 
 onMounted(async () => {
-  const api = await axios.get('/api/users/showMe');
+  const api = await axios.get('/api/v1/users/showMe');
   console.log(api);
 });
 </script>

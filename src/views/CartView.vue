@@ -41,14 +41,15 @@ onMounted(async () => {
     const userTicketsAPI = await axios.get('/api/userTickets/getTickets');
 
     const unseOrTodayUsedTicket = userTicketsAPI.data;
-    const ticketDate = unseOrTodayUsedTicket[0]?.ticketDate;
 
-    // userTickets.value = userTicketsAPI.data;
-    console.log(unseOrTodayUsedTicket[0].ticketDate);
+    console.log(formattedDate);
 
     if (unseOrTodayUsedTicket.length > 0) {
+      const ticketDate = unseOrTodayUsedTicket[0]?.ticketDate;
+      const formattedDate = new Date(ticketDate).toISOString().split('T')[0];
       userTickets.value.count = unseOrTodayUsedTicket.length;
       userTickets.value.findTodayUnuseTicket = unseOrTodayUsedTicket;
+      selectedDate.value = formattedDate;
     }
   } catch (error) {
     console.error(error);
@@ -152,14 +153,14 @@ async function submit() {
         <h3>一組帳號只能在同日期買五張票</h3>
         <div class="m-userTickets">
           <div>
-            <p>目前在</p>
+            <p>目前</p>
             <h4>
-              {{ formattedDate ? formattedDate : '購買的票' }} 有
+              {{ selectedDate ? selectedDate : '無購買票' }}
               {{
-                userTickets.findTodayUnuseTicket
-                  ? userTickets.findTodayUnuseTicket.length
-                  : 0
-              }}張
+                userTickets.count !== 0
+                  ? `有${userTickets.findTodayUnuseTicket.length}張`
+                  : ''
+              }}
             </h4>
           </div>
           <div>

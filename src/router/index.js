@@ -80,12 +80,12 @@ const router = createRouter({
     {
       path: '/cms',
       name: 'cmsLogin',
-      component: () => import('../views/cms/LoginView.vue'),
+      component: () => import('../layouts/cms.vue'),
       children: [
         {
-          path: 'ticketAuth',
-          name: 'ticketAuth',
-          component: () => import('../views/cms/AuthView.vue'),
+          path: '/cms',
+          name: 'cms_login',
+          component: () => import('../views/cms/LoginView.vue'),
         },
       ],
     },

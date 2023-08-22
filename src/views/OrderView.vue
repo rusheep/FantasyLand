@@ -1,8 +1,9 @@
 <script setup>
-const getOrder = JSON.parse(localStorage.getItem('order'));
+import { getFormatDateToISOString } from '../composable';
+const orderInfo = JSON.parse(localStorage.getItem('order'));
 
 onUnmounted(() => {
-  localStorage.removeItem('order');
+  // localStorage.removeItem('order');
 });
 </script>
 
@@ -13,11 +14,11 @@ onUnmounted(() => {
       <div class="name-email">
         <div class="name">
           <p class="bold-title">姓名</p>
-          <p>username</p>
+          <p>{{ orderInfo.userId.name }}</p>
         </div>
         <div class="email">
           <p class="bold-title">電子信箱</p>
-          <p>username@gmail.com</p>
+          <p>{{ orderInfo.userId.email }}</p>
         </div>
       </div>
     </div>
@@ -26,22 +27,23 @@ onUnmounted(() => {
         <div class="order-info">
           <div class="order-box">
             <h3 class="bold-title">票券日期</h3>
-            <p>{{ getOrder.ticket_date }}</p>
+            <p>{{ getFormatDateToISOString(orderInfo.ticket_date) }}</p>
           </div>
           <div class="order-box">
             <h3 class="bold-title">訂單日期</h3>
-            <p>{{ getOrder.purchaseDate }}</p>
+            <p>{{ getFormatDateToISOString(orderInfo.purchaseDate) }}</p>
           </div>
           <div class="order-box">
             <h3 class="bold-title">總金額</h3>
-            <p>{{ getOrder.total }}元</p>
+            <p>{{ orderInfo.total }}元</p>
           </div>
         </div>
         <div class="tickets">
           <h3 class="bold-title">票券資訊</h3>
           <div class="tickets-info">
-            <p v-for="(item, index) in getOrder.orderTickets">
-              {{ item.ticketInfo }}
+            <p v-for="(item, index) in orderInfo.orderTickets">
+              {{ item.ticketCategoryId.ticketType }}
+              ({{ item.ticketCategoryId.fastTrack ? '快速通關' : '一般票' }})
             </p>
           </div>
         </div>

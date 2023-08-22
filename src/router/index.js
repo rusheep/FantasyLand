@@ -85,7 +85,7 @@ const router = createRouter({
         {
           path: 'ticketAuth',
           name: 'ticketAuth',
-          component: () => import(''),
+          component: () => import('../views/cms/AuthView.vue'),
         },
       ],
     },

@@ -1,11 +1,13 @@
 <template>
   <div class="header-container">
-    <img src="logo.png" class="logo">
+    <img
+      src="@/assets/logo.png"
+      class="logo"
+    />
     <header>
       <h1>夢幻尼樂園</h1>
     </header>
-    <nav>
-    </nav>
+    <nav></nav>
   </div>
 </template>
 
@@ -20,7 +22,6 @@
 
   img {
     width: 80px;
-
   }
 
   .logo {
@@ -32,7 +33,7 @@
   header {
     width: 80%;
     height: 70px;
-    background-color: #30B0C9;
+    background-color: #30b0c9;
     position: relative;
     z-index: 0;
     display: flex;
@@ -45,7 +46,6 @@
       font-size: 18px;
       font-weight: bold;
       color: white;
-
     }
   }
 }

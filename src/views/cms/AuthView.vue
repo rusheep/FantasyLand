@@ -1,6 +1,6 @@
 <template>
   <main>
-    <QrStream @decode="handleQrCodeScan" />
+    <!-- <QrStream @decode="handleQrCodeScan" /> -->
     <div v-if="scannedUrl">Scanned URL: {{ scannedUrl }}</div>
   </main>
 </template>
@@ -18,7 +18,14 @@ const handleQrCodeScan = async (result) => {
   );
 
   if (shouldOpenUrl) {
-    await axios.get(`/api/v1/authTicket/${scannedUrl.value}}`);
+    try {
+      await axios
+        .get(`/api/v1/authTicket/${scannedUrl.value}`)
+        .then((res) => alert(res.data.msg));
+    } catch (error) {
+      console.log(error.response.data.msg);
+      alert(error.response.data.msg);
+    }
   }
 };
 </script>

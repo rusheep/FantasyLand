@@ -19,6 +19,10 @@ onMounted(async () => {
 </script>
 <template>
   <form>
+    <NavBar
+      :statusIdx="2"
+      class="navbar"
+    />
     <main>
       <h1>會員資料</h1>
       <div class="userPassword">

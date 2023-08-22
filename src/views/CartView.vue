@@ -42,13 +42,15 @@ onMounted(async () => {
 
     const unseOrTodayUsedTicket = userTicketsAPI.data;
 
-    console.log(formattedDate);
-
     if (unseOrTodayUsedTicket.length > 0) {
+      // 換算票的時間
       const ticketDate = unseOrTodayUsedTicket[0]?.ticketDate;
       const formattedDate = new Date(ticketDate).toISOString().split('T')[0];
+      // userTickets 的票 為票數
       userTickets.value.count = unseOrTodayUsedTicket.length;
+      // API的票 放進userTickets.findTodayUnuseTicket
       userTickets.value.findTodayUnuseTicket = unseOrTodayUsedTicket;
+      // API票的時間變為現在的時間
       selectedDate.value = formattedDate;
     }
   } catch (error) {

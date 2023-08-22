@@ -58,7 +58,7 @@ const getColorByTicketType = (ticketType) => {
   } else if (ticketType === '優待票') {
     return '#04D200';
   }
-  return '#FFFFFF'; // 默認顏色
+  return '#B3C3C5'; // 默認顏色
 };
 
 
@@ -79,7 +79,7 @@ const getColorByTicketType = (ticketType) => {
     <section class="top-box"> 
       <div class="card" 
         v-for="ticket in userTickets" :key="ticket._id" 
-        :style="{ 'backgroundColor': status === 'unuse' ? getColorByTicketType(ticket.ticketCategoryId.ticketType) : '#FFFFFF' }">
+        :style="{ 'backgroundColor': status === 'unuse' ? getColorByTicketType(ticket.ticketCategoryId.ticketType) : '#B3C3C5' }">
   <!-- 在這裡放置你想顯示的票券資訊 -->
         <div class="box-content">
           <div class="status" 

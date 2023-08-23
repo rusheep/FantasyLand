@@ -24,10 +24,10 @@ async function submit() {
       alert('登入成功');
     }
   } catch (error) {
-    console.log(error.response);
     if (error.response && error.response.status === 401) {
       password.value = '';
       alert(`錯誤帳號/密碼`);
+      return;
     }
     return;
   }

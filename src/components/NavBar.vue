@@ -16,7 +16,7 @@
 import { ref, defineProps } from 'vue';
 
 const navbarInfo = ref([
-  { name: '票夾', routePath: '/home' },
+  { name: '票夾', routePath: '/touristicket' },
   { name: '購物車', routePath: '/cart' },
   { name: '會員資料', routePath: '/profile' },
 ]);

@@ -2,8 +2,8 @@
 import axios from 'axios';
 import router from '@/router';
 
-let email = ref('');
-let password = ref('');
+let email = ref('asher@gmail.com');
+let password = ref('password');
 
 const emailError = ref(false);
 const passwordError = ref(false);

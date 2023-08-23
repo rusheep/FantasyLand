@@ -55,6 +55,7 @@ onMounted(async () => {
     }
   } catch (error) {
     console.error(error);
+    return;
   }
 });
 
@@ -137,9 +138,11 @@ async function submit() {
       .then((res) => {
         localStorage.setItem('order', JSON.stringify(res.data));
         router.push('/order');
+        return;
       })
       .catch((error) => {
-        alert(error?.response?.data.msg);
+        alert(error.response.data.msg);
+        return;
       });
   }
 }
@@ -303,7 +306,7 @@ async function submit() {
     <h3>總價:{{ totalPrice }}元 ; 票數:{{ totalTicketCount }}張</h3>
     <Button
       btnFontSize="0.3rem"
-      @click="submit"
+      @click.prevent="submit"
       btnColor="#0694A7"
       >支付</Button
     >

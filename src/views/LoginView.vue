@@ -19,15 +19,17 @@ async function submit() {
         email: email.value,
         password: password.value,
       });
-      alert('登入成功');
 
       router.push('/home');
+      alert('登入成功');
     }
   } catch (error) {
+    console.log(error.response);
     if (error.response && error.response.status === 401) {
       password.value = '';
       alert(`錯誤帳號/密碼`);
     }
+    return;
   }
 }
 </script>
@@ -81,7 +83,7 @@ async function submit() {
           <Button btnFontSize="10px">註冊</Button>
         </router-link>
         <Button
-          @click="submit"
+          @click.prevent="submit"
           btnFontSize="10px"
           >登入</Button
         >

@@ -77,7 +77,7 @@ async function submit() {
 
       <div class="btn-box">
         <Button
-          @click="submit"
+          @click.prevent="submit"
           btnFontSize="10px"
           >登入</Button
         >

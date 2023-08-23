@@ -3,7 +3,7 @@ import { getFormatDateToISOString } from '../composable';
 const orderInfo = JSON.parse(localStorage.getItem('order'));
 
 onUnmounted(() => {
-  // localStorage.removeItem('order');
+  localStorage.removeItem('order');
 });
 </script>
 

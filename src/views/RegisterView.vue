@@ -35,8 +35,10 @@ async function submit() {
       router.push('/login');
     }
   } catch (error) {
-    console.log(error.response);
-    alert(error.response?.data.msg);
+    if (error.response && error.response.status === 400) {
+      alert(error.response?.data.msg || 'An error occurred');
+    }
+    return;
   }
 }
 </script>
@@ -103,7 +105,7 @@ async function submit() {
 
       <div class="btn-box">
         <Button
-          @click="submit"
+          @click.prevent="submit"
           btnFontSize="10px"
           >註冊</Button
         >

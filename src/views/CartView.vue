@@ -265,6 +265,7 @@ async function submit() {
             <input
               class="big-input"
               type="text"
+              placeholder="4136815292895026"
             />
           </div>
 
@@ -274,6 +275,7 @@ async function submit() {
               <input
                 class="small-input"
                 type="text"
+                placeholder="10/18"
               />
             </div>
             <div>
@@ -281,6 +283,7 @@ async function submit() {
               <input
                 class="small-input"
                 type="text"
+                placeholder="212"
               />
             </div>
           </div>

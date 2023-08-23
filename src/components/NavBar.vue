@@ -27,13 +27,12 @@ const props = defineProps({
     default: 0,
   },
 });
-
-const getRoutePath = (index) => {
-  return navbarInfo[index]?.routePath || '';
-};
 </script>
 
 <style lang="scss" scoped>
+a {
+  text-decoration: none;
+}
 .content {
   width: 400px;
   margin: 0 auto;
@@ -44,6 +43,7 @@ const getRoutePath = (index) => {
   border: 1px solid $main-color;
   padding: 4px 0;
   border-radius: 8px;
+
   @media screen and (max-width: 730px) {
     width: 200px;
   }
@@ -58,6 +58,7 @@ const getRoutePath = (index) => {
       font-size: 10px;
       color: $second-color;
       font-weight: bold;
+
       @media screen and (max-width: 730px) {
         font-size: 13px;
       }

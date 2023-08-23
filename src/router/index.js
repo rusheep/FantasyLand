@@ -91,7 +91,8 @@ const router = createRouter({
 const qrcodeGuard = async (to, from, next) => {
   try {
     const response = await axios.get('/api/v1/auth').then((res) => res);
-    if (response.statusText === 'OK') {
+    console.log(response);
+    if (response.status === 200) {
       next(); // 允许导航
     }
   } catch (error) {

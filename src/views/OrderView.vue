@@ -87,9 +87,13 @@ main {
     display: flex;
     align-items: center;
     gap: 20px;
-
     padding: 5px 0;
-
+    @media screen and (max-width: 730px) {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      gap: 8px;
+    }
     .name {
       gap: 10px;
       display: flex;
@@ -105,6 +109,9 @@ main {
 .order {
   background-color: #f0f0f0;
   height: 200px;
+  @media screen and (max-width: 730px) {
+    height: 400px;
+  }
 
   .content {
     padding: 30px 40px;
@@ -112,12 +119,17 @@ main {
     .order-info {
       display: flex;
       gap: 10px;
-
+      @media screen and (max-width: 730px) {
+        flex-direction: column;
+        gap: 0px;
+      }
       .order-box {
         width: 100%;
         height: 70px;
         margin-bottom: 15px;
-
+        @media screen and (max-width: 730px) {
+          margin-bottom: 0px;
+        }
         h3 {
           font-size: 16px;
           margin-bottom: 5px;
@@ -126,6 +138,9 @@ main {
         p {
           font-size: 30px;
           font-weight: bold;
+          @media screen and (max-width: 730px) {
+            font-size: 20px;
+          }
         }
       }
     }

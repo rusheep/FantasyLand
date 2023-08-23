@@ -123,6 +123,9 @@ main {
       input {
         width: 300px;
         height: 20px;
+        @media screen and (max-width: 730px) {
+          width: 200px;
+        }
       }
       .emailpassword-box {
         display: flex;

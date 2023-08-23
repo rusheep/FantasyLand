@@ -44,16 +44,23 @@ const getRoutePath = (index) => {
   border: 1px solid $main-color;
   padding: 4px 0;
   border-radius: 8px;
-
+  @media screen and (max-width: 730px) {
+    width: 200px;
+  }
   div {
     padding: 7px 30px;
     border-radius: 5px;
     cursor: pointer;
-
+    @media screen and (max-width: 730px) {
+      padding: 7px 0px;
+    }
     h3 {
       font-size: 10px;
       color: $second-color;
       font-weight: bold;
+      @media screen and (max-width: 730px) {
+        font-size: 13px;
+      }
     }
   }
 
@@ -62,6 +69,9 @@ const getRoutePath = (index) => {
     padding: 5px 30px;
     background-color: $second-color;
     border-radius: 5px;
+    @media screen and (max-width: 730px) {
+      padding: 5px 10px;
+    }
   }
 }
 </style>

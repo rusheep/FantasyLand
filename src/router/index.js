@@ -16,21 +16,6 @@ const router = createRouter({
           component: () => import('../views/HomeView.vue'),
         },
         {
-          path: 'information',
-          name: 'InformationView',
-          component: () => import('../views/informationView.vue'),
-        },
-        {
-          path: 'facility',
-          name: 'FacilityView',
-          component: () => import('../views/FacilityView.vue'),
-        },
-        {
-          path: 'news',
-          name: 'NewsView',
-          component: () => import('../views/NewsView.vue'),
-        },
-        {
           path: 'login',
           name: 'LoginView',
           component: () => import('../views/LoginView.vue'),
@@ -85,7 +70,7 @@ const router = createRouter({
         {
           path: '/QRlogin',
           name: 'QRlogin',
-          component: () => import('../views/cms/LoginView.vue'),
+          component: () => import('../views/cms/LoginBSView.vue'),
         },
         {
           path: '/auth',
@@ -103,7 +88,7 @@ const router = createRouter({
 });
 
 // 在路由配置中设置 beforeEnter 守卫
-const cmsGuard = async (to, from, next) => {
+const qrcodeGuard = async (to, from, next) => {
   try {
     const response = await axios.get('/api/v1/auth').then((res) => res);
     if (response.statusText === 'OK') {
@@ -117,7 +102,7 @@ const cmsGuard = async (to, from, next) => {
 
 router.beforeEach((to, from, next) => {
   if (to.path.startsWith('/auth')) {
-    cmsGuard(to, from, next);
+    qrcodeGuard(to, from, next);
   } else {
     next();
   }

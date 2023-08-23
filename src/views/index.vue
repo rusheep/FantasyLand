@@ -21,7 +21,7 @@
       >
     </section>
     <h2>權限介紹</h2>
-    <section>
+    <section class="role-box">
       <div class="box2">
         <div>
           <h3>user（使用者）</h3>
@@ -50,7 +50,9 @@ main {
     justify-content: space-between;
     gap: 60px;
     margin-bottom: 60px;
-
+    @media screen and (max-width: 730px) {
+      gap: 5px;
+    }
     .box {
       display: block;
       width: 100%;
@@ -79,6 +81,7 @@ main {
       border-radius: 10px;
       border: 2px solid $main-color;
       color: $main-color;
+
       div {
         display: flex;
         flex-direction: column;
@@ -96,5 +99,12 @@ main {
 
 h2 {
   margin-bottom: 10px;
+}
+
+.role-box {
+  @media screen and (max-width: 730px) {
+    display: flex;
+    flex-direction: column;
+  }
 }
 </style>

@@ -220,8 +220,9 @@ async function submit() {
             <h2 v-else>{{ selectedDate }}</h2>
           </div>
           <Button
-            btnFontSize="0.5"
+            btnFontSize="0.3rem"
             @click="switchStatus"
+            class="btn"
             >暸解票券資訊</Button
           >
         </div>
@@ -296,12 +297,12 @@ async function submit() {
   </main>
   <hr />
   <div class="pricePaybox">
-    <h3>總價:{{ totalPrice }}元 ; 總票數:{{ totalTicketCount }}張</h3>
+    <h3>總價:{{ totalPrice }}元 ; 票數:{{ totalTicketCount }}張</h3>
     <Button
-      btnFontSize="18px"
+      btnFontSize="0.3rem"
       @click="submit"
       btnColor="#0694A7"
-      >信用卡支付</Button
+      >支付</Button
     >
   </div>
 </template>
@@ -315,12 +316,18 @@ main {
   justify-content: center;
   gap: 50px;
   margin-top: 30px;
+  @media screen and (max-width: 730px) {
+    flex-direction: column;
+  }
 }
 
 section {
   width: 100%;
   height: 440px;
   /* border: 1px solid black; */
+  @media screen and (max-width: 730px) {
+    height: 300px;
+  }
 }
 
 .cart {
@@ -335,6 +342,11 @@ section {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      h2 {
+        @media screen and (max-width: 730px) {
+          font-size: 10px;
+        }
+      }
     }
   }
 }
@@ -351,6 +363,9 @@ section {
       padding: 2px 0;
       color: $main-color;
       font-weight: bold;
+      @media screen and (max-width: 730px) {
+        font-size: 14px;
+      }
     }
 
     p {
@@ -366,7 +381,9 @@ section {
     width: 150px;
     justify-content: space-between;
     align-items: center;
-
+    @media screen and (max-width: 730px) {
+      width: 100px;
+    }
     .box {
       text-align: center;
       width: 18px;
@@ -403,11 +420,12 @@ section {
     padding: 40px 30px;
     border-radius: 15px;
     gap: 40px;
-
+    @media screen and (max-width: 730px) {
+      width: 200px;
+    }
     p {
       color: white;
       padding-bottom: 5px;
-      font-size: 5px;
     }
 
     .twoInputBox {
@@ -424,10 +442,16 @@ section {
 
     .big-input {
       width: 350px;
+      @media screen and (max-width: 730px) {
+        width: 200px;
+      }
     }
 
     .small-input {
       width: 170px;
+      @media screen and (max-width: 730px) {
+        width: 80px;
+      }
     }
   }
 }
@@ -444,11 +468,16 @@ hr {
   justify-content: space-between;
   margin-top: 30px;
   align-items: center;
-
+  @media screen and (max-width: 730px) {
+    margin-top: 100px;
+  }
   h3 {
     color: $main-color;
     font-size: 30px;
     font-weight: bold;
+    @media screen and (max-width: 730px) {
+      font-size: 15px;
+    }
   }
 }
 
@@ -525,10 +554,5 @@ button {
       }
     }
   }
-}
-
-.btn {
-  text-align: end;
-  margin-top: 20px;
 }
 </style>

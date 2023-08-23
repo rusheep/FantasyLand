@@ -68,7 +68,7 @@ const adjustamount = (ticket, increment) => {
   const totalTicketCountForAccount =
     totalTicketCount.value + (increment ? 1 : -1);
 
-  if (totalTicketCountForAccount < 5) {
+  if (totalTicketCountForAccount <= 5) {
     if (increment) {
       const remainingTickets =
         5 - userTickets.value.count - totalTicketCount.value;

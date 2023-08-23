@@ -32,7 +32,7 @@ onMounted(async () => {
 
     const unseOrTodayUsedTicket = userTicketsAPI.data;
     userTickets.value = unseOrTodayUsedTicket;
-    console.log (userTickets.value);
+    // console.log (userTickets.value);
     // 換算票的時間
     const ticketDate = unseOrTodayUsedTicket[0]?.ticketDate;
     const formattedDate = getFormatDateToISOString(ticketDate);
@@ -61,6 +61,18 @@ const getColorByTicketType = (ticketType) => {
   return '#B3C3C5'; // 默認顏色
 };
 
+// 彈窗開關
+const switchStatus = (ticket) => {
+  selectedDate.value = getFormatDateToISOString(ticket.ticketDate);
+  status.value = ticket.status;
+  fastTrack.value = ticket.ticketCategoryId.fastTrack;
+  ticketType.value = ticket.ticketCategoryId.ticketType;
+  infoModal.value = !infoModal.value;
+  console.log(status.value);
+
+};
+
+
 
 
 
@@ -71,6 +83,29 @@ const getColorByTicketType = (ticketType) => {
 <template >
   <Header></Header>
   <NavBar />
+  <!-- 彈窗 -->
+  <div v-if="infoModal" class="modal-overlay">
+    <div class="modal">
+      <div class="m-wrapper">
+        <div class="card" :style="{ 'backgroundColor': getColorByTicketType(ticketType) }">
+          <div class="box-content">
+            <div class="status" :style="{ 'display': status === 'unuse' ? 'none' : 'block' }">
+              <p>{{ status === 'used' ? '已使用' : '' }}</p>
+            </div>
+            <div class="ticketitle">{{ ticketType }}</div>
+            <h3>{{ fastTrack ? '快速通關' : '普通票' }}</h3>
+            <!-- 其他详细信息的显示 -->
+            <div class="btn-wrap">
+              <Button class="btn" btnFontSize="0.5" btnColor="rgba(0,0,0,0)" @click="infoModal = false">返回</Button>
+              <Button class="btn" btnColor="rgba(0,0,0,0)" @click="infoModal = false">退票</Button>
+            </div>
+          </div>
+          <img src="@/../public/QRcode.png" class="QRcode">
+        </div>
+      </div>
+    </div>
+  </div>
+
   <main>
     <div class="title">
       <h2 class="tickstatus">未使用</h2>
@@ -78,6 +113,7 @@ const getColorByTicketType = (ticketType) => {
     </div>
     <section class="top-box"> 
       <div class="card" 
+        @click="switchStatus(ticket)"
         v-for="ticket in userTickets" :key="ticket._id" 
         :style="{ 'backgroundColor': status === 'unuse' ? getColorByTicketType(ticket.ticketCategoryId.ticketType) : '#B3C3C5' }">
   <!-- 在這裡放置你想顯示的票券資訊 -->
@@ -155,43 +191,7 @@ main {
   }
 
   .top-box {
-    .card {
-    display: flex;
-    justify-content: space-around;
-    width: 26%;
-    background-color: #30B0C9;;
-    border-radius: 10px;
-    padding:1rem;
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2),
-              0px 8px 20px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    .box-content {
-      font-size: 25px;
-      font-weight: bold;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      justify-content: end;
-      padding-bottom: 1rem;
 
-      .status {
-        p {
-          font-size: 12px;
-        }
-        padding: 5px;
-        width: 3rem;
-        text-align: center;
-        border: 1px solid #fff;
-        border-radius: 5px;
-        margin-bottom: 0.5rem;
-        /* display: none; */
-      }
-
-      .ticketitle {
-        padding-bottom: 1rem;
-      }
-    }
-  }
   }
 
   .btm-box {
@@ -227,5 +227,101 @@ main {
 
 h2 {
   margin-bottom: 10px;
+}
+
+/* 彈窗 */
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+
+  .modal {
+    /* width: 50%;
+    background-color: white; */
+    /* padding: 20px 0px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2); */
+  }
+}
+
+.m-wrapper {
+  padding: 10px 30px;
+
+  h3 {
+    font-size: 30px;
+    color: #ffff  ;
+    font-weight: bold;
+    margin-bottom: 3rem;
+  }
+
+  .card {
+    width: 40vw;;
+    height: 40vh;
+    
+    img {
+      
+    }
+    .box-content {
+      justify-content: center;
+    }
+    .ticketitle {
+      font-size: 48px;
+    }
+
+  }
+
+  .m-userTickets {
+    display: flex;
+    justify-content: space-between;
+
+    div {
+      p {
+        color: $main-color;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      h4 {
+        font-size: 25px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .m-title {
+    color: $main-color;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .m-ticketInfo {
+    display: flex;
+    justify-content: space-between;
+
+    div {
+      p {
+        margin-bottom: 3px;
+      }
+    }
+  }
+}
+
+.btn-wrap {
+  /* text-align: end; */
+  /* margin-top: 20px; */
+  width: 100%;
+  .btn {
+    border: 2px solid #fff;
+    margin-right: 1rem;
+  }
 }
 </style>

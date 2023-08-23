@@ -6,11 +6,14 @@ import { getFormatDateToISOString } from '../../composable';
 // 彈窗開關
 const infoModal = ref(false);
 
+//確認彈窗
+const confirmModal = ref(false)
+
 // 票的日期
 const selectedDate = ref('');
 
-// 總價
-const totalPrice = ref(0);
+// 票價
+const price = ref(0);
 
 //狀態
 const status = ref('');
@@ -21,23 +24,26 @@ const fastTrack = ref('');
 //票種
 const ticketType = ref('');
 
+//票券ID
+const ticketId = ref('');
+
 //目前有買的票
 const userTickets = ref([]); // 將 userTickets 初始值改為一個空陣列
 
-// 取得所有票
-onMounted(async () => {
+// 取得所有票函式
+async function fetchAndProcessTickets() {
   try {
-    // 取得 unuse 票 / 或是今天的 usefd 票
+    // 取得 unuse 票 / 或是今天的 used 票
     const userTicketsAPI = await axios.get('/api/v1/userTickets//getTickets');
 
     const unseOrTodayUsedTicket = userTicketsAPI.data;
     userTickets.value = unseOrTodayUsedTicket;
-    // console.log (userTickets.value);
+    console.log(userTickets.value);
+
     // 換算票的時間
     const ticketDate = unseOrTodayUsedTicket[0]?.ticketDate;
     const formattedDate = getFormatDateToISOString(ticketDate);
     unseOrTodayUsedTicket.forEach(ticket => {
-      // 將元素的值設定到相應的響應式變數中
       selectedDate.value = formattedDate;
       status.value = ticket.status;
       fastTrack.value = ticket.ticketCategoryId.fastTrack;
@@ -46,6 +52,28 @@ onMounted(async () => {
   } catch (error) {
     console.error(error);
   }
+}
+
+// 退票函式
+const sendRefundRequest = async (ticketId) => {
+  const refundUrl = `/api/v1/userTickets/refund/${ticketId}`;
+  console.log(ticketId);
+  try {
+    const response = await axios.get(refundUrl);
+    // 处理退票成功的逻辑
+    console.log('退票成功');
+    infoModal.value = false;
+    confirmModal.value = false;
+    await fetchAndProcessTickets(); // 保证退票成功后重新获取和处理票务信息
+  } catch (error) {
+    // 处理退票失败的逻辑
+    console.error(error);
+  }
+};
+
+// 調用函式
+onMounted(async () => {
+  fetchAndProcessTickets();
 });
 
 //判斷票券顏色
@@ -68,10 +96,18 @@ const switchStatus = (ticket) => {
   fastTrack.value = ticket.ticketCategoryId.fastTrack;
   ticketType.value = ticket.ticketCategoryId.ticketType;
   infoModal.value = !infoModal.value;
-  console.log(status.value);
+  ticketId.value = ticket._id;
+  price.value = ticket.ticketCategoryId.price;
+  // console.log(ticket);
+  console.log(price);
 
 };
 
+//確認彈窗開關
+const switchConfirm = ()=>{
+  confirmModal.value = !confirmModal.value;
+  console.log('出來了');
+}
 
 
 
@@ -97,7 +133,7 @@ const switchStatus = (ticket) => {
             <!-- 其他详细信息的显示 -->
             <div class="btn-wrap">
               <Button class="btn" btnFontSize="0.5" btnColor="rgba(0,0,0,0)" @click="infoModal = false">返回</Button>
-              <Button class="btn" btnColor="rgba(0,0,0,0)" @click="infoModal = false">退票</Button>
+              <Button class="btn" btnColor="rgba(0,0,0,0)" @click="switchConfirm">退票</Button>
             </div>
           </div>
           <img src="@/../public/QRcode.png" class="QRcode">
@@ -105,6 +141,29 @@ const switchStatus = (ticket) => {
       </div>
     </div>
   </div>
+
+  <!-- 確認彈窗 -->
+<div v-if="confirmModal" class="confirm-modal-overlay">
+    <div class="modal">
+      <div class="m-wrapper">
+        <div class="card" :style="{ 'backgroundColor': getColorByTicketType(ticketType) }">
+          <div class="box-content">
+              <div class="ticketitle">{{ ticketType }}</div>
+              <h3>{{ fastTrack ? '快速通關' : '普通票' }}</h3>  
+              <h3>確定退票？</h3>
+          </div>
+          <div class="right-side">
+            <h3 class="price">{{ price }}</h3>
+            <div class="btn-wrap">
+              <Button class="btn" btnColor="rgba(0,0,0,0)" @click="sendRefundRequest(ticketId) ">是</Button>
+              <Button class="btn" btnFontSize="0.5" btnColor="rgba(0,0,0,0)" @click="confirmModal = false">否！我不想退票</Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+
 
   <main>
     <div class="title">
@@ -243,14 +302,6 @@ h2 {
   justify-content: center;
   align-items: center;
   z-index: 2;
-
-  .modal {
-    /* width: 50%;
-    background-color: white; */
-    /* padding: 20px 0px;
-    border-radius: 5px;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2); */
-  }
 }
 
 .m-wrapper {
@@ -322,6 +373,30 @@ h2 {
   .btn {
     border: 2px solid #fff;
     margin-right: 1rem;
+  }
+}
+
+//確認彈窗
+.confirm-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+
+  .right-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .price {
+      font-size: 48px;
+    }
   }
 }
 </style>

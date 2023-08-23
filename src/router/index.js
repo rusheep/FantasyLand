@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import layout from '../layouts/default.vue';
+import axios from 'axios';
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -14,21 +14,6 @@ const router = createRouter({
           path: 'home',
           name: 'HomeView',
           component: () => import('../views/HomeView.vue'),
-        },
-        {
-          path: 'information',
-          name: 'InformationView',
-          component: () => import('../views/informationView.vue'),
-        },
-        {
-          path: 'facility',
-          name: 'FacilityView',
-          component: () => import('../views/FacilityView.vue'),
-        },
-        {
-          path: 'news',
-          name: 'NewsView',
-          component: () => import('../views/NewsView.vue'),
         },
         {
           path: 'login',
@@ -78,14 +63,14 @@ const router = createRouter({
       component: () => import('../views/touristBackStage/touristTicket.vue'),
     },
     {
-      path: '/cms',
-      name: 'cmsLogin',
+      path: '/QRlogin',
+      name: 'QRlogin',
       component: () => import('../layouts/cms.vue'),
       children: [
         {
-          path: '/cms',
-          name: 'cms_login',
-          component: () => import('../views/cms/LoginView.vue'),
+          path: '/QRlogin',
+          name: 'QRlogin',
+          component: () => import('../views/cms/LoginBSView.vue'),
         },
         {
           path: '/auth',
@@ -93,13 +78,34 @@ const router = createRouter({
           component: () => import('../views/cms/AuthView.vue'),
         },
         {
-          path: '/qr',
+          path: '/auth/qr',
           name: 'qr',
           component: () => import('../views/cms/qrcodetest.vue'),
         },
       ],
     },
   ],
+});
+
+// 在路由配置中设置 beforeEnter 守卫
+const qrcodeGuard = async (to, from, next) => {
+  try {
+    const response = await axios.get('/api/v1/auth').then((res) => res);
+    if (response.statusText === 'OK') {
+      next(); // 允许导航
+    }
+  } catch (error) {
+    console.error('Authentication error:', error);
+    next('/QRlogin');
+  }
+};
+
+router.beforeEach((to, from, next) => {
+  if (to.path.startsWith('/auth')) {
+    qrcodeGuard(to, from, next);
+  } else {
+    next();
+  }
 });
 
 export default router;

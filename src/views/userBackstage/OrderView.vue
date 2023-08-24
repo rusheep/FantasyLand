@@ -1,5 +1,5 @@
 <script setup>
-import { getFormatDateToISOString } from '../composable';
+import { getFormatDateToISOString } from '@/composable';
 const orderInfo = JSON.parse(localStorage.getItem('order'));
 
 onUnmounted(() => {
@@ -49,7 +49,7 @@ onUnmounted(() => {
         </div>
       </div>
       <div class="btn">
-        <router-link to="./home">
+        <router-link to="/user/userticket">
           <Button
             btnFontSize="0.5"
             class="mid-btn"

@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import router from '../router';
+import router from '@/router';
 
 let email = ref('');
 let password = ref('');
@@ -20,7 +20,7 @@ async function submit() {
         password: password.value,
       });
 
-      router.push('/home');
+      router.push('/user/userTicket');
       alert('登入成功');
     }
   } catch (error) {

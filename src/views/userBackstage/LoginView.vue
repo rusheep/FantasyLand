@@ -104,7 +104,7 @@ async function submit() {
           >登入</Button
         >
       </div>
-      <!-- Loading screen -->
+
       <div
         v-if="loading"
         class="loading-screen"
@@ -165,7 +165,6 @@ main {
   display: flex;
   gap: 20px;
 }
-
 .loading-screen {
   position: fixed;
   top: 0;

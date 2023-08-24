@@ -1,5 +1,4 @@
 <template>
-  <Header />
   <main>
     <h2>頁面</h2>
     <section>

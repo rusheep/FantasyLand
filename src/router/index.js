@@ -4,18 +4,18 @@ import axios from 'axios';
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
-    // 最一開始的頁面
-    {
-      path: '/index',
-      name: 'index',
-      component: () => import('../views/index.vue'),
-    },
     // 訂票頁面組：
     {
       path: '/',
       name: 'default',
       component: () => import('../layouts/default.vue'),
       children: [
+        // 最一開始的頁面
+        {
+          path: '/',
+          name: 'index',
+          component: () => import('../views/index.vue'),
+        },
         {
           path: 'login',
           name: 'LoginView',

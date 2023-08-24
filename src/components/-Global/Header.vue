@@ -1,3 +1,40 @@
+<script setup>
+import { useRoute, useRouter } from 'vue-router';
+const router = useRouter();
+const route = useRoute();
+const currentPath = route.path;
+function getFirstPathSegment(path) {
+  const parts = path.split('/');
+  return parts[1];
+}
+
+const currentPathFirstSegment = getFirstPathSegment(currentPath);
+console.log('Current path:', currentPath);
+console.log(getFirstPathSegment(currentPath));
+
+let loginOutvalue = ref(true);
+
+router.beforeEach((to, from, next) => {
+  console.log('Navigating from', from.path, 'to', to.path);
+
+  const path = getFirstPathSegment(to.path);
+  if (path === 'user') {
+    loginOutvalue.value = false;
+  } else {
+    loginOutvalue.value = true;
+  }
+
+  console.log(getFirstPathSegment(to.path));
+  next();
+});
+
+onMounted(() => {
+  if (currentPathFirstSegment === 'user') {
+    loginOutvalue.value = false;
+  }
+  console.log(currentPath);
+});
+</script>
 <template>
   <div class="header-container">
     <img
@@ -5,7 +42,11 @@
       class="logo"
     />
     <header>
+      <p>回首頁</p>
       <h1>夢幻尼樂園</h1>
+
+      <p v-if="loginOutvalue">登入</p>
+      <p v-else>登出</p>
     </header>
     <nav></nav>
   </div>
@@ -37,7 +78,7 @@
     position: relative;
     z-index: 0;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     border-radius: 10px;
 
@@ -46,6 +87,13 @@
       font-size: 18px;
       font-weight: bold;
       color: white;
+    }
+    p {
+      margin-top: 30px;
+      font-size: 10px;
+      font-weight: bold;
+      color: white;
+      padding: 0px 40px;
     }
   }
 }

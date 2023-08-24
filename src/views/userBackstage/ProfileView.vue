@@ -1,9 +1,12 @@
 <script setup>
 import axios from 'axios';
 
-onMounted(async () => {
-  const api = await axios.get('/api/v1/users/showMe');
-  console.log(api);
+const userData = ref();
+
+onMounted(() => {
+  axios.get('/api/v1/users/showMe').then((res) => {
+    userData.value = res.data.user;
+  });
 });
 </script>
 <template>
@@ -13,24 +16,27 @@ onMounted(async () => {
       class="navbar"
     />
     <main>
-      <!-- <h1>會員資料</h1> -->
-      <div class="userPassword">
+      <div
+        v-if="userData"
+        class="userPassword"
+      >
         <div class="input-box">
           <div class="titleBox">
             <p>姓名:</p>
           </div>
-          <p class="title">Asher Lien</p>
+          <p class="title">{{ userData.name }}</p>
         </div>
         <div class="input-box">
           <div class="titleBox">
-            <p>電子信箱</p>
+            <p>userId</p>
           </div>
-          <p class="title">asher@gmail.com</p>
+          <p class="title">{{ userData.userId }}</p>
         </div>
       </div>
     </main>
   </form>
 </template>
+
 <style lang="scss" scoped>
 .title {
   color: $main-color;

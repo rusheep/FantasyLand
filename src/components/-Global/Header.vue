@@ -33,12 +33,10 @@ router.beforeEach((to, from, next) => {
 });
 
 // 進入或刷新頁面，會重新判斷
-onMounted(() => {
-  if (currentPathFirstSegment === 'user') {
-    loginOutvalue.value = false;
-  }
-});
-
+onMounted(() => {});
+if (currentPathFirstSegment === 'user') {
+  loginOutvalue.value = false;
+}
 async function logout() {
   try {
     await axios.delete('/api/v1/auth/logout');

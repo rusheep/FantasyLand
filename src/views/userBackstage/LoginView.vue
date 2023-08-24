@@ -25,23 +25,21 @@ async function submit() {
     }
 
     if (email.value && password.value) {
-      loading.value = true; // Show loading screen
+      loading.value = true;
 
       await axios.post('api/v1/auth/login', {
         email: email.value,
         password: password.value,
       });
 
-      // Simulate a delay of 3 seconds
       await new Promise((resolve) => setTimeout(resolve, 3000));
 
-      loading.value = false; // Hide loading screen
+      loading.value = false;
 
       router.push('/user/userTicket');
-      alert('登入成功');
     }
   } catch (error) {
-    loading.value = false; // Hide loading screen
+    loading.value = false;
 
     if (error.response && error.response.status === 401) {
       password.value = '';

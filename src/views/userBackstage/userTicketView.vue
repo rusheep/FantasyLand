@@ -34,7 +34,7 @@ const ticketType = ref('');
 const ticketId = ref('');
 
 //目前有買的票
-const userTickets = ref([]); // 將 userTickets 初始值改為一個空陣列
+const userTickets = ref([]); 
 
 // 取得所有票函式
 async function fetchAndProcessTickets() {
@@ -53,10 +53,10 @@ async function fetchAndProcessTickets() {
       status.value = ticket.status;
       fastTrack.value = ticket.ticketCategoryId.fastTrack;
       ticketType.value = ticket.ticketCategoryId.ticketType;
-      // console.log(ticket._id);
 
       // 生成 QR Code 函式
-      qrCodeText.value = (ticket._id);
+      //把ticket的id傳給qrCodeText
+      qrCodeText.value = (ticket._id); 
       console.log (qrCodeText.value);
       const generateQRCode = async () => {
         if (qrCodeText.value.trim() === '') {
@@ -390,7 +390,7 @@ h2 {
   }
 
   .card {
-    width: 100vw;
+    width: 40vw;
     height: 40vh;
 
     img {

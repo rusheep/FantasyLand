@@ -1,7 +1,13 @@
 <script setup>
 import axios from 'axios';
+import qrcode from 'qrcode';
 import { reactive } from 'vue';
 import { getFormatDateToISOString } from '../../composable';
+
+
+//qrcode
+const qrCodeText = ref('');
+const qrCodeImageUrl = ref('');
 
 // 彈窗開關
 const infoModal = ref(false);
@@ -38,16 +44,36 @@ async function fetchAndProcessTickets() {
 
     const unseOrTodayUsedTicket = userTicketsAPI.data;
     userTickets.value = unseOrTodayUsedTicket;
-    console.log(userTickets.value);
 
     // 換算票的時間
     const ticketDate = unseOrTodayUsedTicket[0]?.ticketDate;
     const formattedDate = getFormatDateToISOString(ticketDate);
-    unseOrTodayUsedTicket.forEach((ticket) => {
+    unseOrTodayUsedTicket.forEach(async(ticket) => {
       selectedDate.value = formattedDate;
       status.value = ticket.status;
       fastTrack.value = ticket.ticketCategoryId.fastTrack;
       ticketType.value = ticket.ticketCategoryId.ticketType;
+      // console.log(ticket._id);
+
+      // 生成 QR Code 函式
+      qrCodeText.value = (ticket._id);
+      console.log (qrCodeText.value);
+      const generateQRCode = async () => {
+        if (qrCodeText.value.trim() === '') {
+          return; // Do not generate QR code for empty input
+        }
+        try {
+          const qrCodeDataUrl = await qrcode.toDataURL(qrCodeText.value);
+          qrCodeImageUrl.value = qrCodeDataUrl;
+          console.log(qrCodeImageUrl.value);
+        } catch (error) {
+          console.error('QR Code generation error:', error);
+        }
+      };
+
+      //啟用qrcode函式
+      await generateQRCode();
+
     });
   } catch (error) {
     console.error(error);
@@ -99,14 +125,15 @@ const switchStatus = (ticket) => {
   ticketId.value = ticket._id;
   price.value = ticket.ticketCategoryId.price;
   // console.log(ticket);
-  console.log(price);
 };
 
 //確認彈窗開關
 const switchConfirm = () => {
   confirmModal.value = !confirmModal.value;
-  console.log('出來了');
 };
+
+
+
 </script>
 
 <template>
@@ -149,8 +176,9 @@ const switchConfirm = () => {
             </div>
           </div>
           <img
-            src="@/../public/QRcode.png"
-            class="QRcode"
+            v-if="qrCodeImageUrl"
+            :src="qrCodeImageUrl"
+            alt="QR Code"
           />
         </div>
       </div>
@@ -228,8 +256,9 @@ const switchConfirm = () => {
           </h3>
         </div>
         <img
-          src="@/../public/QRcode.png"
-          class="QRcode"
+          v-if="qrCodeImageUrl"
+          :src="qrCodeImageUrl"
+          :alt="ticket._id"
         />
       </div>
     </section>
@@ -361,7 +390,7 @@ h2 {
   }
 
   .card {
-    width: 40vw;
+    width: 100vw;
     height: 40vh;
 
     img {

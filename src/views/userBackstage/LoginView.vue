@@ -177,5 +177,6 @@ main {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   font-size: 20px;
+  z-index: 3;
 }
 </style>

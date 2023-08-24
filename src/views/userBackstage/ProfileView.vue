@@ -1,17 +1,6 @@
 <script setup>
 import axios from 'axios';
 
-const inputStatus = ref(true);
-
-function switchInputState() {
-  inputStatus.value = !inputStatus.value;
-}
-
-async function getCurrentUser() {
-  const api = await axios.get('/api/v1/users/showMe');
-  console.log(api);
-}
-
 onMounted(async () => {
   const api = await axios.get('/api/v1/users/showMe');
   console.log(api);
@@ -30,74 +19,15 @@ onMounted(async () => {
           <div class="titleBox">
             <p>姓名:</p>
           </div>
-          <p
-            class="title"
-            v-if="inputStatus"
-          >
-            Asher Lien
-          </p>
-          <input
-            v-else
-            type="text"
-          />
+          <p class="title">Asher Lien</p>
         </div>
         <div class="input-box">
           <div class="titleBox">
             <p>電子信箱</p>
           </div>
-          <p
-            class="title"
-            v-if="inputStatus"
-          >
-            asher@gmail.com
-          </p>
-          <input
-            v-else
-            autocomplete="username"
-            type="text"
-          />
+          <p class="title">asher@gmail.com</p>
         </div>
-        <!-- <div class="input-box">
-          <div class="titleBox">
-            <p>密嗎</p>
-            <p
-              style="color: red; font-size: 10px"
-              font-size="2px"
-            >
-              請輸入密碼
-            </p>
-          </div>
-          <input type="text" />
-        </div> -->
       </div>
-
-      <!-- <div class="btn-box">
-        <Button
-          btnFontSize="10px"
-          v-if="inputStatus"
-          >修改密碼</Button
-        >
-        <Button
-          v-if="inputStatus"
-          btnFontSize="10px"
-          @click="switchInputState"
-          >修改資料</Button
-        >
-
-        <div
-          v-else
-          class="btn-box"
-        >
-          <Button
-            btnFontSize="10px"
-            @click="switchInputState"
-            btnColor="grey"
-            >取消</Button
-          >
-
-          <Button btnFontSize="10px">確認</Button>
-        </div>
-      </div> -->
     </main>
   </form>
 </template>

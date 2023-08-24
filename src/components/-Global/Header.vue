@@ -9,8 +9,6 @@ function getFirstPathSegment(path) {
 }
 
 const currentPathFirstSegment = getFirstPathSegment(currentPath);
-console.log('Current path:', currentPath);
-console.log(getFirstPathSegment(currentPath));
 
 let loginOutvalue = ref(true);
 
@@ -24,7 +22,6 @@ router.beforeEach((to, from, next) => {
     loginOutvalue.value = true;
   }
 
-  console.log(getFirstPathSegment(to.path));
   next();
 });
 
@@ -32,8 +29,11 @@ onMounted(() => {
   if (currentPathFirstSegment === 'user') {
     loginOutvalue.value = false;
   }
-  console.log(currentPath);
 });
+
+async function logout() {
+  console.log('tset');
+}
 </script>
 <template>
   <div class="header-container">
@@ -46,7 +46,12 @@ onMounted(() => {
       <h1>夢幻尼樂園</h1>
 
       <p v-if="loginOutvalue">登入</p>
-      <p v-else>登出</p>
+      <p
+        v-else
+        @click.prevent="logout"
+      >
+        登出
+      </p>
     </header>
     <nav></nav>
   </div>
@@ -94,6 +99,7 @@ onMounted(() => {
       font-weight: bold;
       color: white;
       padding: 0px 40px;
+      cursor: pointer;
     }
   }
 }

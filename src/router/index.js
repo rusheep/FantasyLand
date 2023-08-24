@@ -12,14 +12,15 @@ const router = createRouter({
       children: [
         // 最一開始的頁面
         {
-          path: '/',
+          path: '/index',
           name: 'index',
           component: () => import('../views/index.vue'),
         },
         {
-          path: 'login',
+          path: '/login',
           name: 'LoginView',
           component: () => import('../views/userBackstage/LoginView.vue'),
+          meta: { requiresAuth: true },
         },
         {
           path: 'register',
@@ -86,33 +87,36 @@ const router = createRouter({
   ],
 });
 
-const authGuard = async (to, from, next) => {
+const checkAuthentication = async () => {
   try {
-    const response = await axios.get('/api/v1/auth').then((res) => res);
-    if (response.status === 200) {
-      next();
-    }
+    const response = await axios.get('/api/v1/auth'); // Replace with your authentication API endpoint
+    return response.status === 200; // Return true if authenticated, false otherwise
   } catch (error) {
-    next('/QRlogin');
-  }
-};
-
-const userGuard = async (to, from, next) => {
-  try {
-    const response = await axios.get('/api/v1/auth').then((res) => res);
-    if (response.status === 200) {
-      next();
-    }
-  } catch (error) {
-    next('/login');
+    return false; // Return false if an error occurs during authentication check
   }
 };
 
 router.beforeEach(async (to, from, next) => {
+  const isAuthenticated = await checkAuthentication(); // Implement your authentication check logic
+
   if (to.path.startsWith('/auth')) {
-    await authGuard(to, from, next);
+    if (isAuthenticated) {
+      next();
+    } else {
+      next('/QRlogin');
+    }
   } else if (to.path.startsWith('/user')) {
-    await userGuard(to, from, next);
+    if (isAuthenticated) {
+      next();
+    } else {
+      next('/login');
+    }
+  } else if (to.path.startsWith('/login')) {
+    if (isAuthenticated) {
+      next('/user/userTicket');
+    } else {
+      next();
+    }
   } else {
     next();
   }

@@ -20,7 +20,7 @@ const router = createRouter({
           path: '/login',
           name: 'LoginView',
           component: () => import('../views/userBackstage/LoginView.vue'),
-          meta: { requiresAuth: true },
+          meta: { requiresAuth: true, skipAuthCheck: true },
         },
         {
           path: 'register',
@@ -96,24 +96,54 @@ const checkAuthentication = async () => {
   }
 };
 
+const checkCookies = () => {
+  const cookies = document.cookie;
+  const cookieArray = cookies
+    .split('; ')
+    .filter((cookie) => cookie.includes('='));
+
+  const tokenCookies = {
+    refreshToken: null,
+    accessToken: null,
+  };
+
+  cookieArray.forEach((cookie) => {
+    const [name, value] = cookie.split('=');
+    if (name === 'refreshToken') {
+      tokenCookies.refreshToken = value;
+    } else if (name === 'accessToken') {
+      tokenCookies.accessToken = value;
+    }
+  });
+
+  return tokenCookies;
+};
+
 router.beforeEach(async (to, from, next) => {
-  const isAuthenticated = await checkAuthentication();
+  const { refreshToken, accessToken } = checkCookies();
 
   if (to.path.startsWith('/auth')) {
-    if (isAuthenticated) {
+    if (await checkAuthentication()) {
       next();
     } else {
       next('/QRlogin');
     }
   } else if (to.path.startsWith('/user')) {
-    if (isAuthenticated) {
+    if (await checkAuthentication()) {
       next();
     } else {
       next('/login');
     }
   } else if (to.path.startsWith('/login')) {
-    if (isAuthenticated) {
-      next('/user/userTicket');
+    if (to.meta.skipAuthCheck) {
+      // 检查 skipAuthCheck 标志
+      next();
+    } else if (refreshToken && accessToken) {
+      if (await checkAuthentication()) {
+        next('/user/userTicket');
+      } else {
+        next();
+      }
     } else {
       next();
     }

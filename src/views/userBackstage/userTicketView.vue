@@ -132,8 +132,6 @@ const switchConfirm = () => {
   confirmModal.value = !confirmModal.value;
 };
 
-
-
 </script>
 
 <template>
@@ -185,7 +183,7 @@ const switchConfirm = () => {
     </div>
   </div>
 
-  <!-- 確認彈窗 -->
+  <!-- 確認退票彈窗 -->
   <div
     v-if="confirmModal"
     class="confirm-modal-overlay"
@@ -223,7 +221,8 @@ const switchConfirm = () => {
       </div>
     </div>
   </div>
-
+ 
+  <!-- 主頁面 -->
   <main>
     <div class="title">
       <h2 class="tickstatus">未使用</h2>
@@ -255,6 +254,7 @@ const switchConfirm = () => {
             {{ ticket.ticketCategoryId.fastTrack ? '快速通關' : '普通票' }}
           </h3>
         </div>
+        <!-- Qrcode位置   -->
         <img
           v-if="qrCodeImageUrl"
           :src="qrCodeImageUrl"
@@ -326,10 +326,6 @@ main {
     margin-bottom: 10rem;
     flex-wrap: wrap;
   }
-
-  .top-box {
-  }
-
   .btm-box {
     width: 100%;
     background-color: #f1f1f1;

@@ -1,4 +1,5 @@
 <script setup>
+import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
@@ -32,7 +33,12 @@ onMounted(() => {
 });
 
 async function logout() {
-  console.log('tset');
+  try {
+    await axios.delete('/api/v1/auth/logout');
+    router.push('/login');
+  } catch (error) {
+    console.log(error);
+  }
 }
 </script>
 <template>

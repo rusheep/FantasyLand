@@ -89,15 +89,15 @@ const router = createRouter({
 
 const checkAuthentication = async () => {
   try {
-    const response = await axios.get('/api/v1/auth'); // Replace with your authentication API endpoint
-    return response.status === 200; // Return true if authenticated, false otherwise
+    const response = await axios.get('/api/v1/auth');
+    return response.status === 200;
   } catch (error) {
-    return false; // Return false if an error occurs during authentication check
+    return false;
   }
 };
 
 router.beforeEach(async (to, from, next) => {
-  const isAuthenticated = await checkAuthentication(); // Implement your authentication check logic
+  const isAuthenticated = await checkAuthentication();
 
   if (to.path.startsWith('/auth')) {
     if (isAuthenticated) {

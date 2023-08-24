@@ -88,12 +88,14 @@ const router = createRouter({
 });
 
 const checkAuthentication = async () => {
-  try {
-    const response = await axios.get('/api/v1/auth');
-    return response.status === 200;
-  } catch (error) {
-    return false;
-  }
+  return axios
+    .get('/api/v1/auth')
+    .then((response) => {
+      return response.status === 200;
+    })
+    .catch((error) => {
+      return false;
+    });
 };
 
 const checkCookies = () => {

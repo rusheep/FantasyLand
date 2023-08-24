@@ -8,32 +8,50 @@ let password = ref('');
 const emailError = ref(false);
 const passwordError = ref(false);
 
+const loading = ref(false); // Add a loading state
+
 async function submit() {
   try {
-    // email 和 password 一定要填寫：
-    emailError.value = !email.value;
-    passwordError.value = !password.value;
+    // Reset errors
+    emailError.value = false;
+    passwordError.value = false;
+
+    // Validate inputs
+    if (!email.value) {
+      emailError.value = true;
+    }
+    if (!password.value) {
+      passwordError.value = true;
+    }
 
     if (email.value && password.value) {
+      loading.value = true; // Show loading screen
+
       await axios.post('api/v1/auth/login', {
         email: email.value,
         password: password.value,
       });
 
+      // Simulate a delay of 3 seconds
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      loading.value = false; // Hide loading screen
+
       router.push('/user/userTicket');
       alert('登入成功');
     }
   } catch (error) {
+    loading.value = false; // Hide loading screen
+
     if (error.response && error.response.status === 401) {
       password.value = '';
-      alert(`錯誤帳號/密碼`);
+      alert('錯誤帳號/密碼');
       return;
     }
     return;
   }
 }
 </script>
-
 <template>
   <form>
     <main>
@@ -88,6 +106,13 @@ async function submit() {
           >登入</Button
         >
       </div>
+      <!-- Loading screen -->
+      <div
+        v-if="loading"
+        class="loading-screen"
+      >
+        <p>登入中...</p>
+      </div>
     </main>
   </form>
 </template>
@@ -141,5 +166,19 @@ main {
 .btn-box {
   display: flex;
   gap: 20px;
+}
+
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 20px;
 }
 </style>

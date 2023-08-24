@@ -1,24 +1,36 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
 import axios from 'axios';
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
+    // 最一開始的頁面
+    {
+      path: '/index',
+      name: 'index',
+      component: () => import('../views/index.vue'),
+    },
+    // 訂票頁面組：
     {
       path: '/',
-      name: 'deafult',
+      name: 'default',
       component: () => import('../layouts/default.vue'),
       children: [
-        {
-          path: 'home',
-          name: 'HomeView',
-          component: () => import('../views/HomeView.vue'),
-        },
         {
           path: 'login',
           name: 'LoginView',
           component: () => import('../views/LoginView.vue'),
+        },
+        {
+          path: '/touristicket',
+          name: 'touristicket',
+          component: () =>
+            import('../views/touristBackStage/touristTicket.vue'),
+        },
+        {
+          path: 'home',
+          name: 'HomeView',
+          component: () => import('../views/HomeView.vue'),
         },
         {
           path: 'register',
@@ -39,29 +51,11 @@ const router = createRouter({
           path: 'order',
           name: 'order',
           component: () => import('../views/OrderView.vue'),
-          beforeEnter: async (to, from) => {
-            // const isLogin = false; // 檢查是否登入的function
-            // if (!isLogin) {
-            //   alert('請先登入'); // 否則顯示提示訊息
-            //   return '/login'; // 如果無法訪問，導向登入頁面
-            // } else {
-            // }
-          },
         },
       ],
     },
-    // 最一開始的頁面
-    {
-      path: '/index',
-      name: 'index',
-      component: () => import('../views/index.vue'),
-    },
-    //遊客後台票夾
-    {
-      path: '/touristicket',
-      name: 'touristicket',
-      component: () => import('../views/touristBackStage/touristTicket.vue'),
-    },
+
+    // 驗票頁面組
     {
       path: '/QRlogin',
       name: 'QRlogin',
@@ -97,12 +91,11 @@ const router = createRouter({
   ],
 });
 
-// 在路由配置中设置 beforeEnter 守卫
-const qrcodeGuard = async (to, from, next) => {
+const authGuard = async (to, from, next) => {
   try {
     const response = await axios.get('/api/v1/auth').then((res) => res);
     if (response.status === 200) {
-      next(); // 允许导航
+      next();
     }
   } catch (error) {
     next('/QRlogin');
@@ -111,7 +104,7 @@ const qrcodeGuard = async (to, from, next) => {
 
 router.beforeEach((to, from, next) => {
   if (to.path.startsWith('/auth')) {
-    qrcodeGuard(to, from, next);
+    authGuard(to, from, next);
   } else {
     next();
   }

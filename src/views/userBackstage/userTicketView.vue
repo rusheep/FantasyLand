@@ -7,7 +7,7 @@ import { getFormatDateToISOString } from '../../composable';
 const infoModal = ref(false);
 
 //確認彈窗
-const confirmModal = ref(false)
+const confirmModal = ref(false);
 
 // 票的日期
 const selectedDate = ref('');
@@ -43,7 +43,7 @@ async function fetchAndProcessTickets() {
     // 換算票的時間
     const ticketDate = unseOrTodayUsedTicket[0]?.ticketDate;
     const formattedDate = getFormatDateToISOString(ticketDate);
-    unseOrTodayUsedTicket.forEach(ticket => {
+    unseOrTodayUsedTicket.forEach((ticket) => {
       selectedDate.value = formattedDate;
       status.value = ticket.status;
       fastTrack.value = ticket.ticketCategoryId.fastTrack;
@@ -100,91 +100,137 @@ const switchStatus = (ticket) => {
   price.value = ticket.ticketCategoryId.price;
   // console.log(ticket);
   console.log(price);
-
 };
 
 //確認彈窗開關
-const switchConfirm = ()=>{
+const switchConfirm = () => {
   confirmModal.value = !confirmModal.value;
   console.log('出來了');
-}
-
-
-
-
-
-
+};
 </script>
 
-<template >
-  <Header></Header>
+<template>
   <NavBar />
   <!-- 彈窗 -->
-  <div v-if="infoModal" class="modal-overlay">
+  <div
+    v-if="infoModal"
+    class="modal-overlay"
+  >
     <div class="modal">
       <div class="m-wrapper">
-        <div class="card" :style="{ 'backgroundColor': getColorByTicketType(ticketType) }">
+        <div
+          class="card"
+          :style="{ backgroundColor: getColorByTicketType(ticketType) }"
+        >
           <div class="box-content">
-            <div class="status" :style="{ 'display': status === 'unuse' ? 'none' : 'block' }">
+            <div
+              class="status"
+              :style="{ display: status === 'unuse' ? 'none' : 'block' }"
+            >
               <p>{{ status === 'used' ? '已使用' : '' }}</p>
             </div>
             <div class="ticketitle">{{ ticketType }}</div>
             <h3>{{ fastTrack ? '快速通關' : '普通票' }}</h3>
             <!-- 其他详细信息的显示 -->
             <div class="btn-wrap">
-              <Button class="btn" btnFontSize="0.5" btnColor="rgba(0,0,0,0)" @click="infoModal = false">返回</Button>
-              <Button class="btn" btnColor="rgba(0,0,0,0)" @click="switchConfirm">退票</Button>
+              <Button
+                class="btn"
+                btnFontSize="0.5"
+                btnColor="rgba(0,0,0,0)"
+                @click="infoModal = false"
+                >返回</Button
+              >
+              <Button
+                class="btn"
+                btnColor="rgba(0,0,0,0)"
+                @click="switchConfirm"
+                >退票</Button
+              >
             </div>
           </div>
-          <img src="@/../public/QRcode.png" class="QRcode">
+          <img
+            src="@/../public/QRcode.png"
+            class="QRcode"
+          />
         </div>
       </div>
     </div>
   </div>
 
   <!-- 確認彈窗 -->
-<div v-if="confirmModal" class="confirm-modal-overlay">
+  <div
+    v-if="confirmModal"
+    class="confirm-modal-overlay"
+  >
     <div class="modal">
       <div class="m-wrapper">
-        <div class="card" :style="{ 'backgroundColor': getColorByTicketType(ticketType) }">
+        <div
+          class="card"
+          :style="{ backgroundColor: getColorByTicketType(ticketType) }"
+        >
           <div class="box-content">
-              <div class="ticketitle">{{ ticketType }}</div>
-              <h3>{{ fastTrack ? '快速通關' : '普通票' }}</h3>  
-              <h3>確定退票？</h3>
+            <div class="ticketitle">{{ ticketType }}</div>
+            <h3>{{ fastTrack ? '快速通關' : '普通票' }}</h3>
+            <h3>確定退票？</h3>
           </div>
           <div class="right-side">
             <h3 class="price">{{ price }}</h3>
             <div class="btn-wrap">
-              <Button class="btn" btnColor="rgba(0,0,0,0)" @click="sendRefundRequest(ticketId) ">是</Button>
-              <Button class="btn" btnFontSize="0.5" btnColor="rgba(0,0,0,0)" @click="confirmModal = false">否！我不想退票</Button>
+              <Button
+                class="btn"
+                btnColor="rgba(0,0,0,0)"
+                @click="sendRefundRequest(ticketId)"
+                >是</Button
+              >
+              <Button
+                class="btn"
+                btnFontSize="0.5"
+                btnColor="rgba(0,0,0,0)"
+                @click="confirmModal = false"
+                >否！我不想退票</Button
+              >
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div> 
-
+  </div>
 
   <main>
     <div class="title">
       <h2 class="tickstatus">未使用</h2>
       <h2 class="date">{{ selectedDate }}</h2>
     </div>
-    <section class="top-box"> 
-      <div class="card" 
+    <section class="top-box">
+      <div
+        class="card"
         @click="switchStatus(ticket)"
-        v-for="ticket in userTickets" :key="ticket._id" 
-        :style="{ 'backgroundColor': status === 'unuse' ? getColorByTicketType(ticket.ticketCategoryId.ticketType) : '#B3C3C5' }">
-  <!-- 在這裡放置你想顯示的票券資訊 -->
+        v-for="ticket in userTickets"
+        :key="ticket._id"
+        :style="{
+          backgroundColor:
+            status === 'unuse'
+              ? getColorByTicketType(ticket.ticketCategoryId.ticketType)
+              : '#B3C3C5',
+        }"
+      >
+        <!-- 在這裡放置你想顯示的票券資訊 -->
         <div class="box-content">
-          <div class="status" 
-            :style="{ 'display': status === 'unuse' ? 'none' : 'block' }">
-            <p>{{ status === 'used' ? '已使用' : ''  }}</p>
+          <div
+            class="status"
+            :style="{ display: status === 'unuse' ? 'none' : 'block' }"
+          >
+            <p>{{ status === 'used' ? '已使用' : '' }}</p>
           </div>
           <div class="ticketitle">{{ ticket.ticketCategoryId.ticketType }}</div>
-          <h3>{{ ticket.ticketCategoryId.fastTrack ? '快速通關' : '普通票' }}</h3>
+          <h3>
+            {{ ticket.ticketCategoryId.fastTrack ? '快速通關' : '普通票' }}
+          </h3>
         </div>
-        <img src="@/../public/QRcode.png" class="QRcode">
+        <img
+          src="@/../public/QRcode.png"
+          class="QRcode"
+        />
       </div>
     </section>
     <div class="title">
@@ -201,7 +247,10 @@ const switchConfirm = ()=>{
           </tr>
         </thead>
         <tbody>
-          <tr v-for="ticket in userTickets" :key="ticket._id">
+          <tr
+            v-for="ticket in userTickets"
+            :key="ticket._id"
+          >
             <td>{{ selectedDate }}</td>
             <td>{{ ticket.status === 'used' ? '已使用' : '未使用' }}</td>
             <td>{{ ticket.ticketCategoryId.ticketType }}</td>
@@ -219,16 +268,16 @@ main {
 
   .title {
     display: flex;
-    justify-content: space-between;;
-   
+    justify-content: space-between;
+
     h2 {
-      color:#fff ;
+      color: #fff;
     }
     .tickstatus {
       width: 10rem;
       border-radius: 10px;
       text-align: center;
-      background-color:$main-color;
+      background-color: $main-color;
       padding: 0.5rem 0;
       margin-bottom: 2rem;
     }
@@ -242,20 +291,19 @@ main {
   }
 
   section {
-      display: flex;
-      justify-content: start;
-      gap: 60px;
-      margin-bottom: 10rem;
-      flex-wrap: wrap;
+    display: flex;
+    justify-content: start;
+    gap: 60px;
+    margin-bottom: 10rem;
+    flex-wrap: wrap;
   }
 
   .top-box {
-
   }
 
   .btm-box {
     width: 100%;
-    background-color:#F1F1F1;
+    background-color: #f1f1f1;
     padding-bottom: 2rem;
     padding-top: 2rem;
     border-radius: 15px;
@@ -263,11 +311,11 @@ main {
     .form {
       width: 80%;
       margin: 0 auto;
-      color: #00B9D2;
+      color: #00b9d2;
     }
 
     .form tbody {
-      border: 2px solid #00B9D2;
+      border: 2px solid #00b9d2;
       background-color: #fff;
     }
 
@@ -278,18 +326,16 @@ main {
       font-size: 20px;
     }
     .form tr {
-      border-bottom: 1px solid #E4D0D0 ;
+      border-bottom: 1px solid #e4d0d0;
     }
   }
 }
-
 
 h2 {
   margin-bottom: 10px;
 }
 
 /* 彈窗 */
-
 
 .modal-overlay {
   position: fixed;
@@ -309,17 +355,16 @@ h2 {
 
   h3 {
     font-size: 30px;
-    color: #ffff  ;
+    color: #ffff;
     font-weight: bold;
     margin-bottom: 3rem;
   }
 
   .card {
-    width: 40vw;;
+    width: 40vw;
     height: 40vh;
-    
+
     img {
-      
     }
     .box-content {
       justify-content: center;
@@ -327,7 +372,6 @@ h2 {
     .ticketitle {
       font-size: 48px;
     }
-
   }
 
   .m-userTickets {

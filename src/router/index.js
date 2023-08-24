@@ -29,7 +29,7 @@ const router = createRouter({
         {
           path: '/user/userTicket',
           name: 'userTicketView',
-          component: () => import('../views/userBackstage/userTicketView.vue'),
+          component: () => import('../views/userBackstage/UserTicketView.vue'),
         },
 
         {

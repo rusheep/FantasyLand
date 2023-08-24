@@ -20,7 +20,7 @@ async function submit() {
         password: password.value,
       });
 
-      router.push('/userTicket');
+      router.push('/user/userTicket');
       alert('登入成功');
     }
   } catch (error) {

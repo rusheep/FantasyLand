@@ -19,38 +19,33 @@ const router = createRouter({
         {
           path: 'login',
           name: 'LoginView',
-          component: () => import('../views/LoginView.vue'),
-        },
-        {
-          path: '/touristicket',
-          name: 'touristicket',
-          component: () =>
-            import('../views/touristBackStage/touristTicket.vue'),
-        },
-        {
-          path: 'home',
-          name: 'HomeView',
-          component: () => import('../views/HomeView.vue'),
+          component: () => import('../views/userBackstage/LoginView.vue'),
         },
         {
           path: 'register',
           name: 'RegisterView',
-          component: () => import('../views/RegisterView.vue'),
+          component: () => import('../views/userBackstage/RegisterView.vue'),
         },
         {
-          path: 'cart',
+          path: '/user/userTicket',
+          name: 'userTicketView',
+          component: () => import('../views/userBackstage/userTicketView.vue'),
+        },
+
+        {
+          path: '/user/cart',
           name: 'cart',
-          component: () => import('../views/CartView.vue'),
+          component: () => import('../views/userBackstage/CartView.vue'),
         },
         {
-          path: 'profile',
+          path: '/user/profile',
           name: 'profile',
-          component: () => import('../views/ProfileView.vue'),
+          component: () => import('../views/userBackstage/ProfileView.vue'),
         },
         {
-          path: 'order',
+          path: '/user/order',
           name: 'order',
-          component: () => import('../views/OrderView.vue'),
+          component: () => import('../views/userBackstage/OrderView.vue'),
         },
       ],
     },
@@ -102,9 +97,22 @@ const authGuard = async (to, from, next) => {
   }
 };
 
-router.beforeEach((to, from, next) => {
+const userGuard = async (to, from, next) => {
+  try {
+    const response = await axios.get('/api/v1/auth').then((res) => res);
+    if (response.status === 200) {
+      next();
+    }
+  } catch (error) {
+    next('/login');
+  }
+};
+
+router.beforeEach(async (to, from, next) => {
   if (to.path.startsWith('/auth')) {
-    authGuard(to, from, next);
+    await authGuard(to, from, next);
+  } else if (to.path.startsWith('/user')) {
+    await userGuard(to, from, next);
   } else {
     next();
   }

@@ -1,5 +1,5 @@
 <script setup>
-import { getFormatDateToISOString } from '../composable';
+import { getFormatDateToISOString } from '@/composable';
 const orderInfo = JSON.parse(localStorage.getItem('order'));
 
 onUnmounted(() => {

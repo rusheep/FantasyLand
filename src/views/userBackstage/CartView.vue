@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios';
-import { getFormatDateToISOString } from '../composable';
-import router from '../router';
+import { getFormatDateToISOString } from '@/composable';
+import router from '@/router';
 // 彈窗開關
 const infoModal = ref(false);
 

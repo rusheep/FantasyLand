@@ -10,8 +10,10 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Button: typeof import('./components/Button.vue')['default']
+    copy: typeof import('./components/-Global/Header copy.vue')['default']
     Footer: typeof import('./components/-Global/Footer.vue')['default']
     Header: typeof import('./components/-Global/Header.vue')['default']
+    HeaderCMS: typeof import('./components/-Global/HeaderCMS.vue')['default']
     NavBar: typeof import('./components/NavBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

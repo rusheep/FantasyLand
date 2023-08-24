@@ -23,7 +23,7 @@ router.beforeEach((to, from, next) => {
   console.log('Navigating from', from.path, 'to', to.path);
 
   const path = getFirstPathSegment(to.path);
-  if (path === 'user') {
+  if (path === 'auth') {
     loginOutvalue.value = false;
   } else {
     loginOutvalue.value = true;
@@ -34,7 +34,7 @@ router.beforeEach((to, from, next) => {
 
 // 進入或刷新頁面，會重新判斷
 onMounted(() => {
-  if (currentPathFirstSegment === 'user') {
+  if (currentPathFirstSegment === 'auth') {
     loginOutvalue.value = false;
   }
 });
@@ -42,7 +42,7 @@ onMounted(() => {
 async function logout() {
   try {
     await axios.delete('/api/v1/auth/logout');
-    router.push('/login');
+    router.push('/QRlogin');
   } catch (error) {
     console.log(error);
   }
@@ -58,7 +58,7 @@ async function homepage() {
 
 async function login() {
   try {
-    router.push('/login');
+    router.push('/QRlogin');
   } catch (error) {
     console.log(error);
   }
@@ -77,7 +77,7 @@ async function login() {
       <a
         v-if="loginOutvalue"
         @click.prevent="login"
-        >登入</a
+        >驗證登入</a
       >
       <a
         v-else

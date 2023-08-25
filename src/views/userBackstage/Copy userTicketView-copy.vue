@@ -1,7 +1,9 @@
 <script setup>
 import axios from 'axios';
 import qrcode from 'qrcode';
+import { reactive } from 'vue';
 import { getFormatDateToISOString } from '../../composable';
+
 
 //qrcode
 const qrCodeText = ref('');
@@ -32,7 +34,7 @@ const ticketType = ref('');
 const ticketId = ref('');
 
 //目前有買的票
-const userTickets = ref([]);
+const userTickets = ref([]); 
 
 // 取得所有票函式
 async function fetchAndProcessTickets() {
@@ -46,7 +48,7 @@ async function fetchAndProcessTickets() {
     // 換算票的時間
     const ticketDate = unseOrTodayUsedTicket[0]?.ticketDate;
     const formattedDate = getFormatDateToISOString(ticketDate);
-    unseOrTodayUsedTicket.forEach(async (ticket) => {
+    unseOrTodayUsedTicket.forEach(async(ticket) => {
       selectedDate.value = formattedDate;
       status.value = ticket.status;
       fastTrack.value = ticket.ticketCategoryId.fastTrack;
@@ -54,8 +56,8 @@ async function fetchAndProcessTickets() {
 
       // 生成 QR Code 函式
       //把ticket的id傳給qrCodeText
-      qrCodeText.value = ticket._id;
-      console.log(qrCodeText.value);
+      qrCodeText.value = (ticket._id); 
+      console.log (qrCodeText.value);
       const generateQRCode = async () => {
         if (qrCodeText.value.trim() === '') {
           return; // Do not generate QR code for empty input
@@ -71,6 +73,7 @@ async function fetchAndProcessTickets() {
 
       //啟用qrcode函式
       await generateQRCode();
+
     });
   } catch (error) {
     console.error(error);
@@ -94,14 +97,9 @@ const sendRefundRequest = async (ticketId) => {
   }
 };
 
-const userAllTickets = ref();
-
-// 取得票券資料
+// 調用函式
 onMounted(async () => {
-  await axios.get('/api/v1/userTickets//getTickets').then((res) => {
-    userAllTickets.value = res.data;
-    console.log(userAllTickets.value);
-  });
+  fetchAndProcessTickets();
 });
 
 //判斷票券顏色
@@ -117,10 +115,23 @@ const getColorByTicketType = (ticketType) => {
   return '#B3C3C5'; // 默認顏色
 };
 
+// 彈窗開關
+const switchStatus = (ticket) => {
+  selectedDate.value = getFormatDateToISOString(ticket.ticketDate);
+  status.value = ticket.status;
+  fastTrack.value = ticket.ticketCategoryId.fastTrack;
+  ticketType.value = ticket.ticketCategoryId.ticketType;
+  infoModal.value = !infoModal.value;
+  ticketId.value = ticket._id;
+  price.value = ticket.ticketCategoryId.price;
+  // console.log(ticket);
+};
+
 //確認彈窗開關
 const switchConfirm = () => {
   confirmModal.value = !confirmModal.value;
 };
+
 </script>
 
 <template>
@@ -210,22 +221,47 @@ const switchConfirm = () => {
       </div>
     </div>
   </div>
-
+ 
   <!-- 主頁面 -->
   <main>
     <div class="title">
       <h2 class="tickstatus">未使用</h2>
       <h2 class="date">{{ selectedDate }}</h2>
     </div>
-    <!-- 放票的地方 -->
-    <div class="ticketBox">
-      <Tickets
-        v-for="(ticket, index) in userAllTickets"
+    <section class="top-box">
+      <div
+        class="card"
+        @click="switchStatus(ticket)"
+        v-for="ticket in userTickets"
         :key="ticket._id"
-      />
-    </div>
-
-    <!-- 票券紀錄 -->
+        :style="{
+          backgroundColor:
+            status === 'unuse'
+              ? getColorByTicketType(ticket.ticketCategoryId.ticketType)
+              : '#B3C3C5',
+        }"
+      >
+        <!-- 在這裡放置你想顯示的票券資訊 -->
+        <div class="box-content">
+          <div
+            class="status"
+            :style="{ display: status === 'unuse' ? 'none' : 'block' }"
+          >
+            <p>{{ status === 'used' ? '已使用' : '' }}</p>
+          </div>
+          <div class="ticketitle">{{ ticket.ticketCategoryId.ticketType }}</div>
+          <h3>
+            {{ ticket.ticketCategoryId.fastTrack ? '快速通關' : '普通票' }}
+          </h3>
+        </div>
+        <!-- Qrcode位置   -->
+        <img
+          v-if="qrCodeImageUrl"
+          :src="qrCodeImageUrl"
+          :alt="ticket._id"
+        />
+      </div>
+    </section>
     <div class="title">
       <h2 class="tickstatus">票券紀錄</h2>
     </div>
@@ -353,11 +389,31 @@ h2 {
     width: 40vw;
     height: 40vh;
 
+    img {
+    }
     .box-content {
       justify-content: center;
     }
     .ticketitle {
       font-size: 48px;
+    }
+  }
+
+  .m-userTickets {
+    display: flex;
+    justify-content: space-between;
+
+    div {
+      p {
+        color: $main-color;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      h4 {
+        font-size: 25px;
+        margin-bottom: 10px;
+      }
     }
   }
 
@@ -411,11 +467,5 @@ h2 {
       font-size: 48px;
     }
   }
-}
-
-.ticketBox {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 50px;
 }
 </style>

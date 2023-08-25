@@ -1,16 +1,25 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { getFormatDateToISOString } from '@/composable';
+import router from '@/router';
+const userTickets = ref([]); //所有票券
+const ticketModal = ref(false); //單張票券彈窗開關
+const currentTicketData = ref(null); // 當前點擊票券資料
+const ticketBoxToggele = ref(false); // 無票券ＵＩ開關
 
-const userTickets = ref([]);
-const ticketModal = ref(false);
-const currentTicketData = ref(null);
-const ticketBoxToggele = ref(false);
+// 時間
+const selectedDate = computed(() => {
+  if (userTickets.value.length > 0) {
+    const firstTicket = userTickets.value[0];
+    return getFormatDateToISOString(firstTicket.ticketDate);
+  }
+});
 
-// Fetch tickets on mount
 onMounted(async () => {
   const response = await axios.get('/api/v1/userTickets//getTickets');
   userTickets.value = response.data;
+
   // 如果有票券 顯示票券 沒有票券 顯示 前往訂票
   if (userTickets.value.length === 0) {
     ticketBoxToggele.value = true;
@@ -40,7 +49,7 @@ function toCart() {
   <main>
     <div class="title">
       <h2>未使用</h2>
-      <h3>時間</h3>
+      <h3>{{ selectedDate }}</h3>
     </div>
     <!-- 單個票券 -->
     <div class="ticketBox">

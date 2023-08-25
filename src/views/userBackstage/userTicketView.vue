@@ -114,7 +114,6 @@ const getColorByTicketType = (ticketType) => {
   } else if (ticketType === '優待票') {
     return '#04D200';
   }
-  return '#B3C3C5'; // 默認顏色
 };
 
 //確認彈窗開關
@@ -222,6 +221,7 @@ const switchConfirm = () => {
       <Tickets
         v-for="(ticket, index) in userAllTickets"
         :key="ticket._id"
+        :ticketData="ticket"
       />
     </div>
 

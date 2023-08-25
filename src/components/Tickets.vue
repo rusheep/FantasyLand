@@ -10,17 +10,16 @@ const getColorByTicketType = (ticketType) => {
   } else if (ticketType === '優待票') {
     return '#04D200';
   }
-  return '#B3C3C5'; // 默认颜色
+  return '#B3C3C5';
 };
 
-// 根据票券状态和类型返回背景颜色
 const getBackgroundColor = (status, ticketType) => {
   if (status === 'used') {
-    return '#B3C3C5'; // 已使用状态的背景颜色
+    return '#B3C3C5';
   } else if (status === 'unuse') {
-    return getColorByTicketType(ticketType); // 未使用状态的背景颜色根据票券类型决定
+    return getColorByTicketType(ticketType);
   }
-  return ''; // 默认背景颜色
+  return '';
 };
 </script>
 
@@ -45,7 +44,7 @@ const getBackgroundColor = (status, ticketType) => {
         }}
       </h4>
     </div>
-    <img src="../../public/QRcode.png" />
+    <QRCodeGenerator :id="props.ticketData._id" />
   </div>
 </template>
 
@@ -55,14 +54,15 @@ const getBackgroundColor = (status, ticketType) => {
   height: 100px;
   background-color: $main-color;
   display: flex;
-  padding: 15px 12px;
+  padding: 15px 0px;
   border-radius: 10px;
-  justify-content: space-between;
+  justify-content: space-evenly;
   color: white;
+  font-size: 14px;
   .ticket-box-content {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 7px;
 
     div {
       p {
@@ -73,8 +73,11 @@ const getBackgroundColor = (status, ticketType) => {
       }
     }
     h3 {
-      font-size: 30px;
+      font-size: 20px;
       font-weight: bold;
+    }
+    h4 {
+      font-size: 14px;
     }
   }
 }

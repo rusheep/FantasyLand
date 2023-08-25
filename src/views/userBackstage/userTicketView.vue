@@ -100,7 +100,6 @@ const userAllTickets = ref();
 onMounted(async () => {
   await axios.get('/api/v1/userTickets//getTickets').then((res) => {
     userAllTickets.value = res.data;
-    console.log(userAllTickets.value);
   });
 });
 
@@ -417,5 +416,8 @@ h2 {
   display: flex;
   gap: 10px;
   margin-bottom: 50px;
+  @media screen and (max-width: 730px) {
+    flex-direction: column;
+  }
 }
 </style>

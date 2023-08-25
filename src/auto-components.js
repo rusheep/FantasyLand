@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
     Header: typeof import('./components/-Global/Header.vue')['default']
     HeaderCMS: typeof import('./components/-Global/HeaderCMS.vue')['default']
     NavBar: typeof import('./components/NavBar.vue')['default']
+    QRCodeGenerator: typeof import('./components/QRCodeGenerator.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TicketAdult: typeof import('./components/Ticket/TicketAdult.vue')['default']

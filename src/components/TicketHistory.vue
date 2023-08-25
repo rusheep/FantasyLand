@@ -5,7 +5,6 @@ import { getFormatDateToISOString } from '@/composable';
 
 onMounted(() => {
   axios.get('/api/v1/userTickets/getTickets').then((res) => {
-    console.log(res.data);
     userTickets.value = res.data;
   });
 });

@@ -39,6 +39,10 @@ const openRefundModal = (ticket) => {
         :ticketData="ticket"
         @click="openRefundModal(ticket)"
       />
+      <div class="noTicketBox">
+        <h2>目前沒有訂票</h2>
+        <Button>前往訂票頁面</Button>
+      </div>
     </div>
 
     <!-- 票券紀錄 -->
@@ -60,6 +64,7 @@ main {
   .title {
     display: flex;
     justify-content: space-between;
+
     h2 {
       color: #fff;
       width: 10rem;
@@ -69,6 +74,7 @@ main {
       padding: 0.5rem 0;
       margin-bottom: 2rem;
     }
+
     h3 {
       color: $main-color;
       padding: 0.5rem 0;
@@ -81,10 +87,19 @@ main {
     display: flex;
     gap: 10px;
     margin-bottom: 50px;
+    border-radius: 10px;
 
     @media screen and (max-width: 730px) {
       flex-direction: column;
     }
+  }
+
+  .noTicketBox {
+    background-color: #ebebeb;
+    width: 100%;
+    height: 200px;
+    text-align: center;
+    padding: 100px;
   }
 }
 </style>

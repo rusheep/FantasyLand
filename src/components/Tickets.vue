@@ -1,32 +1,13 @@
 <script setup>
 const props = defineProps(['ticketData']);
-
-const getColorByTicketType = (ticketType) => {
-  if (ticketType === '成人票') {
-    return '#00B9D2';
-  } else if (ticketType === '兒童票') {
-    return '#4786D0';
-  } else if (ticketType === '優待票') {
-    return '#04D200';
-  }
-  return '#B3C3C5';
-};
-
-const getBackgroundColor = (status, ticketType) => {
-  if (status === 'used') {
-    return '#B3C3C5';
-  } else if (status === 'unuse') {
-    return getColorByTicketType(ticketType);
-  }
-  return '';
-};
+import { getColorByTicketStatusAndType } from '@/composable';
 </script>
 
 <template>
   <div
     class="ticket-card"
     :style="{
-      backgroundColor: getBackgroundColor(
+      backgroundColor: getColorByTicketStatusAndType(
         props.ticketData.status,
         props.ticketData.ticketCategoryId.ticketType
       ),

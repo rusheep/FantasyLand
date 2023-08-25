@@ -14,6 +14,7 @@ const closeInfoModal = () => {
   refundToggle.value = true;
   btnToggle.value = true;
   emits('close');
+  location.reload();
 };
 
 const currentTicketData = ref(props.currentTicketData);
@@ -35,6 +36,7 @@ const sendRefundRequest = async () => {
     .then((res) => {
       console.log(res);
       emits('close');
+      location.reload();
     })
     .catch((err) => {
       console.log(err);

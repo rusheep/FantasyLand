@@ -254,6 +254,13 @@ const switchConfirm = () => {
   </main>
 </template>
 <style lang="scss" scoped>
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// 頁面
 main {
   width: 75%;
   margin: 0 auto;
@@ -265,6 +272,7 @@ main {
     h2 {
       color: #fff;
     }
+
     .tickstatus {
       width: 10rem;
       border-radius: 10px;
@@ -289,52 +297,47 @@ main {
     margin-bottom: 10rem;
     flex-wrap: wrap;
   }
+
   .btm-box {
     width: 100%;
     background-color: #f1f1f1;
-    padding-bottom: 2rem;
-    padding-top: 2rem;
+    padding: 2rem;
     border-radius: 15px;
 
     .form {
       width: 80%;
       margin: 0 auto;
       color: #00b9d2;
-    }
 
-    .form tbody {
-      border: 2px solid #00b9d2;
-      background-color: #fff;
-    }
+      tbody {
+        border: 2px solid #00b9d2;
+        background-color: #fff;
+      }
 
-    .form th,
-    .form td {
-      padding: 8px;
-      text-align: center;
-      font-size: 20px;
-    }
-    .form tr {
-      border-bottom: 1px solid #e4d0d0;
+      th,
+      td {
+        padding: 8px;
+        text-align: center;
+        font-size: 20px;
+      }
+
+      tr {
+        border-bottom: 1px solid #e4d0d0;
+      }
     }
   }
 }
 
-h2 {
-  margin-bottom: 10px;
-}
-
-/* 彈窗 */
-
-.modal-overlay {
+// 彈窗
+.modal-overlay,
+.confirm-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-center;
   z-index: 2;
 }
 
@@ -353,52 +356,26 @@ h2 {
     height: 40vh;
 
     .box-content {
-      justify-content: center;
+      @include flex-center;
     }
+
     .ticketitle {
       font-size: 48px;
-    }
-  }
-
-  .m-title {
-    color: $main-color;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-
-  .m-ticketInfo {
-    display: flex;
-    justify-content: space-between;
-
-    div {
-      p {
-        margin-bottom: 3px;
-      }
     }
   }
 }
 
 .btn-wrap {
-  /* text-align: end; */
-  /* margin-top: 20px; */
   width: 100%;
+
   .btn {
     border: 2px solid #fff;
     margin-right: 1rem;
   }
 }
 
-//確認彈窗
+// 確認彈窗
 .confirm-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 100;
 
   .right-side {
@@ -416,6 +393,7 @@ h2 {
   display: flex;
   gap: 10px;
   margin-bottom: 50px;
+
   @media screen and (max-width: 730px) {
     flex-direction: column;
   }

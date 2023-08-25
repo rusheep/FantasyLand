@@ -19,6 +19,8 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TicketAdult: typeof import('./components/Ticket/TicketAdult.vue')['default']
+    TicketHistory: typeof import('./components/TicketHistory.vue')['default']
+    TicketInfoRefundModal: typeof import('./components/TicketInfoRefundModal.vue')['default']
     TicketKid: typeof import('./components/Ticket/TicketKid.vue')['default']
     TicketPrivileged: typeof import('./components/Ticket/TicketPrivileged.vue')['default']
     Tickets: typeof import('./components/Tickets.vue')['default']

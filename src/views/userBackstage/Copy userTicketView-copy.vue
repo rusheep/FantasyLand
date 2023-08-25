@@ -4,7 +4,6 @@ import qrcode from 'qrcode';
 import { reactive } from 'vue';
 import { getFormatDateToISOString } from '../../composable';
 
-
 //qrcode
 const qrCodeText = ref('');
 const qrCodeImageUrl = ref('');
@@ -34,7 +33,7 @@ const ticketType = ref('');
 const ticketId = ref('');
 
 //目前有買的票
-const userTickets = ref([]); 
+const userTickets = ref([]);
 
 // 取得所有票函式
 async function fetchAndProcessTickets() {
@@ -48,7 +47,7 @@ async function fetchAndProcessTickets() {
     // 換算票的時間
     const ticketDate = unseOrTodayUsedTicket[0]?.ticketDate;
     const formattedDate = getFormatDateToISOString(ticketDate);
-    unseOrTodayUsedTicket.forEach(async(ticket) => {
+    unseOrTodayUsedTicket.forEach(async (ticket) => {
       selectedDate.value = formattedDate;
       status.value = ticket.status;
       fastTrack.value = ticket.ticketCategoryId.fastTrack;
@@ -56,8 +55,8 @@ async function fetchAndProcessTickets() {
 
       // 生成 QR Code 函式
       //把ticket的id傳給qrCodeText
-      qrCodeText.value = (ticket._id); 
-      console.log (qrCodeText.value);
+      qrCodeText.value = ticket._id;
+      console.log(qrCodeText.value);
       const generateQRCode = async () => {
         if (qrCodeText.value.trim() === '') {
           return; // Do not generate QR code for empty input
@@ -73,7 +72,6 @@ async function fetchAndProcessTickets() {
 
       //啟用qrcode函式
       await generateQRCode();
-
     });
   } catch (error) {
     console.error(error);
@@ -131,7 +129,6 @@ const switchStatus = (ticket) => {
 const switchConfirm = () => {
   confirmModal.value = !confirmModal.value;
 };
-
 </script>
 
 <template>
@@ -221,7 +218,7 @@ const switchConfirm = () => {
       </div>
     </div>
   </div>
- 
+
   <!-- 主頁面 -->
   <main>
     <div class="title">

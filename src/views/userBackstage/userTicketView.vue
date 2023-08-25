@@ -3,37 +3,28 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 const userAllTickets = ref([]);
-const infoModal = ref(false);
-const ticketId = ref('');
-const selectedDate = ref(''); // Initialize this with appropriate data
+const selectedDate = ref('');
 
 // Fetch tickets on mount
 onMounted(async () => {
   const response = await axios.get('/api/v1/userTickets//getTickets');
   userAllTickets.value = response.data;
 });
-
-const openInfoModal = (ticket) => {
-  ticketId.value = ticket._id;
-  infoModal.value = true;
-};
 </script>
 
 <template>
   <NavBar />
-  <!-- 主頁面 -->
   <main>
     <div class="title">
       <h2>未使用</h2>
       <h3>{{ selectedDate }}</h3>
     </div>
-    <!-- 票券 -->
+    <!-- 單個票券 -->
     <div class="ticketBox">
       <Tickets
         v-for="(ticket, index) in userAllTickets"
         :key="ticket._id"
         :ticketData="ticket"
-        @click="openInfoModal(ticket)"
       />
     </div>
 

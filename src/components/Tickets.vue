@@ -1,7 +1,6 @@
 <script setup>
 const props = defineProps(['ticketData']);
 
-// 根据票券类型返回颜色
 const getColorByTicketType = (ticketType) => {
   if (ticketType === '成人票') {
     return '#00B9D2';

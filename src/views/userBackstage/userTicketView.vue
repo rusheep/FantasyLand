@@ -5,17 +5,28 @@ import axios from 'axios';
 const userTickets = ref([]);
 const ticketModal = ref(false);
 const currentTicketData = ref(null);
+const ticketBoxToggele = ref(false);
 
 // Fetch tickets on mount
 onMounted(async () => {
   const response = await axios.get('/api/v1/userTickets//getTickets');
   userTickets.value = response.data;
+  // 如果有票券 顯示票券 沒有票券 顯示 前往訂票
+  if (userTickets.value.length === 0) {
+    ticketBoxToggele.value = true;
+  } else {
+    ticketBoxToggele.value = false;
+  }
 });
 
 const openRefundModal = (ticket) => {
   currentTicketData.value = ticket;
   ticketModal.value = true;
 };
+
+function toCart() {
+  router.push('/user/cart');
+}
 </script>
 
 <template>
@@ -39,6 +50,13 @@ const openRefundModal = (ticket) => {
         :ticketData="ticket"
         @click="openRefundModal(ticket)"
       />
+      <div
+        class="noTicketBox"
+        v-if="ticketBoxToggele"
+      >
+        <h2>目前沒有訂票</h2>
+        <Button @click="toCart">前往訂票頁面</Button>
+      </div>
     </div>
 
     <!-- 票券紀錄 -->
@@ -85,6 +103,14 @@ main {
     @media screen and (max-width: 730px) {
       flex-direction: column;
     }
+  }
+
+  .noTicketBox {
+    background-color: #ebebeb;
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    padding: 50px;
   }
 }
 </style>

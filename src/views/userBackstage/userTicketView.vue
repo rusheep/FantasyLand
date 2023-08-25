@@ -29,8 +29,10 @@ onMounted(async () => {
 });
 
 const openRefundModal = (ticket) => {
-  currentTicketData.value = ticket;
-  ticketModal.value = true;
+  if (ticket.status !== 'used') {
+    currentTicketData.value = ticket;
+    ticketModal.value = true;
+  }
 };
 
 function toCart() {

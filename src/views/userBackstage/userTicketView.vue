@@ -2,29 +2,42 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
-const userAllTickets = ref([]);
-const selectedDate = ref('');
+const userTickets = ref([]);
+const ticketModal = ref(false);
+const selectedTicket = ref(null);
 
 // Fetch tickets on mount
 onMounted(async () => {
   const response = await axios.get('/api/v1/userTickets//getTickets');
-  userAllTickets.value = response.data;
+  userTickets.value = response.data;
 });
+
+const openRefundModal = (ticket) => {
+  console.log('test');
+  selectedTicket.value = ticket;
+  ticketModal.value = true;
+};
 </script>
 
 <template>
   <NavBar />
+  <TicketInfoRefundModal
+    :isOpen="ticketModal"
+    @close="ticketModal = false"
+  />
+
   <main>
     <div class="title">
       <h2>未使用</h2>
-      <h3>{{ selectedDate }}</h3>
+      <h3>時間</h3>
     </div>
     <!-- 單個票券 -->
     <div class="ticketBox">
       <Tickets
-        v-for="(ticket, index) in userAllTickets"
+        v-for="(ticket, index) in userTickets"
         :key="ticket._id"
         :ticketData="ticket"
+        @click="openRefundModal(ticket)"
       />
     </div>
 

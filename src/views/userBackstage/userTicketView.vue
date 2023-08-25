@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const userTickets = ref([]);
 const ticketModal = ref(false);
-const selectedTicket = ref(null);
+const currentTicketData = ref(null);
 
 // Fetch tickets on mount
 onMounted(async () => {
@@ -13,8 +13,7 @@ onMounted(async () => {
 });
 
 const openRefundModal = (ticket) => {
-  console.log('test');
-  selectedTicket.value = ticket;
+  currentTicketData.value = ticket;
   ticketModal.value = true;
 };
 </script>
@@ -24,6 +23,7 @@ const openRefundModal = (ticket) => {
   <TicketInfoRefundModal
     :isOpen="ticketModal"
     @close="ticketModal = false"
+    :currentTicketData="currentTicketData"
   />
 
   <main>

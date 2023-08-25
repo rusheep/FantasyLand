@@ -9,20 +9,25 @@ const getColorByTicketType = (ticketType) => {
   }
   return '#B3C3C5';
 };
-const isOpen = ref(false);
 
-const openInfoModal = () => {
-  isOpen.value = true;
-};
 const emits = defineEmits();
 
 const closeInfoModal = () => {
-  emits('close'); // 触发自定义事件 close
+  emits('close');
 };
 
 const props = defineProps({
-  isOpen: Boolean, // 接收父层传递的是否显示模态框的状态
+  isOpen: Boolean,
+  currentTicketData: Object,
 });
+const currentTicketData = ref(props.currentTicketData);
+
+watch(
+  () => props.currentTicketData,
+  (newData) => {
+    currentTicketData.value = newData;
+  }
+);
 </script>
 <template>
   <div
@@ -34,10 +39,18 @@ const props = defineProps({
         <div class="card">
           <div class="box-content">
             <div class="status">
-              <p>已使用</p>
+              <p>{{ currentTicketData.status }}</p>
             </div>
-            <div class="ticketitle">ticketType</div>
-            <h3>fastTrack</h3>
+            <div class="ticketitle">
+              {{ currentTicketData.ticketCategoryId.ticketType }}
+            </div>
+            <h3>
+              {{
+                currentTicketData.ticketCategoryId.fastTrack
+                  ? '快速通關'
+                  : '一般票'
+              }}
+            </h3>
             <!-- 其他详细信息的显示 -->
             <div class="btn-wrap">
               <Button
@@ -50,12 +63,11 @@ const props = defineProps({
               <Button
                 class="btn"
                 btnColor="rgba(0,0,0,0)"
-                @click="switchConfirm"
                 >退票</Button
               >
             </div>
           </div>
-          <img src="../../public/QRcode.png" />
+          <QRCodeGenerator :id="currentTicketData._id" />
         </div>
       </div>
     </div>

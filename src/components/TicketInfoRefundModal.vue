@@ -1,6 +1,8 @@
 <script setup>
 import { getColorByTicketStatusAndType } from '@/composable';
 const currentTicketData = ref(props.currentTicketData);
+const refundToggle = ref(true);
+const btnToggle = ref(true);
 
 const props = defineProps({
   isOpen: Boolean,
@@ -9,6 +11,8 @@ const props = defineProps({
 
 const emits = defineEmits();
 const closeInfoModal = () => {
+  refundToggle.value = true;
+  btnToggle.value = true;
   emits('close');
 };
 
@@ -18,6 +22,13 @@ watch(
     currentTicketData.value = newData;
   }
 );
+
+function refundClick() {
+  console.log('test');
+
+  refundToggle.value = false;
+  btnToggle.value = false;
+}
 </script>
 <template>
   <div
@@ -48,22 +59,53 @@ watch(
           }}
         </h3>
 
-        <div class="btn-wrap">
+        <div
+          class="btn-wrap"
+          v-if="btnToggle"
+        >
           <Button
-            class="btn"
             btnFontSize="0.5"
-            btnColor="rgba(0,0,0,0)"
             @click="closeInfoModal"
             >返回</Button
           >
           <Button
             class="btn"
             btnColor="rgba(0,0,0,0)"
+            btnHoverColor="none"
+            @click="refundClick"
             >退票</Button
           >
         </div>
+        <div
+          class="btn-wrap"
+          v-else
+        >
+          <Button
+            btnFontSize="0.5"
+            @click="closeInfoModal"
+            >不想退票</Button
+          >
+          <Button
+            class="btn"
+            btnColor="rgba(0,0,0,0)"
+            btnHoverColor="none"
+            @click="refundClick"
+            >我想退票</Button
+          >
+        </div>
       </div>
-      <QRCodeGenerator :id="currentTicketData._id" />
+
+      <QRCodeGenerator
+        v-if="refundToggle"
+        :id="currentTicketData._id"
+        class="qrcode"
+      />
+      <div
+        class="refundPrice"
+        v-else
+      >
+        2000元
+      </div>
     </div>
   </div>
 </template>
@@ -81,6 +123,8 @@ watch(
   align-items: center;
   z-index: 2;
   .card {
+    display: flex;
+    align-items: center;
     padding: 40px 30px;
     width: 40vw;
     height: 40vh;
@@ -101,11 +145,24 @@ h3 {
 }
 .btn-wrap {
   width: 100%;
+  display: flex;
+  gap: 20px;
   .btn {
     border: 2px solid #fff;
     margin-right: 1rem;
   }
 }
 
-//確認彈窗
+.refundPrice {
+  font-size: 60px;
+  font-weight: bold;
+  color: white;
+
+  margin-bottom: 70px;
+}
+
+.qrcode {
+  width: 200px;
+  height: 200px;
+}
 </style>

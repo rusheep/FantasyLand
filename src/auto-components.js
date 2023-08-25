@@ -15,10 +15,15 @@ declare module '@vue/runtime-core' {
     Header: typeof import('./components/-Global/Header.vue')['default']
     HeaderCMS: typeof import('./components/-Global/HeaderCMS.vue')['default']
     NavBar: typeof import('./components/NavBar.vue')['default']
+    QRCodeGenerator: typeof import('./components/QRCodeGenerator.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TicketAdult: typeof import('./components/Ticket/TicketAdult.vue')['default']
+    TicketHistory: typeof import('./components/TicketHistory.vue')['default']
+    TicketInfoRefundModal: typeof import('./components/TicketInfoRefundModal.vue')['default']
     TicketKid: typeof import('./components/Ticket/TicketKid.vue')['default']
     TicketPrivileged: typeof import('./components/Ticket/TicketPrivileged.vue')['default']
+    Tickets: typeof import('./components/Tickets.vue')['default']
+    UserTickets: typeof import('./components/userTickets.vue')['default']
   }
 }

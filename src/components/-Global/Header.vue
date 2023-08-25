@@ -20,7 +20,7 @@ function getFirstPathSegment(path) {
 
 // 每次切換頁面 會做判斷並且換 Header
 router.beforeEach((to, from, next) => {
-  console.log('Navigating from', from.path, 'to', to.path);
+  // console.log('Navigating from', from.path, 'to', to.path);
 
   const path = getFirstPathSegment(to.path);
   if (path === 'user') {

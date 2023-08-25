@@ -20,7 +20,7 @@ import { getColorByTicketStatusAndType } from '@/composable';
       <h3>{{ props.ticketData.ticketCategoryId.ticketType }}</h3>
       <h4>
         {{
-          props.ticketData.ticketCategoryId.fastTrack ? '快速通關' : '普通票'
+          props.ticketData.ticketCategoryId.fastTrack ? '快速通關' : '一般票'
         }}
       </h4>
     </div>

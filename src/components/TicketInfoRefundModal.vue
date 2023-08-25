@@ -1,14 +1,5 @@
 <script setup>
-const getColorByTicketType = (ticketType) => {
-  if (ticketType === '成人票') {
-    return '#00B9D2';
-  } else if (ticketType === '兒童票') {
-    return '#4786D0';
-  } else if (ticketType === '優待票') {
-    return '#04D200';
-  }
-  return '#B3C3C5';
-};
+import { getColorByTicketStatusAndType } from '@/composable';
 
 const emits = defineEmits();
 
@@ -36,10 +27,20 @@ watch(
   >
     <div class="modal">
       <div class="m-wrapper">
-        <div class="card">
+        <div
+          class="card"
+          :style="{
+            backgroundColor: getColorByTicketStatusAndType(
+              currentTicketData.status,
+              currentTicketData.ticketCategoryId.ticketType
+            ),
+          }"
+        >
           <div class="box-content">
             <div class="status">
-              <p>{{ currentTicketData.status }}</p>
+              <p>
+                {{ currentTicketData.status === 'used' ? '已使用' : '未使用' }}
+              </p>
             </div>
             <div class="ticketitle">
               {{ currentTicketData.ticketCategoryId.ticketType }}

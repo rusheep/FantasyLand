@@ -1,25 +1,31 @@
 <script setup>
-import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import router from '@/router';
-
+import { getFormatDateToISOString } from '../../composable';
 const userTickets = ref([]);
 const ticketModal = ref(false);
 const currentTicketData = ref(null);
 const ticketBoxToggele = ref(true);
 
+// 票的日期
+const selectedDate = computed(() => {
+  if (userTickets.value.length > 0) {
+    const firstTicket = userTickets.value[0];
+    return getFormatDateToISOString(firstTicket.ticketDate);
+  }
+});
 // Fetch tickets on mount
 onMounted(async () => {
   const response = await axios.get('/api/v1/userTickets//getTickets');
   userTickets.value = response.data;
-});
 
-// 如果有票券 顯示票券 沒有票券 顯示 前往訂票
-if (userTickets.value.length > 0) {
-  ticketBoxToggele.value = true;
-} else {
-  ticketBoxToggele.value = false;
-}
+  // 如果有票券 顯示票券 沒有票券 顯示 前往訂票
+  if (userTickets.value.length > 0) {
+    ticketBoxToggele.value = true;
+  } else {
+    ticketBoxToggele.value = false;
+  }
+});
 
 // 票券彈窗
 const openRefundModal = (ticket) => {
@@ -43,16 +49,16 @@ function toCart() {
   <main>
     <div class="title">
       <h2>未使用</h2>
-      <h3>時間</h3>
+      <h3>{{ selectedDate }}</h3>
     </div>
     <!-- 單個票券 -->
     <div class="ticketBox">
       <Tickets
+        v-if="ticketBoxToggele"
         v-for="(ticket, index) in userTickets"
         :key="ticket._id"
         :ticketData="ticket"
         @click="openRefundModal(ticket)"
-        v-if="ticketBoxToggele"
       />
       <div
         class="noTicketBox"

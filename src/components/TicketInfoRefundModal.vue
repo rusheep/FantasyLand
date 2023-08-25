@@ -1,6 +1,6 @@
 <script setup>
 import { getColorByTicketStatusAndType } from '@/composable';
-const currentTicketData = ref(props.currentTicketData);
+import axios from 'axios';
 const refundToggle = ref(true);
 const btnToggle = ref(true);
 
@@ -16,6 +16,7 @@ const closeInfoModal = () => {
   emits('close');
 };
 
+const currentTicketData = ref(props.currentTicketData);
 watch(
   () => props.currentTicketData,
   (newData) => {
@@ -24,11 +25,21 @@ watch(
 );
 
 function refundClick() {
-  console.log('test');
-
   refundToggle.value = false;
   btnToggle.value = false;
 }
+
+const sendRefundRequest = async () => {
+  axios
+    .get(`/api/v1/userTickets/refund/${currentTicketData.value._id}`)
+    .then((res) => {
+      console.log(res);
+      emits('close');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 </script>
 <template>
   <div
@@ -89,7 +100,7 @@ function refundClick() {
             class="btn"
             btnColor="rgba(0,0,0,0)"
             btnHoverColor="none"
-            @click="refundClick"
+            @click="sendRefundRequest"
             >我想退票</Button
           >
         </div>

@@ -1,10 +1,12 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import router from '@/router';
 
 const userTickets = ref([]);
 const ticketModal = ref(false);
 const currentTicketData = ref(null);
+const ticketBoxToggele = ref(true);
 
 // Fetch tickets on mount
 onMounted(async () => {
@@ -12,10 +14,22 @@ onMounted(async () => {
   userTickets.value = response.data;
 });
 
+// 如果有票券 顯示票券 沒有票券 顯示 前往訂票
+if (userTickets.value.length > 0) {
+  ticketBoxToggele.value = true;
+} else {
+  ticketBoxToggele.value = false;
+}
+
+// 票券彈窗
 const openRefundModal = (ticket) => {
   currentTicketData.value = ticket;
-  ticketModal.value = true;
+  ticketModal.value = false;
 };
+
+function toCart() {
+  router.push('/user/cart');
+}
 </script>
 
 <template>
@@ -38,10 +52,14 @@ const openRefundModal = (ticket) => {
         :key="ticket._id"
         :ticketData="ticket"
         @click="openRefundModal(ticket)"
+        v-if="ticketBoxToggele"
       />
-      <div class="noTicketBox">
+      <div
+        class="noTicketBox"
+        v-else
+      >
         <h2>目前沒有訂票</h2>
-        <Button>前往訂票頁面</Button>
+        <Button @click="toCart">前往訂票頁面</Button>
       </div>
     </div>
 
@@ -97,9 +115,9 @@ main {
   .noTicketBox {
     background-color: #ebebeb;
     width: 100%;
-    height: 200px;
+    height: 100px;
     text-align: center;
-    padding: 100px;
+    padding: 50px 0;
   }
 }
 </style>

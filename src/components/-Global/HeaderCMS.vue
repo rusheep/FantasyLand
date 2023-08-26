@@ -77,7 +77,7 @@ async function login() {
       <a
         v-if="loginOutvalue"
         @click.prevent="login"
-        >驗證登入</a
+        >登入</a
       >
       <a
         v-else
@@ -98,7 +98,9 @@ async function login() {
   flex-direction: column;
   align-items: center;
   text-align: center;
-
+  @media screen and (max-width: 730px) {
+    top: -15px;
+  }
   img {
     width: 80px;
   }
@@ -107,6 +109,11 @@ async function login() {
     position: relative;
     top: 40px;
     z-index: 1;
+    @media screen and (max-width: 730px) {
+      width: 60px;
+      height: 60px;
+      top: 30px;
+    }
   }
 
   header {
@@ -119,12 +126,20 @@ async function login() {
     justify-content: space-between;
     align-items: center;
     border-radius: 10px;
+    @media screen and (max-width: 730px) {
+      width: 90%;
+    }
 
     h1 {
       margin-top: 30px;
       font-size: 18px;
       font-weight: bold;
       color: white;
+      z-index: 3;
+      @media screen and (max-width: 730px) {
+        font-size: 15px;
+        display: block;
+      }
     }
     a {
       margin-top: 30px;

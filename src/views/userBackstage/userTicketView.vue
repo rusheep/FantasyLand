@@ -35,6 +35,11 @@ const openRefundModal = (ticket) => {
   }
 };
 
+const refreshTickets = async () => {
+  const response = await axios.get('/api/v1/userTickets/getTickets');
+  userTickets.value = response.data;
+};
+
 function toCart() {
   router.push('/user/cart');
 }
@@ -46,6 +51,7 @@ function toCart() {
     :isOpen="ticketModal"
     @close="ticketModal = false"
     :currentTicketData="currentTicketData"
+    @refresh-tickets="refreshTickets"
   />
 
   <main>

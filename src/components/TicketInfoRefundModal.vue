@@ -14,7 +14,7 @@ const closeInfoModal = () => {
   refundToggle.value = true;
   btnToggle.value = true;
   emits('close');
-  location.reload();
+  emits('refresh-tickets');
 };
 
 const currentTicketData = ref(props.currentTicketData);
@@ -34,9 +34,8 @@ const sendRefundRequest = async () => {
   axios
     .get(`/api/v1/userTickets/refund/${currentTicketData.value._id}`)
     .then((res) => {
-      console.log(res);
       emits('close');
-      location.reload();
+      emits('refresh-tickets');
     })
     .catch((err) => {
       console.log(err);

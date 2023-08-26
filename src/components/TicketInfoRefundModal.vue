@@ -117,7 +117,7 @@ const sendRefundRequest = async () => {
         class="refundPrice"
         v-else
       >
-        2000元
+        {{ props.currentTicketData.currentPurchasePrice }}元
       </div>
     </div>
   </div>

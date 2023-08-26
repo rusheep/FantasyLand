@@ -34,6 +34,8 @@ const sendRefundRequest = async () => {
   axios
     .get(`/api/v1/userTickets/refund/${currentTicketData.value._id}`)
     .then((res) => {
+      refundToggle.value = true;
+      btnToggle.value = true;
       emits('close');
       emits('refresh-tickets');
     })

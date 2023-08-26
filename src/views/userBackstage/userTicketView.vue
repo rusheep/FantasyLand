@@ -17,15 +17,7 @@ const selectedDate = computed(() => {
 });
 
 onMounted(async () => {
-  const response = await axios.get('/api/v1/userTickets//getTickets');
-  userTickets.value = response.data;
-
-  // 如果有票券 顯示票券 沒有票券 顯示 前往訂票
-  if (userTickets.value.length === 0) {
-    ticketBoxToggele.value = true;
-  } else {
-    ticketBoxToggele.value = false;
-  }
+  refreshTickets();
 });
 
 const openRefundModal = (ticket) => {
@@ -38,6 +30,11 @@ const openRefundModal = (ticket) => {
 const refreshTickets = async () => {
   const response = await axios.get('/api/v1/userTickets/getTickets');
   userTickets.value = response.data;
+  if (userTickets.value.length === 0) {
+    ticketBoxToggele.value = true;
+  } else {
+    ticketBoxToggele.value = false;
+  }
 };
 
 function toCart() {

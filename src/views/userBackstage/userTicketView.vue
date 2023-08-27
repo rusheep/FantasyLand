@@ -109,10 +109,11 @@ main {
     display: flex;
     gap: 10px;
     margin-bottom: 50px;
-    margin-top: 30px;
+
     @media screen and (max-width: 730px) {
       flex-direction: column;
       align-items: center;
+      margin-top: 30px;
     }
   }
 

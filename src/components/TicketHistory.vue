@@ -72,15 +72,15 @@ onMounted(() => {
     padding: 0.5rem 0;
     font-weight: bold;
     font-size: 24px;
+    display: flex;
+    justify-content: start;
+    gap: 60px;
+    margin-bottom: 10rem;
+    flex-wrap: wrap;
   }
 }
 
 section {
-  display: flex;
-  justify-content: start;
-  gap: 60px;
-  margin-bottom: 10rem;
-  flex-wrap: wrap;
 }
 
 .btm-box {

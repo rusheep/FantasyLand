@@ -53,7 +53,6 @@ function toCart() {
 
   <main>
     <div class="title">
-      <h2>未使用</h2>
       <h3>{{ selectedDate }}</h3>
     </div>
     <!-- 單個票券 -->
@@ -91,7 +90,10 @@ main {
 
   .title {
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
+    @media screen and (max-width: 730px) {
+      justify-content: center;
+    }
     h2 {
       color: #fff;
       width: 10rem;
@@ -112,10 +114,13 @@ main {
   .ticketBox {
     display: flex;
     gap: 10px;
+    margin-top: 20px;
     margin-bottom: 50px;
 
     @media screen and (max-width: 730px) {
+      margin-top: 0px;
       flex-direction: column;
+      align-items: center;
     }
   }
 

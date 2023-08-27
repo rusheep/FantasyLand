@@ -12,103 +12,114 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="ticket-records">
-    <div class="title">
-      <h2 class="tickstatus">票券紀錄</h2>
-    </div>
-    <section class="btm-box">
-      <table class="form">
-        <thead>
-          <tr>
-            <th>日期</th>
-            <th>狀態</th>
-            <th>票型</th>
-            <th>價格</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="ticket in userTickets"
-            :key="ticket._id"
-          >
-            <td>
-              {{
-                ticket.ticketDate && getFormatDateToISOString(ticket.ticketDate)
-              }}
-            </td>
-            <td>{{ ticket.status }}</td>
-            <td>
-              {{ ticket.ticketCategoryId.ticketType }}
-              {{ ticket.ticketCategoryId.fastTrack ? '快速通關' : '一般票' }}
-            </td>
-            <td>{{ ticket.currentPurchasePrice }}元</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+  <div class="title">
+    <h2>票券紀錄</h2>
   </div>
+  <section>
+    <table class="responsive-table">
+      <thead>
+        <tr>
+          <th>日期</th>
+          <th>狀態</th>
+          <th>票型</th>
+          <th>價格</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="ticket in userTickets"
+          :key="ticket._id"
+        >
+          <td>
+            {{
+              ticket.ticketDate && getFormatDateToISOString(ticket.ticketDate)
+            }}
+          </td>
+          <td>{{ ticket.status }}</td>
+          <td>
+            {{ ticket.ticketCategoryId.ticketType }}
+            {{ ticket.ticketCategoryId.fastTrack ? '快速通關' : '一般票' }}
+          </td>
+          <td>{{ ticket.currentPurchasePrice }}元</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 </template>
 
 <style lang="scss" scoped>
 .title {
-  display: flex;
-  justify-content: space-between;
-
+  @media screen and (max-width: 730px) {
+    display: flex;
+    justify-content: center;
+  }
   h2 {
     color: #fff;
-  }
-
-  .tickstatus {
     width: 10rem;
     border-radius: 10px;
     text-align: center;
     background-color: $main-color;
     padding: 0.5rem 0;
     margin-bottom: 2rem;
-  }
-
-  .date {
-    color: $main-color;
-    padding: 0.5rem 0;
-    font-weight: bold;
-    font-size: 24px;
+    @media screen and (max-width: 730px) {
+      font-size: 14px;
+      padding: 0.5rem 0.5rem;
+      width: 4rem;
+    }
   }
 }
 
 section {
-  display: flex;
-  justify-content: start;
-  gap: 60px;
-  margin-bottom: 10rem;
-  flex-wrap: wrap;
-}
-
-.btm-box {
   width: 100%;
   background-color: #f1f1f1;
   padding: 2rem;
   border-radius: 15px;
 
-  .form {
-    width: 80%;
-    margin: 0 auto;
-    color: #00b9d2;
+  @media screen and (max-width: 730px) {
+    padding: 0.5rem;
+  }
+}
 
-    tbody {
-      border: 2px solid #00b9d2;
-      background-color: #fff;
+table {
+  width: 80%;
+  margin: 0 auto;
+  color: #00b9d2;
+  @media screen and (max-width: 730px) {
+    table th:nth-child(2),
+    table td:nth-child(2),
+    table th:nth-child(4),
+    tabletd:nth-child(4) {
+      display: none;
     }
+  }
 
-    th,
-    td {
-      padding: 8px;
-      text-align: center;
-      font-size: 20px;
-    }
+  tbody {
+    border: 2px solid #00b9d2;
+    background-color: #fff;
+  }
 
-    tr {
-      border-bottom: 1px solid #e4d0d0;
+  th,
+  td {
+    padding: 8px;
+    text-align: center;
+    font-size: 20px;
+
+    @media screen and (max-width: 730px) {
+      font-size: 13px;
     }
+  }
+
+  tr {
+    border-bottom: 1px solid #e4d0d0;
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .responsive-table th:nth-child(2), /* 隐藏狀態列 */
+  .responsive-table td:nth-child(2),
+  .responsive-table th:nth-child(4), /* 隐藏價格列 */
+  .responsive-table td:nth-child(4) {
+    display: none;
   }
 }
 </style>

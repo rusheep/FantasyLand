@@ -72,7 +72,17 @@ const sendRefundRequest = async () => {
             currentTicketData.ticketCategoryId.fastTrack ? '快速通關' : '一般票'
           }}
         </h3>
-
+        <QRCodeGenerator
+          v-if="refundToggle"
+          :id="currentTicketData._id"
+          class="qrcode-rwd"
+        />
+        <div
+          class="refundPrice-rwd"
+          v-else
+        >
+          {{ props.currentTicketData.currentPurchasePrice }}元
+        </div>
         <div
           class="btn-wrap"
           v-if="btnToggle"
@@ -142,25 +152,52 @@ const sendRefundRequest = async () => {
     padding: 40px 30px;
     width: 40vw;
     height: 40vh;
+
+    @media screen and (max-width: 730px) {
+      display: block;
+      padding: 20px 10px;
+      padding-bottom: 100px;
+      width: 80%;
+    }
     .box-content {
       justify-content: center;
+      @media screen and (max-width: 730px) {
+        display: flex;
+        align-items: center;
+      }
+      .status {
+        @media screen and (max-width: 730px) {
+          display: none;
+        }
+      }
     }
   }
 }
 
 .ticketitle {
   font-size: 48px;
+  @media screen and (max-width: 730px) {
+    font-size: 30px;
+  }
 }
 h3 {
   font-size: 30px;
   color: #ffff;
   font-weight: bold;
   margin-bottom: 3rem;
+  @media screen and (max-width: 730px) {
+    font-size: 20px;
+    margin-bottom: 0rem;
+  }
 }
 .btn-wrap {
   width: 100%;
   display: flex;
   gap: 20px;
+
+  @media screen and (max-width: 730px) {
+    justify-content: center;
+  }
   .btn {
     border: 2px solid #fff;
     margin-right: 1rem;
@@ -173,10 +210,42 @@ h3 {
   color: white;
 
   margin-bottom: 70px;
+  @media screen and (max-width: 730px) {
+    display: none;
+  }
+}
+
+.refundPrice-rwd {
+  display: none;
+  font-size: 60px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 70px;
+  @media screen and (max-width: 730px) {
+    display: block;
+    margin-top: 50px;
+  }
 }
 
 .qrcode {
   width: 200px;
   height: 200px;
+
+  @media screen and (max-width: 730px) {
+    display: none;
+  }
+}
+
+.qrcode-rwd {
+  width: 200px;
+  height: 200px;
+  display: none;
+
+  @media screen and (max-width: 730px) {
+    width: 80%;
+    height: 80%;
+    display: block;
+    margin: 10px 10px;
+  }
 }
 </style>

@@ -15,7 +15,7 @@
         to="/Qrlogin"
       >
         <div>
-          <h3>驗票(使用手機)</h3>
+          <h3>手機驗票</h3>
         </div></router-link
       >
     </section>

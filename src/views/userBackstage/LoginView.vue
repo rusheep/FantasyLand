@@ -76,7 +76,7 @@ async function submit() {
         </div>
         <div class="input-box">
           <div class="emailpassword-box">
-            <p>密嗎</p>
+            <p>密碼</p>
             <p
               v-show="passwordError"
               style="color: red; font-size: 10px"

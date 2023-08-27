@@ -114,38 +114,53 @@ const totalTicketCount = computed(() => {
   }, 0);
 });
 
+
+//防抖
+let debounceTimeout; // 用於儲存防抖計時器的變數
+
 async function submit() {
   if (!selectedDate.value) {
-    return alert('請輸入日期');
+    return alert('請輸入日期'); // 如果沒有選擇日期，彈出警告提示
   }
 
   if (totalTicketCount.value === 0) {
-    return alert('請加購票券');
+    return alert('請加購票券'); // 如果票券數量為零，彈出警告提示
   }
 
-  // 先把 資料變成POST的API
-  const formattedData = ticketInfo.value.allTicketsInfo
-    .filter((item) => item.amount !== 0)
-    .map((item) => ({
-      ticketDate: selectedDate.value, // 日期信息，您可以替换成实际的日期
-      ticketId: item._id,
-      amount: item.amount,
-    }));
+  // 清除之前可能存在的防抖計時器
+  clearTimeout(debounceTimeout);
 
-  if (selectedDate.value && totalTicketCount.value > 0) {
-    axios
-      .post('/api/v1/order', formattedData)
-      .then((res) => {
-        localStorage.setItem('order', JSON.stringify(res.data));
+  // 設置一個新的防抖計時器，在一定時間（這裡是500毫秒）後執行內部的程式碼
+  debounceTimeout = setTimeout(async () => {
+    // 在防抖函式內部的現有程式碼
+
+    // 格式化資料，過濾掉數量為零的票券
+    const formattedData = ticketInfo.value.allTicketsInfo
+      .filter((item) => item.amount !== 0)
+      .map((item) => ({
+        ticketDate: selectedDate.value,
+        ticketId: item._id,
+        amount: item.amount,
+      }));
+
+    if (selectedDate.value && totalTicketCount.value > 0) {
+      try {
+        // 使用axios送出POST請求到API端點
+        const response = await axios.post('/api/v1/order', formattedData);
+        // 將訂單資料儲存到本地儲存中
+        localStorage.setItem('order', JSON.stringify(response.data));
+        // 導向使用者訂單頁面
         router.push('/user/order');
-        return;
-      })
-      .catch((error) => {
+      } catch (error) {
+        // 如果送出失敗，彈出錯誤訊息
         alert(error.response.data.msg);
-        return;
-      });
-  }
+      }
+    }
+  }, 500); // 根據需要調整防抖時間
 }
+
+
+
 </script>
 <template>
   <!-- 彈窗 -->

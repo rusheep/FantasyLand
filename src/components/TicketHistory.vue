@@ -48,14 +48,25 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-h2 {
-  color: #fff;
-  width: 10rem;
-  border-radius: 10px;
-  text-align: center;
-  background-color: $main-color;
-  padding: 0.5rem 0;
-  margin-bottom: 2rem;
+.title {
+  @media screen and (max-width: 730px) {
+    display: flex;
+    justify-content: center;
+  }
+  h2 {
+    color: #fff;
+    width: 10rem;
+    border-radius: 10px;
+    text-align: center;
+    background-color: $main-color;
+    padding: 0.5rem 0;
+    margin-bottom: 2rem;
+    @media screen and (max-width: 730px) {
+      font-size: 14px;
+      padding: 0.5rem 0.5rem;
+      width: 4rem;
+    }
+  }
 }
 
 section {

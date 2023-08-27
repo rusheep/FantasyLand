@@ -2,6 +2,7 @@
 import axios from 'axios';
 const userTickets = ref();
 import { getFormatDateToISOString } from '@/composable';
+import { getTicketStatusText } from '@/composable';
 
 onMounted(() => {
   axios.get('/api/v1/userTickets/getTickets').then((res) => {
@@ -35,7 +36,7 @@ onMounted(() => {
               ticket.ticketDate && getFormatDateToISOString(ticket.ticketDate)
             }}
           </td>
-          <td>{{ ticket.status }}</td>
+          <td>{{ getTicketStatusText(ticket.status) }}</td>
           <td>
             {{ ticket.ticketCategoryId.ticketType }}
             {{ ticket.ticketCategoryId.fastTrack ? '快速通關' : '一般票' }}

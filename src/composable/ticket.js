@@ -13,3 +13,14 @@ export const colorByTicketStatusAndType = (status, ticketType) => {
   }
   return '';
 };
+
+//票券狀態文字轉換
+export const ticketStatusText = (status)=>{
+  if (status ==='used') {
+    return '已使用';
+  }else if(status === 'unuse') {
+    return '未使用';
+  }else {
+    return '錯誤狀態';
+  }
+}

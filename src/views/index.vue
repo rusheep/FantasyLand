@@ -7,7 +7,7 @@
         to="/login"
       >
         <div>
-          <h3>使用者訂票</h3>
+          <h3>線上購票</h3>
         </div></router-link
       >
       <router-link

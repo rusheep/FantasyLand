@@ -12,68 +12,53 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="title">
-    <h2>票券紀錄</h2>
-  </div>
-  <section>
-    <table class="responsive-table">
-      <thead>
-        <tr>
-          <th>日期</th>
-          <th>狀態</th>
-          <th>票型</th>
-          <th>價格</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="ticket in userTickets"
-          :key="ticket._id"
-        >
-          <td>
-            {{
-              ticket.ticketDate && getFormatDateToISOString(ticket.ticketDate)
-            }}
-          </td>
-          <td>{{ ticket.status }}</td>
-          <td>
-            {{ ticket.ticketCategoryId.ticketType }}
-            {{ ticket.ticketCategoryId.fastTrack ? '快速通關' : '一般票' }}
-          </td>
-          <td>{{ ticket.currentPurchasePrice }}元</td>
-        </tr>
-      </tbody>
-    </table>
-    <div>
-      <router-link to="/user/userTicket/ticketHistory">查看全部</router-link>
-    </div>
-  </section>
+  <main>
+    <NavBar
+      :statusIdx="0"
+      class="navbar"
+    />
+
+    <router-link to="/user/userTicket">回上一頁</router-link>
+    <section>
+      <table class="responsive-table">
+        <thead>
+          <tr>
+            <th>日期</th>
+            <th>狀態</th>
+            <th>票型</th>
+            <th>價格</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="ticket in userTickets"
+            :key="ticket._id"
+          >
+            <td>
+              {{
+                ticket.ticketDate && getFormatDateToISOString(ticket.ticketDate)
+              }}
+            </td>
+            <td>{{ ticket.status }}</td>
+            <td>
+              {{ ticket.ticketCategoryId.ticketType }}
+              {{ ticket.ticketCategoryId.fastTrack ? '快速通關' : '一般票' }}
+            </td>
+            <td>{{ ticket.currentPurchasePrice }}元</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
 </template>
 
 <style lang="scss" scoped>
-.title {
-  @media screen and (max-width: 730px) {
-    display: flex;
-    justify-content: center;
-  }
-  h2 {
-    color: #fff;
-    width: 10rem;
-    border-radius: 10px;
-    text-align: center;
-    background-color: $main-color;
-    padding: 0.5rem 0;
-    margin-bottom: 2rem;
-    @media screen and (max-width: 730px) {
-      font-size: 14px;
-      padding: 0.5rem 0.5rem;
-      width: 4rem;
-    }
-  }
+main {
+  margin: 0 auto;
+  width: 75%;
 }
 
 section {
-  width: 100%;
   background-color: #f1f1f1;
   padding: 2rem;
   border-radius: 15px;

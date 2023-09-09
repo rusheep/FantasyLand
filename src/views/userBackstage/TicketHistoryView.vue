@@ -16,7 +16,12 @@ onMounted(() => {
       class="navbar"
     />
 
-    <router-link to="/user/userTicket">回上一頁</router-link>
+    <router-link to="/user/userTicket">
+      <img
+        class="arrow-icon"
+        src="@/assets/svg/left_arrow_circle_solid.svg"
+    /></router-link>
+
     <TicketHistory
       :ticketsHistory="userTickets"
       :status="1"
@@ -28,5 +33,15 @@ onMounted(() => {
 main {
   margin: 0 auto;
   width: 75%;
+}
+
+.arrow-icon {
+  width: 40px;
+  height: 40px;
+  margin: 20px 0;
+  @media screen and (max-width: 730px) {
+    width: 20px;
+    height: 20px;
+  }
 }
 </style>

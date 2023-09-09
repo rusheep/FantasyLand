@@ -4,6 +4,7 @@ import axios from 'axios';
 import { getFormatDateToISOString } from '@/composable';
 
 const props = defineProps(['ticketsHistory']);
+console.log(props);
 </script>
 
 <template>

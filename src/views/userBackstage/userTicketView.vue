@@ -22,7 +22,6 @@ const selectedDate = computed(() => {
 
 onMounted(async () => {
   refreshTickets();
-  getTicketHistory();
 });
 
 const openRefundModal = (ticket) => {
@@ -33,18 +32,18 @@ const openRefundModal = (ticket) => {
 };
 
 const refreshTickets = async () => {
-  const response = await axios.get('/api/v1/userTickets/getTickets');
-  userTickets.value = response.data;
+  // 取得 目前票券
+  const getTickets = await axios.get('/api/v1/userTickets/getTickets');
+  userTickets.value = getTickets.data;
+
   if (userTickets.value.length === 0) {
     ticketBoxToggele.value = true;
   } else {
     ticketBoxToggele.value = false;
   }
-};
-
-const getTicketHistory = async () => {
-  const response = await axios.get('/api/v1/userTickets/ticketHistory');
-  ticketHistory.value = response.data;
+  // 取得 目前票券歷史
+  const getTicketHistory = await axios.get('/api/v1/userTickets/ticketHistory');
+  ticketHistory.value = getTicketHistory.data;
 };
 
 function toCart() {

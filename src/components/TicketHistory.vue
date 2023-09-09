@@ -2,7 +2,6 @@
 import { getFormatDateToISOString, getTicketTypeToChinese } from '@/composable';
 
 const seeAllTicketsToggle = ref(true);
-
 const props = defineProps(['ticketsHistory', 'status']);
 
 const ticketHistory = function () {
@@ -50,6 +49,12 @@ const ticketHistory = function () {
         </tr>
       </tbody>
     </table>
+    <div
+      class="no-tickets"
+      v-show="props.ticketsHistory.length === 0"
+    >
+      無使用票券
+    </div>
     <div v-show="seeAllTicketsToggle">
       <router-link to="/user/userTicket/ticketHistory">查看全部</router-link>
     </div>
@@ -57,6 +62,13 @@ const ticketHistory = function () {
 </template>
 
 <style lang="scss" scoped>
+.no-tickets {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin: 30px 0;
+  color: $main-color;
+}
 .title {
   @media screen and (max-width: 730px) {
     display: flex;

@@ -1,16 +1,26 @@
 <script setup>
-import axios from 'axios';
-
 import { getFormatDateToISOString } from '@/composable';
 
-const props = defineProps(['ticketsHistory']);
-console.log(props);
+const seeAllTicketsToggle = ref(true);
+
+const props = defineProps(['ticketsHistory', 'status']);
+
+const ticketHistory = function () {
+  switch (props.status) {
+    // 只顯示五張
+    case 0:
+      return props.ticketsHistory.slice(0, 5);
+    // 顯示全部
+    case 1:
+      seeAllTicketsToggle.value = false;
+      return props.ticketsHistory;
+    default:
+      return 0;
+  }
+};
 </script>
 
 <template>
-  <div class="title">
-    <h2>票券紀錄</h2>
-  </div>
   <section>
     <table class="responsive-table">
       <thead>
@@ -23,7 +33,7 @@ console.log(props);
       </thead>
       <tbody>
         <tr
-          v-for="ticket in props.ticketsHistory.slice(0, 4)"
+          v-for="ticket in ticketHistory()"
           :key="ticket._id"
         >
           <td>
@@ -40,7 +50,7 @@ console.log(props);
         </tr>
       </tbody>
     </table>
-    <div>
+    <div v-show="seeAllTicketsToggle">
       <router-link to="/user/userTicket/ticketHistory">查看全部</router-link>
     </div>
   </section>

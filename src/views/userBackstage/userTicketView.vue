@@ -81,8 +81,14 @@ function toCart() {
       </div>
     </div>
 
+    <div class="title">
+      <h2>使用紀錄</h2>
+    </div>
     <!-- 票券紀錄 -->
-    <TicketHistory :ticketsHistory="ticketHistory" />
+    <TicketHistory
+      :ticketsHistory="ticketHistory"
+      :status="0"
+    />
   </main>
 </template>
 <style lang="scss" scoped>

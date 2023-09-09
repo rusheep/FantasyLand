@@ -13,3 +13,18 @@ export const colorByTicketStatusAndType = (status, ticketType) => {
   }
   return '';
 };
+
+export const ticketTypeToChinese = (str) => {
+  switch (str) {
+    case 'unuse':
+      return '未使用';
+    case 'used':
+      return '已使用';
+    case 'refund':
+      return '退票';
+    case 'expired':
+      return '過期';
+    default:
+      return 0;
+  }
+};

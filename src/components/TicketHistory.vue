@@ -1,5 +1,5 @@
 <script setup>
-import { getFormatDateToISOString } from '@/composable';
+import { getFormatDateToISOString, getTicketTypeToChinese } from '@/composable';
 
 const seeAllTicketsToggle = ref(true);
 
@@ -41,7 +41,7 @@ const ticketHistory = function () {
               ticket.ticketDate && getFormatDateToISOString(ticket.ticketDate)
             }}
           </td>
-          <td>{{ ticket.status }}</td>
+          <td>{{ getTicketTypeToChinese(ticket.status) }}</td>
           <td>
             {{ ticket.ticketCategoryId.ticketType }}
             {{ ticket.ticketCategoryId.fastTrack ? '快速通關' : '一般票' }}

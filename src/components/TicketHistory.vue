@@ -1,14 +1,9 @@
 <script setup>
 import axios from 'axios';
-const userTickets = ref();
+
 import { getFormatDateToISOString } from '@/composable';
 
-onMounted(() => {
-  axios.get('/api/v1/userTickets/getTickets').then((res) => {
-    userTickets.value = res.data;
-    console.log(userTickets.value);
-  });
-});
+const props = defineProps(['ticketsHistory']);
 </script>
 
 <template>
@@ -27,7 +22,7 @@ onMounted(() => {
       </thead>
       <tbody>
         <tr
-          v-for="ticket in userTickets"
+          v-for="ticket in props.ticketsHistory.slice(0, 4)"
           :key="ticket._id"
         >
           <td>

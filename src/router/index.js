@@ -32,7 +32,12 @@ const router = createRouter({
           name: 'userTicketView',
           component: () => import('../views/userBackstage/UserTicketView.vue'),
         },
-
+        {
+          path: '/user/userTicket/ticketHistory',
+          name: 'ticketHistory',
+          component: () =>
+            import('../views/userBackstage/TicketHistoryView.vue'),
+        },
         {
           path: '/user/cart',
           name: 'cart',

@@ -3,10 +3,14 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { getFormatDateToISOString } from '@/composable';
 import router from '@/router';
+/* 票券 */
 const userTickets = ref([]); //所有票券
 const ticketModal = ref(false); //單張票券彈窗開關
 const currentTicketData = ref(null); // 當前點擊票券資料
 const ticketBoxToggele = ref(false); // 無票券ＵＩ開關
+
+/* 歷史票券 */
+const ticketHistory = ref([]);
 
 // 時間
 const selectedDate = computed(() => {
@@ -28,13 +32,18 @@ const openRefundModal = (ticket) => {
 };
 
 const refreshTickets = async () => {
-  const response = await axios.get('/api/v1/userTickets/getTickets');
-  userTickets.value = response.data;
+  // 取得 目前票券
+  const getTickets = await axios.get('/api/v1/userTickets/getTickets');
+  userTickets.value = getTickets.data;
+
   if (userTickets.value.length === 0) {
     ticketBoxToggele.value = true;
   } else {
     ticketBoxToggele.value = false;
   }
+  // 取得 目前票券歷史
+  const getTicketHistory = await axios.get('/api/v1/userTickets/ticketHistory');
+  ticketHistory.value = getTicketHistory.data;
 };
 
 function toCart() {
@@ -72,8 +81,14 @@ function toCart() {
       </div>
     </div>
 
+    <div class="title">
+      <h2>使用紀錄</h2>
+    </div>
     <!-- 票券紀錄 -->
-    <TicketHistory />
+    <TicketHistory
+      :ticketsHistory="ticketHistory"
+      :status="0"
+    />
   </main>
 </template>
 <style lang="scss" scoped>

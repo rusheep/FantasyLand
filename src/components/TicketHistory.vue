@@ -1,20 +1,26 @@
 <script setup>
-import axios from 'axios';
-const userTickets = ref();
-import { getFormatDateToISOString } from '@/composable';
+import { getFormatDateToISOString, getTicketTypeToChinese } from '@/composable';
 
-onMounted(() => {
-  axios.get('/api/v1/userTickets/getTickets').then((res) => {
-    userTickets.value = res.data;
-    console.log(userTickets.value);
-  });
-});
+const seeAllTicketsToggle = ref(true);
+
+const props = defineProps(['ticketsHistory', 'status']);
+
+const ticketHistory = function () {
+  switch (props.status) {
+    // 只顯示五張
+    case 0:
+      return props.ticketsHistory.slice(0, 5);
+    // 顯示全部
+    case 1:
+      seeAllTicketsToggle.value = false;
+      return props.ticketsHistory;
+    default:
+      return 0;
+  }
+};
 </script>
 
 <template>
-  <div class="title">
-    <h2>票券紀錄</h2>
-  </div>
   <section>
     <table class="responsive-table">
       <thead>
@@ -27,7 +33,7 @@ onMounted(() => {
       </thead>
       <tbody>
         <tr
-          v-for="ticket in userTickets"
+          v-for="ticket in ticketHistory()"
           :key="ticket._id"
         >
           <td>
@@ -35,7 +41,7 @@ onMounted(() => {
               ticket.ticketDate && getFormatDateToISOString(ticket.ticketDate)
             }}
           </td>
-          <td>{{ ticket.status }}</td>
+          <td>{{ getTicketTypeToChinese(ticket.status) }}</td>
           <td>
             {{ ticket.ticketCategoryId.ticketType }}
             {{ ticket.ticketCategoryId.fastTrack ? '快速通關' : '一般票' }}
@@ -44,6 +50,9 @@ onMounted(() => {
         </tr>
       </tbody>
     </table>
+    <div v-show="seeAllTicketsToggle">
+      <router-link to="/user/userTicket/ticketHistory">查看全部</router-link>
+    </div>
   </section>
 </template>
 
@@ -74,7 +83,12 @@ section {
   background-color: #f1f1f1;
   padding: 2rem;
   border-radius: 15px;
-
+  div {
+    display: flex;
+    justify-content: end;
+    width: 90%;
+    margin-top: 10px;
+  }
   @media screen and (max-width: 730px) {
     padding: 0.5rem;
   }
@@ -84,6 +98,7 @@ table {
   width: 80%;
   margin: 0 auto;
   color: #00b9d2;
+
   @media screen and (max-width: 730px) {
     table th:nth-child(2),
     table td:nth-child(2),

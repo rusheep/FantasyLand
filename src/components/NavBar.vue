@@ -2,7 +2,7 @@
   <div class="content">
     <router-link v-for="(nav, index) in navbarInfo" :key="nav.name" :to="nav.routePath">
       <div class="nav-item">
-        <h3 :class="{ selected: $route.path === nav.routePath }">{{ nav.name }}</h3>
+        <h3 :class="{ selected: routePath === nav.routePath }">{{ nav.name }}</h3>
       </div>
     </router-link>
   </div>
@@ -11,14 +11,19 @@
 <script setup>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
+const routePath = ref('')
 
 const navbarInfo = ref([
-  { name: '票夾', routePath: '/user/userticket' },
+  { name: '票夾', routePath: '/user/userTicket' },
   { name: '購物車', routePath: '/user/cart' },
   { name: '會員資料', routePath: '/user/profile' },
 ]);
 
 const $route = useRoute();
+
+watchEffect(() => {
+  routePath.value = $route.path
+});
 </script>
 
 

@@ -15,17 +15,20 @@ const router = createRouter({
           path: '/index',
           name: 'index',
           component: () => import('../views/index.vue'),
+          meta: { showInNavBar: true },
         },
         {
           path: '/login',
           name: 'LoginView',
           component: () => import('../views/userBackstage/LoginView.vue'),
           meta: { requiresAuth: true, skipAuthCheck: true },
+          meta: { showInNavBar: true },
         },
         {
           path: 'register',
           name: 'RegisterView',
           component: () => import('../views/userBackstage/RegisterView.vue'),
+          meta: { showInNavBar: true },
         },
         {
           path: '/user/userTicket',
@@ -52,6 +55,7 @@ const router = createRouter({
           path: '/user/order',
           name: 'order',
           component: () => import('../views/userBackstage/OrderView.vue'),
+          meta: { showInNavBar: true },
         },
       ],
     },

@@ -2,7 +2,7 @@
   <div class="content">
     <router-link v-for="(nav, index) in navbarInfo" :key="nav.name" :to="nav.routePath">
       <div class="nav-item">
-        <h3 :class="{ selected: routePath === nav.routePath }">{{ nav.name }}</h3>
+        <h3 :class="{ selected: routePath.startsWith(nav.routePath) }">{{ nav.name }}</h3>
       </div>
     </router-link>
   </div>

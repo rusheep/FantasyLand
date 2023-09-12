@@ -163,168 +163,119 @@ async function submit() {
 
 </script>
 <template>
-  <!-- 彈窗 -->
-  <div
-    v-if="infoModal"
-    class="modal-overlay"
-  >
-    <div class="modal">
-      <div class="m-wrapper">
-        <h3>一組帳號只能在同日期買五張票</h3>
-        <div class="m-userTickets">
-          <div>
-            <p>目前</p>
-            <h4>
-              {{ selectedDate ? selectedDate : '無購買票' }}
-              {{
-                userTickets.count !== 0
+  <div>
+    <!-- 彈窗 -->
+    <div v-if="infoModal" class="modal-overlay">
+      <div class="modal">
+        <div class="m-wrapper">
+          <h3>一組帳號只能在同日期買五張票</h3>
+          <div class="m-userTickets">
+            <div>
+              <p>目前</p>
+              <h4>
+                {{ selectedDate ? selectedDate : '無購買票' }}
+                {{
+                  userTickets.count !== 0
                   ? `有${userTickets.findTodayUnuseTicket.length}張`
                   : ''
-              }}
-            </h4>
+                }}
+              </h4>
+            </div>
+            <div>
+              <p>可再購買</p>
+              <h4>
+                {{
+                  5 -
+                  (userTickets.findTodayUnuseTicket
+                    ? userTickets.findTodayUnuseTicket.length
+                    : 0)
+                }}張票
+              </h4>
+            </div>
           </div>
-          <div>
-            <p>可再購買</p>
-            <h4>
-              {{
-                5 -
-                (userTickets.findTodayUnuseTicket
-                  ? userTickets.findTodayUnuseTicket.length
-                  : 0)
-              }}張票
-            </h4>
+          <p class="m-title">購票須知</p>
+          <div class="m-ticketInfo">
+            <div>
+              <p>成人票 : 18歲以上</p>
+              <p>兒童票 :08~ 18歲</p>
+            </div>
+            <div>
+              <p>優待票 :需有殘障手冊證明</p>
+              <p>免費:08歲以下免費</p>
+            </div>
           </div>
-        </div>
-        <p class="m-title">購票須知</p>
-        <div class="m-ticketInfo">
-          <div>
-            <p>成人票 : 18歲以上</p>
-            <p>兒童票 :08~ 18歲</p>
+          <div class="btn">
+            <Button btnFontSize="0.5" @click="switchStatus">返回</Button>
           </div>
-          <div>
-            <p>優待票 :需有殘障手冊證明</p>
-            <p>免費:08歲以下免費</p>
-          </div>
-        </div>
-        <div class="btn">
-          <Button
-            btnFontSize="0.5"
-            @click="switchStatus"
-            >返回</Button
-          >
         </div>
       </div>
     </div>
-  </div>
-  <NavBar
-    :statusIdx="1"
-    class="navbar"
-  />
-  <main>
-    <!-- 左半邊 -->
-    <section>
-      <div class="cart">
-        <div class="timeInfoBar">
-          <div class="timepicker">
-            <h2>日期：</h2>
-            <input
-              v-if="userTickets.count === 0"
-              type="date"
-              v-model="selectedDate"
-              @change="handleDateChange"
-              class="date-input"
-              :min="getToday()"
-            />
-            <h2 v-else>{{ selectedDate }}</h2>
-          </div>
-          <Button
-            btnFontSize="0.3rem"
-            @click="switchStatus"
-            class="btn"
-            >暸解票券資訊</Button
-          >
-        </div>
-        <div
-          class="ticketsOrder"
-          v-for="(item, index) in ticketInfo.allTicketsInfo"
-          :key="item._id"
-        >
-          <div class="ticketInfo">
-            <h4>
-              {{ item.ticketType }} ({{ item.fastTrack ? '快速通關' : '一般' }})
-            </h4>
-            <p>{{ item.price }}元</p>
-          </div>
-          <div class="counter">
-            <div
-              class="box"
-              @click="adjustamount(item, false)"
-            >
-              -
+    <NavBar :statusIdx="1" class="navbar" />
+    <main>
+      <!-- 左半邊 -->
+      <section>
+        <div class="cart">
+          <div class="timeInfoBar">
+            <div class="timepicker">
+              <h2>日期：</h2>
+              <input v-if="userTickets.count === 0" type="date" v-model="selectedDate" @change="handleDateChange"
+                class="date-input" :min="getToday()" />
+              <h2 v-else>{{ selectedDate }}</h2>
             </div>
-            <p>{{ item.amount || 0 }}</p>
-            <div
-              class="box"
-              @click="adjustamount(item, true)"
-            >
-              +
+            <Button btnFontSize="0.3rem" @click="switchStatus" class="btn">暸解票券資訊</Button>
+          </div>
+          <div class="ticketsOrder" v-for="(item, index) in ticketInfo.allTicketsInfo" :key="item._id">
+            <div class="ticketInfo">
+              <h4>
+                {{ item.ticketType }} ({{ item.fastTrack ? '快速通關' : '一般' }})
+              </h4>
+              <p>{{ item.price }}元</p>
+            </div>
+            <div class="counter">
+              <div class="box" @click="adjustamount(item, false)">
+                -
+              </div>
+              <p>{{ item.amount || 0 }}</p>
+              <div class="box" @click="adjustamount(item, true)">
+                +
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-    <!-- 右半邊 -->
-    <section>
-      <div class="payment">
-        <h3 class="payment-title">信用卡支付</h3>
-        <div class="payment-content">
-          <div>
-            <p>信用卡</p>
-            <input
-              class="big-input"
-              type="text"
-              placeholder="4136815292895026"
-            />
-          </div>
+      </section>
+      <!-- 右半邊 -->
+      <section>
+        <div class="payment">
+          <h3 class="payment-title">信用卡支付</h3>
+          <div class="payment-content">
+            <div>
+              <p>信用卡</p>
+              <input class="big-input" type="text" placeholder="4136815292895026" />
+            </div>
 
-          <div class="twoInputBox">
-            <div>
-              <p>過期日</p>
-              <input
-                class="small-input"
-                type="text"
-                placeholder="10/18"
-              />
+            <div class="twoInputBox">
+              <div>
+                <p>過期日</p>
+                <input class="small-input" type="text" placeholder="10/18" />
+              </div>
+              <div>
+                <p>CVC</p>
+                <input class="small-input" type="text" placeholder="212" />
+              </div>
             </div>
             <div>
-              <p>CVC</p>
-              <input
-                class="small-input"
-                type="text"
-                placeholder="212"
-              />
+              <p>優惠碼</p>
+              <input class="big-input" type="text" />
             </div>
-          </div>
-          <div>
-            <p>優惠碼</p>
-            <input
-              class="big-input"
-              type="text"
-            />
           </div>
         </div>
-      </div>
-    </section>
-  </main>
-  <hr />
-  <div class="pricePaybox">
-    <h3>總價:{{ totalPrice }}元 ; 票數:{{ totalTicketCount }}張</h3>
-    <Button
-      btnFontSize="0.3rem"
-      @click.prevent="submit"
-      btnColor="#0694A7"
-      >支付</Button
-    >
+      </section>
+    </main>
+    <hr />
+    <div class="pricePaybox">
+      <h3>總價:{{ totalPrice }}元 ; 票數:{{ totalTicketCount }}張</h3>
+      <Button btnFontSize="0.3rem" @click.prevent="submit" btnColor="#0694A7">支付</Button>
+    </div>
   </div>
 </template>
 
@@ -337,6 +288,7 @@ main {
   justify-content: center;
   gap: 50px;
   margin-top: 30px;
+
   @media screen and (max-width: 730px) {
     flex-direction: column;
   }
@@ -345,6 +297,7 @@ main {
 section {
   width: 100%;
   height: 440px;
+
   /* border: 1px solid black; */
   @media screen and (max-width: 730px) {
     height: 300px;
@@ -363,6 +316,7 @@ section {
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       h2 {
         @media screen and (max-width: 730px) {
           font-size: 10px;
@@ -384,6 +338,7 @@ section {
       padding: 2px 0;
       color: $main-color;
       font-weight: bold;
+
       @media screen and (max-width: 730px) {
         font-size: 14px;
       }
@@ -402,9 +357,11 @@ section {
     width: 150px;
     justify-content: space-between;
     align-items: center;
+
     @media screen and (max-width: 730px) {
       width: 100px;
     }
+
     .box {
       text-align: center;
       width: 18px;
@@ -441,9 +398,11 @@ section {
     padding: 40px 30px;
     border-radius: 15px;
     gap: 40px;
+
     @media screen and (max-width: 730px) {
       width: 200px;
     }
+
     p {
       color: white;
       padding-bottom: 5px;
@@ -463,6 +422,7 @@ section {
 
     .big-input {
       width: 350px;
+
       @media screen and (max-width: 730px) {
         width: 200px;
       }
@@ -470,6 +430,7 @@ section {
 
     .small-input {
       width: 170px;
+
       @media screen and (max-width: 730px) {
         width: 80px;
       }
@@ -489,13 +450,16 @@ hr {
   justify-content: space-between;
   margin-top: 30px;
   align-items: center;
+
   @media screen and (max-width: 730px) {
     margin-top: 100px;
   }
+
   h3 {
     color: $main-color;
     font-size: 30px;
     font-weight: bold;
+
     @media screen and (max-width: 730px) {
       font-size: 15px;
     }

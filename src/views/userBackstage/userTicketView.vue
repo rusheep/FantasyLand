@@ -52,44 +52,32 @@ function toCart() {
 </script>
 
 <template>
-  <NavBar />
-  <TicketInfoRefundModal
-    :isOpen="ticketModal"
-    @close="ticketModal = false"
-    :currentTicketData="currentTicketData"
-    @refresh-tickets="refreshTickets"
-  />
+  <div>
+    <NavBar />
+    <TicketInfoRefundModal :isOpen="ticketModal" @close="ticketModal = false" :currentTicketData="currentTicketData"
+      @refresh-tickets="refreshTickets" />
 
-  <main>
-    <div class="title">
-      <h3>{{ selectedDate }}</h3>
-    </div>
-    <!-- 單個票券 -->
-    <div class="ticketBox">
-      <Tickets
-        v-for="(ticket, index) in userTickets"
-        :key="ticket._id"
-        :ticketData="ticket"
-        @click="openRefundModal(ticket)"
-      />
-      <div
-        class="noTicketBox"
-        v-if="ticketBoxToggele"
-      >
-        <h2>目前沒有訂票</h2>
-        <Button @click="toCart">前往訂票頁面</Button>
+    <main>
+      <div class="title">
+        <h3>{{ selectedDate }}</h3>
       </div>
-    </div>
+      <!-- 單個票券 -->
+      <div class="ticketBox">
+        <Tickets v-for="(ticket, index) in userTickets" :key="ticket._id" :ticketData="ticket"
+          @click="openRefundModal(ticket)" />
+        <div class="noTicketBox" v-if="ticketBoxToggele">
+          <h2>目前沒有訂票</h2>
+          <Button @click="toCart">前往訂票頁面</Button>
+        </div>
+      </div>
 
-    <div class="title">
-      <h2>使用紀錄</h2>
-    </div>
-    <!-- 票券紀錄 -->
-    <TicketHistory
-      :ticketsHistory="ticketHistory"
-      :status="0"
-    />
-  </main>
+      <div class="title">
+        <h2>使用紀錄</h2>
+      </div>
+      <!-- 票券紀錄 -->
+      <TicketHistory :ticketsHistory="ticketHistory" :status="0" />
+    </main>
+  </div>
 </template>
 <style lang="scss" scoped>
 @mixin flex-center {
@@ -106,9 +94,11 @@ main {
   .title {
     display: flex;
     justify-content: start;
+
     @media screen and (max-width: 730px) {
       justify-content: center;
     }
+
     h2 {
       color: #fff;
       width: 10rem;
@@ -118,6 +108,7 @@ main {
       padding: 0.5rem 0;
       margin-bottom: 2rem;
     }
+
     h3 {
       color: $main-color;
       padding: 0.5rem 0;

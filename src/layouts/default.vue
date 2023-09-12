@@ -1,5 +1,6 @@
 <template>
   <Header />
+  <NavBar />
   <router-view v-slot="{ Component }">
     <transition name="route" appear mode="out-in">
       <component :is="Component"></component>

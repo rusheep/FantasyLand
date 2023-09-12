@@ -11,15 +11,8 @@ onMounted(() => {
 </script>
 <template>
   <form>
-    <NavBar
-      :statusIdx="2"
-      class="navbar"
-    />
     <main>
-      <div
-        v-if="userData"
-        class="userPassword"
-      >
+      <div v-if="userData" class="userPassword">
         <div class="input-box">
           <div class="titleBox">
             <p>姓名:</p>
@@ -80,6 +73,7 @@ main {
         width: 300px;
         height: 20px;
       }
+
       .titleBox {
         display: flex;
         justify-content: space-between;

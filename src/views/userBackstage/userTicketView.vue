@@ -53,7 +53,7 @@ function toCart() {
 
 <template>
   <div>
-    <NavBar />
+
     <TicketInfoRefundModal :isOpen="ticketModal" @close="ticketModal = false" :currentTicketData="currentTicketData"
       @refresh-tickets="refreshTickets" />
 

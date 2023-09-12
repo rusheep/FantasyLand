@@ -44,20 +44,25 @@ a {
   border-radius: 8px;
 
   @media screen and (max-width: 730px) {
-    width: 200px;
+    width: 300px;
+    gap: 5px;
   }
 
   .nav-item {
     width: 100px;
-    /* 设置导航项的固定宽度 */
+
     height: 20px;
-    /* 设置导航项的固定高度 */
+
     padding: 7px 0;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     border-radius: 5px;
+
+    @media screen and (max-width: 730px) {
+      width: 80px;
+    }
 
     h3 {
       font-size: 10px;

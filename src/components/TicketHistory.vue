@@ -4,11 +4,22 @@ import { getFormatDateToISOString, getTicketTypeToChinese } from '@/composable';
 const seeAllTicketsToggle = ref(true);
 const props = defineProps(['ticketsHistory', 'status']);
 
+const ticketArr = ref(4)
+
+function addticketArr() {
+  ticketArr.value = ticketArr.value + 1
+}
+
+watch(() => props.ticketsHistory, () => {
+  // Call addticketArr() when props.ticketsHistory changes
+  addticketArr();
+});
+
 const ticketHistory = function () {
   switch (props.status) {
     // 只顯示五張
     case 0:
-      return props.ticketsHistory.slice(0, 5);
+      return props.ticketsHistory.slice(0, ticketArr.value);
     // 顯示全部
     case 1:
       seeAllTicketsToggle.value = false;

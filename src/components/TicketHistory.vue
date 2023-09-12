@@ -3,11 +3,8 @@ import { getFormatDateToISOString, getTicketTypeToChinese } from '@/composable';
 
 const seeAllTicketsToggle = ref(true);
 const props = defineProps(['ticketsHistory', 'status']);
-const clearNewTicketsOnLeave = () => {
-  newTickets.value = [];
-};
 
-const runWatch = ref(0); // 添加计数器
+const runWatch = ref(0);
 const ticketArr = ref(4);
 const newTickets = ref([]);
 
@@ -20,25 +17,23 @@ const isNewTicket = (ticket) => {
 };
 
 onMounted(async () => {
-  runWatch.value += 1; // 在页面加载时增加计数器
+  runWatch.value += 1;
 });
 
 watch(
   () => props.ticketsHistory,
   (newTicketsHistory, oldTicketsHistory) => {
-    if (runWatch.value >= 2) { // 检查计数器值是否大于等于2
+    if (runWatch.value > 1) {
       const isDifferent = JSON.stringify(newTicketsHistory) !== JSON.stringify(oldTicketsHistory);
 
       if (isDifferent) {
         newTickets.value = newTicketsHistory.filter(
           (newTicket) => !oldTicketsHistory.some((oldTicket) => oldTicket._id === newTicket._id)
         );
-
-        // 调用addticketArr()以更新显示的行数
         addticketArr();
       }
     }
-    runWatch.value += 1; // 每次watch回调执行后增加计数器
+    runWatch.value += 1;
   },
   { immediate: false }
 );
@@ -65,7 +60,7 @@ const ticketHistory = function () {
     <table class="responsive-table">
       <thead>
         <tr>
-          <th>日期</th>
+          <th>使用日期</th>
           <th>狀態</th>
           <th>票型</th>
           <th>價格</th>
@@ -75,7 +70,7 @@ const ticketHistory = function () {
         <transition-group name="list" appear>
           <tr v-for="(ticket, index) in ticketHistory()" :key="ticket._id">
             <td>
-              {{ isNewTicket(ticket) ? '新' : '' }}
+              {{ isNewTicket(ticket) ? '(更新)' : '' }}
               {{
                 ticket.ticketDate && getFormatDateToISOString(ticket.ticketDate)
               }}
@@ -154,6 +149,7 @@ table {
   width: 80%;
   margin: 0 auto;
   color: #00b9d2;
+  transition: all 0.2s ease;
 
 
   @media screen and (max-width: 730px) {
@@ -168,8 +164,11 @@ table {
 
   tbody {
     border: 2px solid #00b9d2;
+
     background-color: #fff;
   }
+
+
 
   th,
   td {

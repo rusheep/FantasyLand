@@ -21,6 +21,7 @@ const ticketHistory = function () {
 
 <template>
   <section>
+
     <table class="responsive-table">
       <thead>
         <tr>
@@ -31,28 +32,25 @@ const ticketHistory = function () {
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="ticket in ticketHistory()"
-          :key="ticket._id"
-        >
-          <td>
-            {{
-              ticket.ticketDate && getFormatDateToISOString(ticket.ticketDate)
-            }}
-          </td>
-          <td>{{ getTicketTypeToChinese(ticket.status) }}</td>
-          <td>
-            {{ ticket.ticketCategoryId.ticketType }}
-            {{ ticket.ticketCategoryId.fastTrack ? '快速通關' : '一般票' }}
-          </td>
-          <td>{{ ticket.currentPurchasePrice }}元</td>
-        </tr>
+        <transition-group name="list" appear>
+          <tr v-for="(ticket, index) in ticketHistory()" :key="ticket._id">
+            <td>
+              {{
+                ticket.ticketDate && getFormatDateToISOString(ticket.ticketDate)
+              }}
+            </td>
+            <td>{{ getTicketTypeToChinese(ticket.status) }}</td>
+            <td>
+              {{ ticket.ticketCategoryId.ticketType }}
+              {{ ticket.ticketCategoryId.fastTrack ? '快速通關' : '一般票' }}
+            </td>
+            <td>{{ ticket.currentPurchasePrice }}元</td>
+          </tr>
+
+        </transition-group>
       </tbody>
     </table>
-    <div
-      class="no-tickets"
-      v-show="props.ticketsHistory.length === 0"
-    >
+    <div class=" no-tickets" v-show="props.ticketsHistory.length === 0">
       無使用票券
     </div>
     <div v-show="seeAllTicketsToggle">
@@ -69,11 +67,13 @@ const ticketHistory = function () {
   margin: 30px 0;
   color: $main-color;
 }
+
 .title {
   @media screen and (max-width: 730px) {
     display: flex;
     justify-content: center;
   }
+
   h2 {
     color: #fff;
     width: 10rem;
@@ -82,6 +82,7 @@ const ticketHistory = function () {
     background-color: $main-color;
     padding: 0.5rem 0;
     margin-bottom: 2rem;
+
     @media screen and (max-width: 730px) {
       font-size: 14px;
       padding: 0.5rem 0.5rem;
@@ -95,12 +96,14 @@ section {
   background-color: #f1f1f1;
   padding: 2rem;
   border-radius: 15px;
+
   div {
     display: flex;
     justify-content: end;
     width: 90%;
     margin-top: 10px;
   }
+
   @media screen and (max-width: 730px) {
     padding: 0.5rem;
   }
@@ -111,7 +114,9 @@ table {
   margin: 0 auto;
   color: #00b9d2;
 
+
   @media screen and (max-width: 730px) {
+
     table th:nth-child(2),
     table td:nth-child(2),
     table th:nth-child(4),
@@ -141,12 +146,54 @@ table {
   }
 }
 
+.responsive-table {
+  overflow: hidden;
+}
+
 @media screen and (max-width: 730px) {
-  .responsive-table th:nth-child(2), /* 隐藏狀態列 */
+
+  .responsive-table th:nth-child(2),
+  /* 隐藏狀態列 */
   .responsive-table td:nth-child(2),
-  .responsive-table th:nth-child(4), /* 隐藏價格列 */
+  .responsive-table th:nth-child(4),
+  /* 隐藏價格列 */
   .responsive-table td:nth-child(4) {
     display: none;
   }
+}
+
+
+/* List Transtion */
+.list-enter-from {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.list-enter-to {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.list-enter-active {
+  transition: all 0.4s ease;
+}
+
+.list-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.list-leave-active {
+  transition: all 0.4s ease;
+  position: absolute;
+}
+
+.list-move {
+  transition: all 0.3s ease;
 }
 </style>

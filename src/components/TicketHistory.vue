@@ -4,11 +4,45 @@ import { getFormatDateToISOString, getTicketTypeToChinese } from '@/composable';
 const seeAllTicketsToggle = ref(true);
 const props = defineProps(['ticketsHistory', 'status']);
 
+const runWatch = ref(0);
+const ticketArr = ref(4);
+const newTickets = ref([]);
+
+function addticketArr() {
+  ticketArr.value = ticketArr.value + 1;
+}
+
+const isNewTicket = (ticket) => {
+  return newTickets.value.some((newTicket) => newTicket._id === ticket._id);
+};
+
+onMounted(async () => {
+  runWatch.value += 1;
+});
+
+watch(
+  () => props.ticketsHistory,
+  (newTicketsHistory, oldTicketsHistory) => {
+    if (runWatch.value > 1) {
+      const isDifferent = JSON.stringify(newTicketsHistory) !== JSON.stringify(oldTicketsHistory);
+
+      if (isDifferent) {
+        newTickets.value = newTicketsHistory.filter(
+          (newTicket) => !oldTicketsHistory.some((oldTicket) => oldTicket._id === newTicket._id)
+        );
+        addticketArr();
+      }
+    }
+    runWatch.value += 1;
+  },
+  { immediate: false }
+);
+
 const ticketHistory = function () {
   switch (props.status) {
     // 只顯示五張
     case 0:
-      return props.ticketsHistory.slice(0, 5);
+      return props.ticketsHistory.slice(0, ticketArr.value);
     // 顯示全部
     case 1:
       seeAllTicketsToggle.value = false;
@@ -19,40 +53,40 @@ const ticketHistory = function () {
 };
 </script>
 
+
 <template>
   <section>
+
     <table class="responsive-table">
       <thead>
         <tr>
-          <th>日期</th>
+          <th>使用日期</th>
           <th>狀態</th>
           <th>票型</th>
           <th>價格</th>
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="ticket in ticketHistory()"
-          :key="ticket._id"
-        >
-          <td>
-            {{
-              ticket.ticketDate && getFormatDateToISOString(ticket.ticketDate)
-            }}
-          </td>
-          <td>{{ getTicketTypeToChinese(ticket.status) }}</td>
-          <td>
-            {{ ticket.ticketCategoryId.ticketType }}
-            {{ ticket.ticketCategoryId.fastTrack ? '快速通關' : '一般票' }}
-          </td>
-          <td>{{ ticket.currentPurchasePrice }}元</td>
-        </tr>
+        <transition-group name="list" appear>
+          <tr v-for="(ticket, index) in ticketHistory()" :key="ticket._id">
+            <td>
+              {{ isNewTicket(ticket) ? '(更新)' : '' }}
+              {{
+                ticket.ticketDate && getFormatDateToISOString(ticket.ticketDate)
+              }}
+            </td>
+            <td>{{ getTicketTypeToChinese(ticket.status) }}</td>
+            <td>
+              {{ ticket.ticketCategoryId.ticketType }}
+              {{ ticket.ticketCategoryId.fastTrack ? '快速通關' : '一般票' }}
+            </td>
+            <td>{{ ticket.currentPurchasePrice }}元</td>
+          </tr>
+
+        </transition-group>
       </tbody>
     </table>
-    <div
-      class="no-tickets"
-      v-show="props.ticketsHistory.length === 0"
-    >
+    <div class=" no-tickets" v-show="props.ticketsHistory.length === 0">
       無使用票券
     </div>
     <div v-show="seeAllTicketsToggle">
@@ -69,11 +103,13 @@ const ticketHistory = function () {
   margin: 30px 0;
   color: $main-color;
 }
+
 .title {
   @media screen and (max-width: 730px) {
     display: flex;
     justify-content: center;
   }
+
   h2 {
     color: #fff;
     width: 10rem;
@@ -82,6 +118,7 @@ const ticketHistory = function () {
     background-color: $main-color;
     padding: 0.5rem 0;
     margin-bottom: 2rem;
+
     @media screen and (max-width: 730px) {
       font-size: 14px;
       padding: 0.5rem 0.5rem;
@@ -95,12 +132,14 @@ section {
   background-color: #f1f1f1;
   padding: 2rem;
   border-radius: 15px;
+
   div {
     display: flex;
     justify-content: end;
     width: 90%;
     margin-top: 10px;
   }
+
   @media screen and (max-width: 730px) {
     padding: 0.5rem;
   }
@@ -110,8 +149,11 @@ table {
   width: 80%;
   margin: 0 auto;
   color: #00b9d2;
+  transition: all 0.2s ease;
+
 
   @media screen and (max-width: 730px) {
+
     table th:nth-child(2),
     table td:nth-child(2),
     table th:nth-child(4),
@@ -122,8 +164,11 @@ table {
 
   tbody {
     border: 2px solid #00b9d2;
+
     background-color: #fff;
   }
+
+
 
   th,
   td {
@@ -141,12 +186,54 @@ table {
   }
 }
 
+.responsive-table {
+  overflow: hidden;
+}
+
 @media screen and (max-width: 730px) {
-  .responsive-table th:nth-child(2), /* 隐藏狀態列 */
+
+  .responsive-table th:nth-child(2),
+  /* 隐藏狀態列 */
   .responsive-table td:nth-child(2),
-  .responsive-table th:nth-child(4), /* 隐藏價格列 */
+  .responsive-table th:nth-child(4),
+  /* 隐藏價格列 */
   .responsive-table td:nth-child(4) {
     display: none;
   }
+}
+
+
+/* List Transtion */
+.list-enter-from {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.list-enter-to {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.list-enter-active {
+  transition: all 0.4s ease;
+}
+
+.list-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.list-leave-active {
+  transition: all 0.4s ease;
+  position: absolute;
+}
+
+.list-move {
+  transition: all 0.3s ease;
 }
 </style>

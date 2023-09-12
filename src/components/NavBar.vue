@@ -1,38 +1,37 @@
 <template>
   <div class="content">
-    <router-link
-      v-for="(nav, index) in navbarInfo"
-      :key="nav.name"
-      :to="nav.routePath"
-    >
-      <div>
-        <h3 :class="{ selected: index === props.statusIdx }">{{ nav.name }}</h3>
+    <router-link v-for="(nav, index) in navbarInfo" :key="nav.name" :to="nav.routePath">
+      <div class="nav-item">
+        <h3 :class="{ selected: routePath.startsWith(nav.routePath) }">{{ nav.name }}</h3>
       </div>
     </router-link>
   </div>
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue';
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
+const routePath = ref('')
 
 const navbarInfo = ref([
-  { name: '票夾', routePath: '/user/userticket' },
+  { name: '票夾', routePath: '/user/userTicket' },
   { name: '購物車', routePath: '/user/cart' },
   { name: '會員資料', routePath: '/user/profile' },
 ]);
 
-const props = defineProps({
-  statusIdx: {
-    type: Number,
-    default: 0,
-  },
+const $route = useRoute();
+
+watchEffect(() => {
+  routePath.value = $route.path
 });
 </script>
+
 
 <style lang="scss" scoped>
 a {
   text-decoration: none;
 }
+
 .content {
   width: 400px;
   margin: 0 auto;
@@ -45,15 +44,26 @@ a {
   border-radius: 8px;
 
   @media screen and (max-width: 730px) {
-    width: 200px;
+    width: 300px;
+    gap: 5px;
   }
-  div {
-    padding: 7px 30px;
-    border-radius: 5px;
+
+  .nav-item {
+    width: 100px;
+
+    height: 20px;
+
+    padding: 7px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
+    border-radius: 5px;
+
     @media screen and (max-width: 730px) {
-      padding: 7px 0px;
+      width: 80px;
     }
+
     h3 {
       font-size: 10px;
       color: $second-color;
@@ -63,13 +73,16 @@ a {
         font-size: 13px;
       }
     }
+
+
   }
 
   h3.selected {
     color: white;
-    padding: 5px 30px;
+    padding: 5px 20px;
     background-color: $second-color;
     border-radius: 5px;
+
     @media screen and (max-width: 730px) {
       padding: 5px 10px;
     }

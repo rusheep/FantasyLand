@@ -52,44 +52,33 @@ function toCart() {
 </script>
 
 <template>
-  <NavBar />
-  <TicketInfoRefundModal
-    :isOpen="ticketModal"
-    @close="ticketModal = false"
-    :currentTicketData="currentTicketData"
-    @refresh-tickets="refreshTickets"
-  />
+  <div>
+    <TicketInfoRefundModal :isOpen="ticketModal" @close="ticketModal = false" :currentTicketData="currentTicketData"
+      @refresh-tickets="refreshTickets" />
 
-  <main>
-    <div class="title">
-      <h3>{{ selectedDate }}</h3>
-    </div>
-    <!-- 單個票券 -->
-    <div class="ticketBox">
-      <Tickets
-        v-for="(ticket, index) in userTickets"
-        :key="ticket._id"
-        :ticketData="ticket"
-        @click="openRefundModal(ticket)"
-      />
-      <div
-        class="noTicketBox"
-        v-if="ticketBoxToggele"
-      >
+    <main>
+      <div class="title">
+        <h3>{{ selectedDate }}</h3>
+      </div>
+      <!-- 單個票券 -->
+
+      <transition-group name="list" appear tag="div" class="ticketBox">
+        <Tickets v-for="(ticket, index) in userTickets" :key="ticket._id" :ticketData="ticket"
+          @click="openRefundModal(ticket)" />
+      </transition-group>
+      <div class="noTicketBox" v-if="ticketBoxToggele">
         <h2>目前沒有訂票</h2>
         <Button @click="toCart">前往訂票頁面</Button>
       </div>
-    </div>
 
-    <div class="title">
-      <h2>使用紀錄</h2>
-    </div>
-    <!-- 票券紀錄 -->
-    <TicketHistory
-      :ticketsHistory="ticketHistory"
-      :status="0"
-    />
-  </main>
+
+      <div class="title">
+        <h2>使用紀錄</h2>
+      </div>
+      <!-- 票券紀錄 -->
+      <TicketHistory :ticketsHistory="ticketHistory" :status="0" />
+    </main>
+  </div>
 </template>
 <style lang="scss" scoped>
 @mixin flex-center {
@@ -106,9 +95,11 @@ main {
   .title {
     display: flex;
     justify-content: start;
+
     @media screen and (max-width: 730px) {
       justify-content: center;
     }
+
     h2 {
       color: #fff;
       width: 10rem;
@@ -118,6 +109,7 @@ main {
       padding: 0.5rem 0;
       margin-bottom: 2rem;
     }
+
     h3 {
       color: $main-color;
       padding: 0.5rem 0;
@@ -146,5 +138,46 @@ main {
     text-align: center;
     padding: 50px;
   }
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: scale(0.5);
+  /* Start from a smaller size */
+  transform-origin: center center;
+  /* Scale from the center */
+}
+
+.list-enter-to {
+  opacity: 1;
+  transform: scale(1);
+  /* Scale to the normal size */
+}
+
+.list-enter-active {
+  transition: all 0.4s ease;
+}
+
+.list-leave-from {
+  opacity: 1;
+  transform: scale(1);
+  /* Start from the normal size */
+  transform-origin: center center;
+  /* Scale from the center */
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: scale(0.5);
+  /* Scale down to a smaller size */
+}
+
+.list-leave-active {
+  transition: all 0.4s ease;
+  position: absolute;
+}
+
+.list-move {
+  transition: transform 0.4s ease, opacity 0.1s ease;
 }
 </style>

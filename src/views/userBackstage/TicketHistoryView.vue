@@ -11,21 +11,12 @@ onMounted(() => {
 
 <template>
   <main>
-    <NavBar
-      :statusIdx="0"
-      class="navbar"
-    />
+
 
     <router-link to="/user/userTicket">
-      <img
-        class="arrow-icon"
-        src="@/assets/svg/left_arrow_circle_solid.svg"
-    /></router-link>
+      <img class="arrow-icon" src="@/assets/svg/left_arrow_circle_solid.svg" /></router-link>
 
-    <TicketHistory
-      :ticketsHistory="userTickets"
-      :status="1"
-    />
+    <TicketHistory :ticketsHistory="userTickets" :status="1" />
   </main>
 </template>
 
@@ -39,6 +30,7 @@ main {
   width: 40px;
   height: 40px;
   margin: 20px 0;
+
   @media screen and (max-width: 730px) {
     width: 20px;
     height: 20px;

@@ -1,12 +1,33 @@
-<script>
-import Header from '../components/-Global/Header.vue';
-import Footer from '../components/-Global/Footer.vue';
-
-export default {
-  components: { Header, Footer },
-};
-</script>
 <template>
   <Header />
-  <router-view />
+  <div v-if="!$route.meta.showInNavBar">
+    <NavBar />
+  </div>
+
+  <router-view v-slot="{ Component }">
+    <transition name="route" appear mode="out-in">
+      <component :is="Component"></component>
+    </transition>
+  </router-view>
 </template>
+
+<style scoped lang="scss">
+.route-enter-from {
+  opacity: 0;
+  transform: translateX(100px);
+}
+
+.route-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.route-leave-to {
+  opacity: 0;
+  transform: translateX(-100px);
+}
+
+.route-leave-active {
+  transition: all 0.3s ease-out;
+  position: absolute;
+}
+</style>

@@ -33,8 +33,13 @@ const router = createRouter({
         {
           path: '/user/userTicket',
           name: 'userTicketView',
-          component: () => import('../views/userBackstage/UserTicketView.vue'),
+          component: () => import('../views/userBackstage/userTicketView.vue'),
+          beforeLeave: (to, from, next) => {
+            clearNewTicketsOnLeave(); // Call the function to clear newTickets
+            next();
+          },
         },
+
         {
           path: '/user/userTicket/ticketHistory',
           name: 'ticketHistory',

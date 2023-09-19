@@ -9,8 +9,13 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    ' facilityStatus': typeof import('./components/ facilityStatus.vue')['default']
+    Aaaaaaa: typeof import('./components/aaaaaaa.vue')['default']
     Button: typeof import('./components/Button.vue')['default']
     copy: typeof import('./components/-Global/Header copy.vue')['default']
+    FacilityState: typeof import('./components/FacilityState.vue')['default']
+    facilityStatus: typeof import('./components/ facilityStatus.vue')['default']
+    FacilityStatus: typeof import('./components/FacilityStatus.vue')['default']
     Footer: typeof import('./components/-Global/Footer.vue')['default']
     Header: typeof import('./components/-Global/Header.vue')['default']
     HeaderCMS: typeof import('./components/-Global/HeaderCMS.vue')['default']

@@ -1,11 +1,19 @@
 <template >
     <div class="container">
-        <div class="header">
-            <Header />
+        <div class="navBarWithBanner">
+            <div class="header">
+                <Header />
+            </div>
+            <div class="image-container">
+                <img class="my-image" src="@/assets/img/park_image.png">
+            </div>
         </div>
-        <div class="image-container">
-            <img class="my-image" src="@/assets/img/park_image.png">
+        <div>
+            <main>
+                <TicketType />
+            </main>
         </div>
+
     </div>
 </template>
 
@@ -18,10 +26,13 @@
 
 }
 
-.header {
-    position: fixed;
-    z-index: 1;
-    width: 100%;
+
+.navBarWithBanner {
+    .header {
+        position: fixed;
+        z-index: 1;
+        width: 100%;
+    }
 }
 
 .image-container {

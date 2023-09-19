@@ -24,6 +24,7 @@ declare module '@vue/runtime-core' {
     TicketKid: typeof import('./components/Ticket/TicketKid.vue')['default']
     TicketPrivileged: typeof import('./components/Ticket/TicketPrivileged.vue')['default']
     Tickets: typeof import('./components/Tickets.vue')['default']
+    TicketType: typeof import('./components/TicketType.vue')['default']
     UserTickets: typeof import('./components/userTickets.vue')['default']
   }
 }

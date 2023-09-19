@@ -4,13 +4,20 @@ import axios from 'axios';
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
-    // 訂票頁面組：
     {
       path: '/',
+      name: 'home',
+      component: () => import('../views/HomePageView.vue'),
+      meta: { showInNavBar: true },
+    },
+    // 訂票頁面組：
+    {
+      path: '/template',
       name: 'default',
       component: () => import('../layouts/default.vue'),
       children: [
         // 最一開始的頁面
+
         {
           path: '/index',
           name: 'index',

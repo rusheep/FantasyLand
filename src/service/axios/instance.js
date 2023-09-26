@@ -5,8 +5,6 @@ const defaultConfig = {
   baseURL: import.meta.env.VITE_URL,
 };
 
-const axiosInstance = axios.create(defaultConfig);
-
 export default class Http {
   constructor() {
     this.axiosInstance = axios.create(defaultConfig);
